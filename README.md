@@ -2,11 +2,29 @@ capsulecrm-java
 ===============
 
 Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.0](http://www.playframework.org/), written in Java.
-Uses [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Still under development.
+Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Still under development.
 
 USE WITH CAUTION.
 
 Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/).
+
+
+Configuration
+-------------
+
+In application.conf, include these parameters:
+
+```
+capsulecrm.url="https://<yourdomain>.capsulecrm.com"
+capsulecrm.token="<your token here>"
+```
+
+When fetching large amounts of parties, make sure you set the timeout high enough:
+
+```
+# Connection timeout in ms (default 120000)
+ws.timeout=400000
+```
 
 Usage Examples
 --------------
