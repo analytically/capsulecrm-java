@@ -1,7 +1,12 @@
 capsulecrm-java
 ===============
 
-Unofficial Capsule CRM API plugin for PlayFramework 2.0, written in Java. Still under development. USE WITH CAUTION.
+Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.0](http://www.playframework.org/), written in Java.
+Uses [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Still under development.
+
+USE WITH CAUTION.
+
+Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/).
 
 Usage Examples
 --------------
@@ -27,7 +32,8 @@ CParty.findAll().onRedeem(new F.Callback<CParties>() {
             // save changes
             WS.Response response = party.save().get();
             if (response.getStatus() != 200 || response.getStatus() != 201) {
-                log.info("Failure saving party " + party + ", response " + response.getStatus()); // in Play 2.1, use response.getStatusText()
+                // in Play Framework 2.1, use response.getStatusText() here
+                log.info("Failure saving party " + party + ", response " + response.getStatus());
             }
         }
     }
@@ -38,6 +44,18 @@ Add a tag to a party:
 
 ```
 party.add(new CTag("iamatag")).get();
+```
+
+Add a note to a party:
+
+```
+party.add(new CHistoryItem("hello I'm a note"));
+```
+
+Add a task to a party:
+
+```
+party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
 
 Enjoy!
