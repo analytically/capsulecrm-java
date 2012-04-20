@@ -1,17 +1,19 @@
 capsulecrm-java
 ===============
 
-Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.0](http://www.playframework.org/), written in Java.
-Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Still under development.
+Unofficial and unsupported [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.0](http://www.playframework.org/).
+Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Under development.
 
-USE WITH CAUTION.
+USE WITH CAUTION!
 
-Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/). Follow [@analytically](http://twitter.com/analytically) for updates.
+See [Capsule API](http://capsulecrm.com/help/page/api_gettingstarted) for more information on Capsule CRM's REST API.
+Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
 Configuration
 -------------
 
-In application.conf, include these parameters:
+In `application.conf`, add your URL and Capsule CRM API token. Users can find their API token by visiting My Preferences via
+their username menu in the Capsule navigation bar.
 
 ```
 capsulecrm.url="https://<yourdomain>.capsulecrm.com"
@@ -34,16 +36,16 @@ Fetch all parties, change something and save:
 CParty.listAll().onRedeem(new F.Callback<CParties>() {
     @Override
     public void invoke(CParties parties) throws Throwable {
-        log.info("Found " + parties.getSize() + " parties...");
+        log.info("Found " + parties.size + " parties...");
 
         for (CParty party : parties) {
             // do something with the party
-            party.setAbout("123");
+            party.about = "123";
 
             if (party instanceof COrganisation) {
                 COrganisation org = (COrganisation) party;
 
-                org.setName("blah 123");
+                org.name = "blah 123";
             }
 
             // save changes
@@ -74,6 +76,11 @@ Add a task to a party:
 ```
 party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
+
+License
+-------
+
+Licensed under the [WTFPL](http://en.wikipedia.org/wiki/WTFPL).
 
 Todo
 ----

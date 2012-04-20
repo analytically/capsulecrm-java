@@ -1,13 +1,8 @@
 package com.capsulecrm.rest;
 
-import com.capsulecrm.rest.utils.JodaDateTimeXStreamConverter;
 import com.ning.http.client.Realm;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.DomReader;
 import org.joda.time.DateTime;
-import play.Logger;
-import play.Play;
 import play.libs.F;
 import play.libs.WS;
 

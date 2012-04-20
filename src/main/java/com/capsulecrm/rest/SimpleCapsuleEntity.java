@@ -19,8 +19,8 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
 
     static {
         xstream = new XStream(new DomDriver("UTF-8"));
-        xstream.addDefaultImplementation(ArrayList.class, List.class);
         xstream.registerConverter(new JodaDateTimeXStreamConverter());
+        xstream.addDefaultImplementation(ArrayList.class, List.class);
 
         xstream.alias("address", CAddress.class);
         xstream.alias("website", CWebsite.class);

@@ -63,22 +63,6 @@ public abstract class CParty extends CapsuleEntity {
         return null;
     }
 
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public String getPictureURL() {
-        return pictureURL;
-    }
-
-    public void setPictureURL(String pictureURL) {
-        this.pictureURL = pictureURL;
-    }
-
     @Override
     public String readContextPath() {
         return "/party";
@@ -146,10 +130,6 @@ public abstract class CParty extends CapsuleEntity {
                         return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
                     }
                 });
-    }
-
-    public static F.Promise<CParty> byId(String id) {
-        return byId(Integer.parseInt(id));
     }
 
     public static F.Promise<CParty> byId(Integer id) {
