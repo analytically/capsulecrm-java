@@ -1,10 +1,12 @@
 package com.capsulecrm.rest;
 
+import com.google.common.base.Objects;
+
 /**
  * @author Mathias Bogaert
  */
 public class CAttachment extends CIdentifiable {
-    private String filename;
+    public String filename;
 
     public CAttachment() {
     }
@@ -13,11 +15,10 @@ public class CAttachment extends CIdentifiable {
         this.filename = filename;
     }
 
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("filename", filename)
+                .toString();
     }
 }

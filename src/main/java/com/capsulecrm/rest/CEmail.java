@@ -6,7 +6,7 @@ import com.google.common.base.Objects;
  * @author Mathias Bogaert
  */
 public class CEmail extends CContact {
-    private String emailAddress;
+    public String emailAddress;
 
     public CEmail(String type) {
         super(type);
@@ -14,14 +14,6 @@ public class CEmail extends CContact {
 
     public CEmail(String type, String emailAddress) {
         super(type);
-        this.emailAddress = emailAddress;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 

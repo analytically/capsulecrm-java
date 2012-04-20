@@ -1,6 +1,8 @@
 package com.capsulecrm.rest;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
 import java.util.List;
@@ -9,36 +11,13 @@ import java.util.List;
  * @author Mathias Bogaert
  */
 public class CHistory implements Iterable<CHistoryItem> {
-    private int size;
-    private List<CHistoryItem> historyItems;
+    public int size;
+    public List<CHistoryItem> historyItems;
 
-    public CHistory(int size, List<CHistoryItem> historyItems) {
-        this.size = size;
-        this.historyItems = historyItems;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public List<CHistoryItem> getHistoryItems() {
-        return historyItems;
-    }
-
-    public void setHistoryItems(List<CHistoryItem> historyItems) {
-        this.historyItems = historyItems;
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public Iterator<CHistoryItem> iterator() {
-        if (size != historyItems.size()) {
-            throw new IllegalStateException("size = " + size + " but historyItems = " + historyItems.size());
-        }
-        return historyItems.iterator();
+        return historyItems != null ? historyItems.iterator() : null;
     }
 
     @Override

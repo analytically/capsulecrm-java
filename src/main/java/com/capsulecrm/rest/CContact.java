@@ -5,20 +5,10 @@ import com.google.common.base.Objects;
 /**
  * @author Mathias Bogaert
  */
-public abstract class CContact extends CIdentifiable implements HasType {
-    private String type;
+public abstract class CContact extends CIdentifiable {
+    public String type;
 
     protected CContact(String type) {
-        this.type = type;
-    }
-
-    @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public void setType(String type) {
         this.type = type;
     }
 

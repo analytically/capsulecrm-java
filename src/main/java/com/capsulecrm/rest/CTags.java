@@ -1,33 +1,27 @@
 package com.capsulecrm.rest;
 
+import com.google.common.base.Objects;
+
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * @author Mathias Bogaert
  */
-public class CTags {
-    private int size;
+public class CTags implements Iterable<CTag> {
+    public int size;
+    public List<CTag> tags;
 
-    private List<CTag> tags;
-
-    public CTags(int size, List<CTag> tags) {
-        this.size = size;
-        this.tags = tags;
+    @Override
+    public Iterator<CTag> iterator() {
+        return tags.iterator();
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public List<CTag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<CTag> tags) {
-        this.tags = tags;
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("size", size)
+                .add("tags", tags)
+                .toString();
     }
 }

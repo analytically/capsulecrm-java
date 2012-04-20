@@ -8,20 +8,20 @@ import java.util.List;
 /**
  * @author Mathias Bogaert
  */
-public class CCustomFields implements Iterable<CCustomField> {
+public class CTasks implements Iterable<CTask> {
     public int size;
-    public List<CCustomField> customFields;
+    public List<CTask> tasks;
 
     @Override
-    public Iterator<CCustomField> iterator() {
-        return customFields.iterator();
+    public Iterator<CTask> iterator() {
+        return tasks.iterator();
     }
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("size", size)
-                .add("customFields", customFields)
+                .add("tasks", tasks)
                 .toString();
     }
 }

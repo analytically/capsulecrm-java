@@ -6,18 +6,10 @@ import com.google.common.base.Objects;
  * @author Mathias Bogaert
  */
 public class CPhone extends CContact {
-    private String phoneNumber;
+    public String phoneNumber;
 
     public CPhone(String type, String phoneNumber) {
         super(type);
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

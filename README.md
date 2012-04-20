@@ -6,8 +6,7 @@ Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XS
 
 USE WITH CAUTION.
 
-Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/).
-
+Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/). Follow [@analytically](http://twitter.com/analytically) for updates.
 
 Configuration
 -------------
@@ -32,7 +31,7 @@ Usage Examples
 Fetch all parties, change something and save:
 
 ```
-CParty.findAll().onRedeem(new F.Callback<CParties>() {
+CParty.listAll().onRedeem(new F.Callback<CParties>() {
     @Override
     public void invoke(CParties parties) throws Throwable {
         log.info("Found " + parties.getSize() + " parties...");
@@ -75,5 +74,11 @@ Add a task to a party:
 ```
 party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
+
+Todo
+----
+
+* Test, test, test...
+* Package and publish to TypeSafe repository?
 
 Enjoy!

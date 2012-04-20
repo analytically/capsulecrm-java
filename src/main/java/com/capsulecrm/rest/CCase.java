@@ -6,13 +6,12 @@ import org.joda.time.DateTime;
  * @author Mathias Bogaert
  */
 public class CCase extends CapsuleEntity {
-
-    private String status;
-    private String name;
-    private String description;
-    private Integer partyId;
-    private DateTime closeDate;
-    private String owner;
+    public String status;
+    public String name;
+    public String description;
+    public Integer partyId;
+    public DateTime closeDate;
+    public String owner;
 
     @Override
     String readContextPath() {

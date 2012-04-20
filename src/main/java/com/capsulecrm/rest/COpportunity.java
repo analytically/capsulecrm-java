@@ -7,17 +7,17 @@ import org.joda.time.DateTime;
  */
 public class COpportunity extends CapsuleEntity {
 
-    private String name;
-    private String description;
-    private Integer partyId;
-    private String currency;
-    private String value;
-    private String durationBasis;
-    private Integer duration;
-    private DateTime expectedCloseDate;
-    private String milestone;
-    private String probability;
-    private String owner;
+    public String name;
+    public String description;
+    public Integer partyId;
+    public String currency;
+    public String value;
+    public String durationBasis;
+    public Integer duration;
+    public DateTime expectedCloseDate;
+    public String milestone;
+    public String probability;
+    public String owner;
 
     @Override
     String readContextPath() {

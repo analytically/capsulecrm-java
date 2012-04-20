@@ -1,8 +1,14 @@
 package com.capsulecrm.rest;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections.iterators.ArrayListIterator;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,10 +16,10 @@ import java.util.List;
  * @author Mathias Bogaert
  */
 public class CParties implements Iterable<CParty> {
-    private int size;
+    public int size;
 
-    private List<COrganisation> organisations;
-    private List<CPerson> persons;
+    public List<COrganisation> organisations;
+    public List<CPerson> persons;
 
     public CParties(int size, List<COrganisation> organisations, List<CPerson> persons) {
         this.size = size;
@@ -21,36 +27,11 @@ public class CParties implements Iterable<CParty> {
         this.persons = persons;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public List<COrganisation> getOrganisations() {
-        return organisations;
-    }
-
-    public void setOrganisations(List<COrganisation> organisations) {
-        this.organisations = organisations;
-    }
-
-    public List<CPerson> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<CPerson> persons) {
-        this.persons = persons;
-    }
-
     @Override
     public Iterator<CParty> iterator() {
-        if (size != organisations.size() + persons.size()) {
-            throw new IllegalStateException("size = " + size + " but organisations + persons = " + organisations.size() + persons.size());
-        }
-        return Iterators.concat(organisations.iterator(), persons.iterator());
+        return Iterators.concat(
+                organisations != null ? organisations.iterator() : new ArrayList<COrganisation>().iterator(),
+                persons != null ? persons.iterator() : new ArrayList<CPerson>().iterator());
     }
 
     @Override

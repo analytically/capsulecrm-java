@@ -3,6 +3,7 @@ package com.capsulecrm.rest;
 import com.google.common.collect.Lists;
 import com.ning.http.client.Realm;
 import com.thoughtworks.xstream.io.xml.DomReader;
+import org.joda.time.DateTime;
 import play.libs.F;
 import play.libs.WS;
 
@@ -11,21 +12,13 @@ import java.util.List;
 /**
  * @author Mathias Bogaert
  */
-public abstract class CParty extends CapsuleEntity implements HasContacts {
+public abstract class CParty extends CapsuleEntity {
     public List<CContact> contacts; // mixes Address, Phone, Email, Website
 
     public String about;
     public String pictureURL;
 
     public abstract String getName();
-
-    public List<CContact> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(List<CContact> contacts) {
-        this.contacts = contacts;
-    }
 
     public void addContact(CContact contact) {
         if (contacts == null) {
@@ -34,7 +27,7 @@ public abstract class CParty extends CapsuleEntity implements HasContacts {
         contacts.add(contact);
     }
 
-    public CAddress getFirstAddress() {
+    public CAddress firstAddress() {
         for (CContact contact : contacts) {
             if (contact instanceof CAddress) {
                 return (CAddress) contact;
@@ -43,7 +36,7 @@ public abstract class CParty extends CapsuleEntity implements HasContacts {
         return null;
     }
 
-    public CEmail getFirstEmailAddress() {
+    public CEmail firstEmail() {
         for (CContact contact : contacts) {
             if (contact instanceof CEmail) {
                 return (CEmail) contact;
@@ -52,7 +45,7 @@ public abstract class CParty extends CapsuleEntity implements HasContacts {
         return null;
     }
 
-    public CPhone getFirstPhone() {
+    public CPhone firstPhone() {
         for (CContact contact : contacts) {
             if (contact instanceof CPhone) {
                 return (CPhone) contact;
@@ -60,8 +53,8 @@ public abstract class CParty extends CapsuleEntity implements HasContacts {
         }
         return null;
     }
-    
-    public CWebsite getFirstWebsite() {
+
+    public CWebsite firstWebsite() {
         for (CContact contact : contacts) {
             if (contact instanceof CWebsite) {
                 return (CWebsite) contact;
@@ -91,7 +84,20 @@ public abstract class CParty extends CapsuleEntity implements HasContacts {
         return "/party";
     }
 
-    public static F.Promise<CParties> findAll() {
+    public static F.Promise<CParties> search(String query) {
+        return WS.url(capsuleUrl + "/api/party")
+                .setQueryParameter("q", query)
+                .setHeader("Content-Type", "text/xml; charset=utf-8")
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .get().map(new F.Function<WS.Response, CParties>() {
+                    @Override
+                    public CParties apply(WS.Response response) throws Throwable {
+                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
+                    }
+                });
+    }
+
+    public static F.Promise<CParties> listAll() {
         return WS.url(capsuleUrl + "/api/party")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
@@ -102,9 +108,36 @@ public abstract class CParty extends CapsuleEntity implements HasContacts {
                     }
                 });
     }
-    
-    public static F.Promise<CParties> findByTag(String tag) {
-        return WS.url(capsuleUrl + "/api/party?tag=" + tag)
+
+    public static F.Promise<CParties> listModifiedSince(DateTime modifiedSince) {
+        return WS.url(capsuleUrl + "/api/party")
+                .setQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
+                .setHeader("Content-Type", "text/xml; charset=utf-8")
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .get().map(new F.Function<WS.Response, CParties>() {
+                    @Override
+                    public CParties apply(WS.Response response) throws Throwable {
+                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
+                    }
+                });
+    }
+
+    public static F.Promise<CParties> listByEmailAddress(String emailAddress) {
+        return WS.url(capsuleUrl + "/api/party")
+                .setQueryParameter("email", emailAddress)
+                .setHeader("Content-Type", "text/xml; charset=utf-8")
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .get().map(new F.Function<WS.Response, CParties>() {
+                    @Override
+                    public CParties apply(WS.Response response) throws Throwable {
+                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
+                    }
+                });
+    }
+
+    public static F.Promise<CParties> listByTag(String tag) {
+        return WS.url(capsuleUrl + "/api/party")
+                .setQueryParameter("tag", tag)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
                 .get().map(new F.Function<WS.Response, CParties>() {
@@ -134,20 +167,8 @@ public abstract class CParty extends CapsuleEntity implements HasContacts {
                 });
     }
 
-    public static F.Promise<CParties> findPeople(CParty party) throws Exception {
-        return WS.url(capsuleUrl + "/api/party/" + party.getId() + "/people")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "", Realm.AuthScheme.BASIC)
-                .get().map(new F.Function<WS.Response, CParties>() {
-                    @Override
-                    public CParties apply(WS.Response response) throws Throwable {
-                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
-    }
-
     public F.Promise<WS.Response> deleteContact(CContact contact) {
-        return WS.url(capsuleUrl + "/api/party/" + getId() + "/contact/" + contact.getId())
+        return WS.url(capsuleUrl + "/api/party/" + id + "/contact/" + contact.id)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .delete();
