@@ -13,8 +13,8 @@ import java.util.Map;
 public abstract class CapsuleTest {
     public FakeApplication fakeApplication() {
         Map<String, String> capsuleConfig = ImmutableMap.of(
-                "capsulecrm.url", "https://pearsons.capsulecrm.com",
-                "capsulecrm.token", "18a17b50818411e6ba4a48e93d144444");
+                "capsulecrm.url", "https://YOURS.capsulecrm.com",
+                "capsulecrm.token", "YOUR-TOKEN");
 
         return new FakeApplication(new java.io.File("."), Helpers.class.getClassLoader(), capsuleConfig, new ArrayList<String>());
     }
