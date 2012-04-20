@@ -10,6 +10,11 @@ object MinimalBuild extends Build {
 
   lazy val root = Project(id = "play-plugins-capsulecrm", base = file("."), settings = Project.defaultSettings).settings(
     version := buildVersion,
+    publishTo <<= (version) { version: String =>
+      val nexus = "http://repo.typesafe.com/typesafe/"
+      if (version.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "ivy-snapshots/")
+      else                                   Some("releases"  at nexus + "ivy-releases/")
+    },
     organization := "com.capsulecrm",
     resolvers += repo,
     javacOptions += "-Xlint:unchecked",
