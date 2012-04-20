@@ -9,13 +9,13 @@ import java.util.List;
  * @author Mathias Bogaert
  */
 public class CHistoryItem extends CIdentifiable {
-    private String type = "Note";
-    private DateTime entryDate;
-    private String creator;
-    private String subject;
-    private String note;
+    public String type = "Note";
+    public DateTime entryDate;
+    public String creator;
+    public String subject;
+    public String note;
 
-    private List<CAttachment> attachments;
+    public List<CAttachment> attachments;
 
     public CHistoryItem(String note) {
         this.note = note;
@@ -30,54 +30,6 @@ public class CHistoryItem extends CIdentifiable {
         this.subject = subject;
         this.note = note;
         this.entryDate = entryDate;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public DateTime getEntryDate() {
-        return entryDate;
-    }
-
-    public void setEntryDate(DateTime entryDate) {
-        this.entryDate = entryDate;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public List<CAttachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<CAttachment> attachments) {
-        this.attachments = attachments;
     }
 
     @Override
