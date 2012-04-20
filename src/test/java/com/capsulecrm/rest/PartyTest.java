@@ -1,5 +1,7 @@
 package com.capsulecrm.rest;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -12,7 +14,7 @@ public class PartyTest extends CapsuleTest {
     private int testPersonId;
 
     @Test
-    public void testSave() {
+    public void testSaveDelete() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
@@ -25,6 +27,8 @@ public class PartyTest extends CapsuleTest {
                 assertThat(fetchedPerson.jobTitle).isEqualTo(person.jobTitle);
                 assertThat(fetchedPerson.organisationId).isEqualTo(person.organisationId);
                 assertThat(fetchedPerson.organisationName).isEqualTo(person.organisationName);
+                
+                assertThat(fetchedPerson.contacts).hasSize(4);
 
                 deleteTestPerson();
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
@@ -42,6 +46,36 @@ public class PartyTest extends CapsuleTest {
 
                 deleteTestPerson();
                 assertThat(CPerson.listByTag("testpersontag123").get()).hasSize(0);
+            }
+        });
+    }
+
+    @Test
+    public void testNotes() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                CPerson person = createTestPerson();
+                person.add(new CHistoryItem("test note"));
+                
+                assertThat(person.listHistory().get()).hasSize(1);
+
+                deleteTestPerson();
+                assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
+            }
+        });
+    }
+
+    @Test
+    public void testTasks() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                CPerson person = createTestPerson();
+                person.add(new CTask("test task", new DateTime().plus(Days.days(2))));
+
+                assertThat(person.listTasks().get()).hasSize(1);
+
+                deleteTestPerson();
+                assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
             }
         });
     }

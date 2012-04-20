@@ -77,6 +77,8 @@ Add a task to a party:
 party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
 
+Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/test/java/com/capsulecrm/rest) for more examples.
+
 License
 -------
 

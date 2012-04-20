@@ -117,6 +117,18 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .delete();
     }
 
+    public F.Promise<CTasks> listTasks() {
+        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
+                .setHeader("Content-Type", "text/xml; charset=utf-8")
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .get().map(new F.Function<WS.Response, CTasks>() {
+                    @Override
+                    public CTasks apply(WS.Response response) throws Throwable {
+                        return (CTasks) xstream.unmarshal(new DomReader(response.asXml()));
+                    }
+                });
+    }
+
     public F.Promise<WS.Response> add(final CTask task) {
         return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/task")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")

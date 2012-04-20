@@ -10,111 +10,24 @@ import play.libs.WS;
  * @author Mathias Bogaert
  */
 public class CTask extends SimpleCapsuleEntity {
-    private String description;
-    private String category;
-    private DateTime dueDate;
-    private DateTime dueDateTime;
-    private String owner;
-    private Integer partyId;
-    private String partyName;
-    private Integer opportunityId;
-    private String opportunityName;
-    private Integer caseId;
-    private String caseName;
+    public String description;
+    public String category;
+    public DateTime dueDate;
+    public DateTime dueDateTime;
+    public String owner;
+    public Integer partyId;
+    public String partyName;
+    public Integer opportunityId;
+    public String opportunityName;
+    public Integer caseId;
+    public String caseName;
 
     public CTask() {
     }
 
     public CTask(String description, DateTime dueDate) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public DateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(DateTime dueDate) {
         this.dueDate = dueDate;
-    }
-
-    public DateTime getDueDateTime() {
-        return dueDateTime;
-    }
-
-    public void setDueDateTime(DateTime dueDateTime) {
-        this.dueDateTime = dueDateTime;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public Integer getPartyId() {
-        return partyId;
-    }
-
-    public void setPartyId(Integer partyId) {
-        this.partyId = partyId;
-    }
-
-    public String getPartyName() {
-        return partyName;
-    }
-
-    public void setPartyName(String partyName) {
-        this.partyName = partyName;
-    }
-
-    public Integer getOpportunityId() {
-        return opportunityId;
-    }
-
-    public void setOpportunityId(Integer opportunityId) {
-        this.opportunityId = opportunityId;
-    }
-
-    public String getOpportunityName() {
-        return opportunityName;
-    }
-
-    public void setOpportunityName(String opportunityName) {
-        this.opportunityName = opportunityName;
-    }
-
-    public Integer getCaseId() {
-        return caseId;
-    }
-
-    public void setCaseId(Integer caseId) {
-        this.caseId = caseId;
-    }
-
-    public String getCaseName() {
-        return caseName;
-    }
-
-    public void setCaseName(String caseName) {
-        this.caseName = caseName;
     }
 
     @Override
