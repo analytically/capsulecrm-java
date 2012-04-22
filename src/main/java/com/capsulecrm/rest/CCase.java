@@ -1,5 +1,6 @@
 package com.capsulecrm.rest;
 
+import com.google.common.base.Objects;
 import org.joda.time.DateTime;
 
 /**
@@ -14,9 +15,19 @@ public class CCase extends CapsuleEntity {
     public String owner;
 
     @Override
-    String readContextPath() {
+    protected String readContextPath() {
         return "/kase";
     }
 
-
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("status", status)
+                .add("name", name)
+                .add("description", description)
+                .add("partyId", partyId)
+                .add("closeDate", closeDate)
+                .add("owner", owner)
+                .toString();
+    }
 }

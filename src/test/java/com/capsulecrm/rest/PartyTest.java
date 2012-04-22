@@ -28,7 +28,24 @@ public class PartyTest extends CapsuleTest {
                 assertThat(fetchedPerson.organisationId).isEqualTo(person.organisationId);
                 assertThat(fetchedPerson.organisationName).isEqualTo(person.organisationName);
                 
+                assertThat(fetchedPerson.about).isEqualTo(person.about);
+                
+                assertThat(fetchedPerson.createdOn).isNotNull();
+                assertThat(fetchedPerson.pictureURL).isNotNull();
+
                 assertThat(fetchedPerson.contacts).hasSize(4);
+                assertThat(fetchedPerson.firstAddress().street).isEqualTo(person.firstAddress().street);
+                assertThat(fetchedPerson.firstAddress().city).isEqualTo(person.firstAddress().city);
+                assertThat(fetchedPerson.firstAddress().zip).isEqualTo(person.firstAddress().zip);
+                assertThat(fetchedPerson.firstAddress().state).isEqualTo(person.firstAddress().state);
+                assertThat(fetchedPerson.firstAddress().country).isEqualTo(person.firstAddress().country);
+
+                assertThat(fetchedPerson.firstEmail().emailAddress).isEqualTo(person.firstEmail().emailAddress);
+
+                assertThat(fetchedPerson.firstPhone().phoneNumber).isEqualTo(person.firstPhone().phoneNumber);
+
+                assertThat(fetchedPerson.firstWebsite().webAddress).isEqualTo(person.firstWebsite().webAddress);
+                assertThat(fetchedPerson.firstWebsite().webService).isEqualTo(person.firstWebsite().webService);
 
                 deleteTestPerson();
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
@@ -44,6 +61,9 @@ public class PartyTest extends CapsuleTest {
                 person.add(new CTag("testpersontag123"));
                 assertThat(CPerson.listByTag("testpersontag123").get()).hasSize(1);
 
+                person.remove(new CTag("testpersontag123"));
+                assertThat(CPerson.listByTag("testpersontag123").get()).hasSize(0);
+
                 deleteTestPerson();
                 assertThat(CPerson.listByTag("testpersontag123").get()).hasSize(0);
             }
@@ -55,9 +75,14 @@ public class PartyTest extends CapsuleTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
-                person.add(new CHistoryItem("test note"));
-                
+                DateTime entryDateTime = new DateTime().minusDays(2);
+                person.add(new CHistoryItem("test note", entryDateTime));
+
                 assertThat(person.listHistory().get()).hasSize(1);
+
+                CHistoryItem historyItem = person.listHistory().get().iterator().next();
+                assertThat(historyItem.note).isEqualTo("test note");
+                assertThat(historyItem.entryDate).isEqualTo(entryDateTime.withMillisOfSecond(0));
 
                 deleteTestPerson();
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
@@ -70,9 +95,15 @@ public class PartyTest extends CapsuleTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
-                person.add(new CTask("test task", new DateTime().plus(Days.days(2))));
+                DateTime dueDateTime = new DateTime().plus(Days.days(2));
+                person.add(new CTask("test task", dueDateTime, true));
 
                 assertThat(person.listTasks().get()).hasSize(1);
+
+                CTask task = person.listTasks().get().iterator().next();
+                assertThat(task.description).isEqualTo("test task");
+                assertThat(task.dueDateTime).isEqualTo(dueDateTime.withSecondOfMinute(0).withMillisOfSecond(0));
+                assertThat(task.partyId).isEqualTo(person.id);
 
                 deleteTestPerson();
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
@@ -90,7 +121,7 @@ public class PartyTest extends CapsuleTest {
         testPerson.addContact(new CEmail(null, "testperson123@testing.com"));
         testPerson.addContact(new CPhone(null, "123456789"));
         testPerson.addContact(new CWebsite(null, "www.test123.com"));
-        testPerson.addContact(new CAddress(null, "street", "city", "zip", "state", "country"));
+        testPerson.addContact(new CAddress(null, "street", "city", "zip", "state", "United Kingdom"));
         testPerson.save().get();
 
         testPersonId = testPerson.id;

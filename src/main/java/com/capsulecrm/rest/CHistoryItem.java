@@ -3,6 +3,7 @@ package com.capsulecrm.rest;
 import com.google.common.base.Objects;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,11 @@ public class CHistoryItem extends CIdentifiable {
 
     public CHistoryItem(String note) {
         this.note = note;
+    }
+
+    public CHistoryItem(String note, DateTime entryDate) {
+        this.note = note;
+        this.entryDate = entryDate;
     }
 
     public CHistoryItem(String subject, String note) {

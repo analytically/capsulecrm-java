@@ -22,6 +22,12 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.registerConverter(new JodaDateTimeXStreamConverter());
         xstream.addDefaultImplementation(ArrayList.class, List.class);
 
+        //xstream.addImplicitCollection(CHistoryItem.class, "attachments", CAttachment.class);
+        xstream.alias("attachment", CAttachment.class);
+
+        xstream.alias("organisation", COrganisation.class);
+        xstream.alias("person", CPerson.class);
+
         xstream.alias("address", CAddress.class);
         xstream.alias("website", CWebsite.class);
         xstream.alias("email", CEmail.class);
@@ -42,12 +48,6 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.addImplicitCollection(CHistory.class, "historyItems", CHistoryItem.class);
         xstream.alias("historyItem", CHistoryItem.class);
 
-        //xstream.addImplicitCollection(CHistoryItem.class, "attachments", CAttachment.class);
-        xstream.alias("attachment", CAttachment.class);
-
-        xstream.alias("organisation", COrganisation.class);
-        xstream.alias("person", CPerson.class);
-
         xstream.alias("parties", CParties.class);
         xstream.aliasAttribute(CParties.class, "size", "size");
         xstream.addImplicitCollection(CParties.class, "organisations", COrganisation.class);
@@ -65,7 +65,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     /**
      * @return The context path where to submit GET and DELETE requests.
      */
-    abstract String readContextPath();
+    protected abstract String readContextPath();
 
     /**
      * @return The context path where to submit POST and PUT requests.

@@ -25,13 +25,17 @@ public class CTask extends SimpleCapsuleEntity {
     public CTask() {
     }
 
-    public CTask(String description, DateTime dueDate) {
+    public CTask(String description, DateTime dueDateTime, boolean saveTime) {
         this.description = description;
-        this.dueDate = dueDate;
+        if (saveTime) {
+            this.dueDateTime = dueDateTime;
+        } else {
+            this.dueDate = dueDateTime;
+        }
     }
 
     @Override
-    String readContextPath() {
+    protected String readContextPath() {
         return "/task";
     }
 
