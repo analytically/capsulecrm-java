@@ -1,7 +1,9 @@
 package controllers;
 
-import com.capsulecrm.rest.COrganisation;
-import com.capsulecrm.rest.CPerson;
+import com.zestia.capsule.restapi.COrganisation;
+import com.zestia.capsule.restapi.CPerson;
+import com.zestia.capsule.restapi.COrganisation;
+import com.zestia.capsule.restapi.CPerson;
 import com.thoughtworks.xstream.XStream;
 import play.Play;
 import play.mvc.Controller;
