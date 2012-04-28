@@ -6,7 +6,7 @@ Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XS
 
 USE WITH CAUTION!
 
-See [Capsule API](http://capsulecrm.com/help/page/api_gettingstarted) for more information on Capsule CRM's REST API.
+See [Capsule API](http://developer.capsulecrm.com/v1/) for more information on Capsule CRM's REST API.
 Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
 Configuration
