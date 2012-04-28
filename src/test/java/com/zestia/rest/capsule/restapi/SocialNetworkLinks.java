@@ -132,7 +132,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                                                 .ignoreHttpErrors(true)
                                                 .get();
 
-                                        Elements links = doc.getElementsByTag("a");
+                                        Elements links = doc.select("a[href]");
                                         for (Element link : links) {
                                             String href = link.attr("href");
 
