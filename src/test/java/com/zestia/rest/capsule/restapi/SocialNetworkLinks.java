@@ -14,6 +14,7 @@ import play.libs.F;
 import play.libs.WS;
 
 import java.io.IOException;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -153,6 +154,8 @@ public class SocialNetworkLinks extends CapsuleTest {
                                                 }
                                             }
                                         }
+                                    } catch (IllegalCharsetNameException e) { // see https://github.com/jhy/jsoup/commit/2714d6be6cbe465b522a724c2796ddf74df06482#-P0
+                                        logger.info("Illegal charset name for " + website + " of " + party);
                                     } catch (IOException e) {
                                         logger.info("Unable to GET " + website + " of " + party);
                                     }
