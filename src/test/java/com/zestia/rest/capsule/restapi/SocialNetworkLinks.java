@@ -3,7 +3,6 @@ package com.zestia.rest.capsule.restapi;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.Sets;
 import com.zestia.capsule.restapi.*;
-import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
