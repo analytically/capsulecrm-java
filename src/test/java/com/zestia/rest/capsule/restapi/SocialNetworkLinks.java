@@ -3,6 +3,7 @@ package com.zestia.rest.capsule.restapi;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.Sets;
 import com.zestia.capsule.restapi.*;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +17,8 @@ import play.libs.WS;
 import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static play.test.Helpers.running;
 
@@ -118,7 +121,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                     }
 
                     if (!hasTwitterLink) {
-                        Set<String> twitterUsers = Sets.newHashSet();
+                        Set<String> twitterUsers = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
 
                         for (CContact contact : party.contacts) {
                             if (contact instanceof CWebsite) {
@@ -136,19 +139,19 @@ public class SocialNetworkLinks extends CapsuleTest {
                                         for (Element link : links) {
                                             String href = link.attr("href");
 
-                                            if (href.contains("twitter.com/#!/")) {
-                                                String twitterUser = href.substring(href.indexOf("twitter.com/#!/") + 15);
-                                                twitterUsers.add(CharMatcher.WHITESPACE.or(CharMatcher.anyOf("/")).trimFrom(twitterUser));
-                                            } else if (href.contains("twitter.com/")
-                                                    && !href.contains("twitter.com/share") // no share links
-                                                    && !href.contains("/statuses/") // no status links
-                                                    && !href.contains("hostinguk") // no custom links
-                                                    && !href.contains("@") // no @
-                                                    && !href.contains("retweet") // no retweet
-                                                    && !href.contains("?status")) // no status query
-                                            {
-                                                String twitterUser = href.substring(href.indexOf("twitter.com/") + 12);
-                                                twitterUsers.add(CharMatcher.WHITESPACE.or(CharMatcher.anyOf("/")).trimFrom(twitterUser));
+                                            if (!href.contains("/search")
+                                                    && !href.contains("/share")
+                                                    && !href.contains("/home")
+                                                    && !href.contains("/intent")) {
+
+                                                Matcher matcher = Pattern.compile("(www\\.)?twitter\\.com/(#!/)?@?([^/]*)").matcher(href);
+                                                while (matcher.find()) {
+                                                    String twitterUser = CharMatcher.WHITESPACE.trimFrom(href.substring(matcher.start(3), matcher.end(3)));
+
+                                                    if (!"".equals(twitterUser)) {
+                                                        twitterUsers.add(twitterUser);
+                                                    }
+                                                }
                                             }
                                         }
                                     } catch (IOException e) {

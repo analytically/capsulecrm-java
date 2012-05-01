@@ -24,7 +24,7 @@ object MinimalBuild extends Build {
 
     // testing
     libraryDependencies += "play" %% "play-test" % playVersion,
-    libraryDependencies += "org.specs2" %% "specs2" % "1.7.1" % "test",
+    libraryDependencies += "org.specs2" %% "specs2" % "1.9" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.6.2" % "test",
     libraryDependencies += "junit" % "junit" % "4.8" % "test"
   )
