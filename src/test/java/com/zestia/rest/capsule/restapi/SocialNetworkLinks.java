@@ -10,27 +10,28 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import play.libs.F;
 import play.libs.WS;
 
 import java.io.IOException;
 import java.nio.charset.IllegalCharsetNameException;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static play.mvc.Http.Status.PARTIAL_CONTENT;
 import static play.test.Helpers.running;
 
 /**
- * These are 'unit tests' aka demo's that serve a greater purpose. They add social network links
- * to your Capsule contacts. You can keep repeating them, no duplicate links will be added.
+ * Integration tests or demo's that serve a greater purpose.
+ * <ul>
+ *     <li>Skype: creates Skype social network links from phone numbers of your contacts (ignores fax numbers and deletes duplicate numbers)</li>
+ *     <li>Twitter: creates Twitter social network lniks by visiting your contacts' websites and looking for a screen name</li>
+ * </ul>
  *
  * @author Mathias Bogaert
  */
 public class SocialNetworkLinks extends CapsuleTest {
+    // TODO logging isn't working in Play 2.0 unit tests, find a solution
     private static final Logger logger = LoggerFactory.getLogger("application");
 
     @Test
