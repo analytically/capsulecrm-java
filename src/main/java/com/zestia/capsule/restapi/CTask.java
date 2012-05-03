@@ -50,7 +50,7 @@ public class CTask extends SimpleCapsuleEntity {
         }
 
         return holder.setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CTasks>() {
                     @Override
                     public CTasks apply(WS.Response response) throws Throwable {

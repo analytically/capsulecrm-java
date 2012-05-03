@@ -72,7 +72,7 @@ public abstract class CParty extends CapsuleEntity {
         return WS.url(capsuleUrl + "/api/party")
                 .setQueryParameter("q", query)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -89,10 +89,11 @@ public abstract class CParty extends CapsuleEntity {
         return WS.url(capsuleUrl + "/api/party")
                 .setTimeout(timeoutMillis)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
+                        if (response.getStatus() == 401) throw new RuntimeException("Not Authorized, check your Play configuration.");
                         return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
                     }
                 });
@@ -102,7 +103,7 @@ public abstract class CParty extends CapsuleEntity {
         return WS.url(capsuleUrl + "/api/party")
                 .setQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -115,7 +116,7 @@ public abstract class CParty extends CapsuleEntity {
         return WS.url(capsuleUrl + "/api/party")
                 .setQueryParameter("email", emailAddress)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -128,7 +129,7 @@ public abstract class CParty extends CapsuleEntity {
         return WS.url(capsuleUrl + "/api/party")
                 .setQueryParameter("tag", tag)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -140,7 +141,7 @@ public abstract class CParty extends CapsuleEntity {
     public static F.Promise<CParty> byId(Integer id) {
         return WS.url(capsuleUrl + "/api/party/" + id)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.NONE)
+                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParty>() {
                     @Override
                     public CParty apply(WS.Response response) throws Throwable {

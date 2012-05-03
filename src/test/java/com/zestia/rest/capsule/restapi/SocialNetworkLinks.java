@@ -16,10 +16,12 @@ import play.libs.WS;
 import java.io.IOException;
 import java.nio.charset.IllegalCharsetNameException;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static play.mvc.Http.Status.PARTIAL_CONTENT;
 import static play.test.Helpers.running;
 
 /**
@@ -29,70 +31,73 @@ import static play.test.Helpers.running;
  * @author Mathias Bogaert
  */
 public class SocialNetworkLinks extends CapsuleTest {
-    private static final Logger logger = LoggerFactory.getLogger(SocialNetworkLinks.class);
+    private static final Logger logger = LoggerFactory.getLogger("application");
 
     @Test
-    public void addSkypeLinks() {
+    public void addSkypeLinks() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 logger.info("Listing all parties...");
+                CParties parties = CParty.listAll(50000).get(50000l, TimeUnit.MILLISECONDS);
 
-                CParty.listAll().onRedeem(new F.Callback<CParties>() {
-                    @Override
-                    public void invoke(CParties parties) throws Throwable {
-                        logger.info("Found " + parties.size + " parties, adding Skype links from phone numbers...");
+                System.out.println("Found " + parties.size + " parties, adding Skype links from phone numbers...");
 
-                        for (CParty party : parties) {
-                            Set<String> phoneNumbers = Sets.newHashSet();
-                            Set<String> skypeNumbers = Sets.newHashSet();
+                for (CParty party : parties) {
+                    Set<String> phoneNumbers = Sets.newHashSet();
+                    Set<String> skypeNumbers = Sets.newHashSet();
 
-                            for (CContact contact : party.contacts) {
-                                if (contact instanceof CPhone) {
-                                    String phoneNumber = CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber);
+                    for (CContact contact : party.contacts) {
+                        if (contact instanceof CPhone) {
+                            CPhone phone = (CPhone) contact;
 
-                                    if (phoneNumbers.contains(phoneNumber)) {
-                                        logger.info("CParty " + party + " has duplicate phone number (" + ((CPhone) contact).phoneNumber + "). Deleting.");
-                                        party.deleteContact(contact); // remove dup
-                                    } else {
-                                        phoneNumbers.add(CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber));
-                                    }
-                                }
+                            if (!"Fax".equals(phone.type)) {
+                                String phoneNumber = CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber);
 
-                                if (contact instanceof CWebsite) {
-                                    if ("SKYPE".equals(((CWebsite) contact).webService)) {
-                                        String skypeNumber = ((CWebsite) contact).webAddress;
-
-                                        if (skypeNumbers.contains(skypeNumber)) {
-                                            logger.info("CParty " + party + " has duplicate Skype number (" + ((CWebsite) contact).webAddress + "). Deleting.");
-                                            party.deleteContact(contact); // remove dup
-                                        } else {
-                                            skypeNumbers.add(skypeNumber);
-                                        }
-                                    }
+                                if (phoneNumbers.contains(phoneNumber)) {
+                                    System.out.println("CParty " + party + " has duplicate phone number (" + ((CPhone) contact).phoneNumber + "). Deleting.");
+                                    party.deleteContact(contact); // remove dup
+                                } else {
+                                    phoneNumbers.add(CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber));
                                 }
                             }
+                        }
 
-                            boolean save = false;
-                            for (String phoneNumber : phoneNumbers) {
-                                if (!skypeNumbers.contains(phoneNumber)) {
-                                    CWebsite website = new CWebsite(null, phoneNumber, "SKYPE");
-                                    party.addContact(website);
+                        if (contact instanceof CWebsite) {
+                            if ("SKYPE".equals(((CWebsite) contact).webService)) {
+                                String skypeNumber = ((CWebsite) contact).webAddress;
 
-                                    save = true;
-                                }
-                            }
-
-                            if (save) {
-                                logger.info("Saving " + party);
-
-                                WS.Response response = party.save().get();
-                                if (response.getStatus() != 200 || response.getStatus() != 201) {
-                                    logger.info("Failure saving party " + party + ", response " + response.getStatus());
+                                if (skypeNumbers.contains(skypeNumber)) {
+                                    System.out.println("CParty " + party + " has duplicate Skype number (" + ((CWebsite) contact).webAddress + "). Deleting.");
+                                    party.deleteContact(contact); // remove dup
+                                } else {
+                                    skypeNumbers.add(skypeNumber);
                                 }
                             }
                         }
                     }
-                });
+
+                    boolean save = false;
+                    for (String phoneNumber : phoneNumbers) {
+                        if (!skypeNumbers.contains(phoneNumber)) {
+                            CWebsite website = new CWebsite(null, phoneNumber, "SKYPE");
+                            party.addContact(website);
+
+                            save = true;
+                        }
+                    }
+
+                    if (save) {
+                        System.out.println("Saving " + party);
+
+                        WS.Response response = party.save().get();
+                        if (response.getStatus() < 200 || response.getStatus() > 206) {
+                            System.out.println("Failure saving party " + party + ", response " + response.getStatus() + " " + response.getStatusText());
+                        }
+                        else {
+                            System.out.println("Success saving party " + party + ", response " + response.getStatus() + " " + response.getStatusText());
+                        }
+                    }
+                }
             }
         });
     }
@@ -171,7 +176,7 @@ public class SocialNetworkLinks extends CapsuleTest {
 
                             WS.Response response = party.save().get();
                             if (response.getStatus() != 200 || response.getStatus() != 201) {
-                                logger.info("Failure saving party " + party + ", response " + response.getStatus());
+                                logger.info("Failure saving party " + party + ", response " + response.getStatusText());
                             }
                         }
                     }
