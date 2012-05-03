@@ -61,8 +61,8 @@ CParty.listAll().onRedeem(new F.Callback<CParties>() {
 
             // save changes
             WS.Response response = party.save().get();
-            if (response.getStatus() != 200 || response.getStatus() != 201) {
-                // in Play Framework 2.1, use response.getStatusText() here
+            if (response.getStatus() < 200 || response.getStatus() > 206) {
+                // in Play Framework 2.0.1 and up, add response.getStatusText() here
                 log.info("Failure saving party " + party + ", response " + response.getStatus());
             }
         }
