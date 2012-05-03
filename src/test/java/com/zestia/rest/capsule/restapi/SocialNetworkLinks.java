@@ -39,7 +39,7 @@ public class SocialNetworkLinks extends CapsuleTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 logger.info("Listing all parties...");
-                CParties parties = CParty.listAll(50000).get(50000l, TimeUnit.MILLISECONDS);
+                CParties parties = CParty.listAll(5, TimeUnit.SECONDS).get(50l, TimeUnit.SECONDS);
 
                 System.out.println("Found " + parties.size + " parties, adding Skype links from phone numbers...");
 
@@ -108,7 +108,7 @@ public class SocialNetworkLinks extends CapsuleTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 logger.info("Listing all parties...");
-                CParties parties = CParty.listAll(50000).get(50000l, TimeUnit.MILLISECONDS);
+                CParties parties = CParty.listAll(5, TimeUnit.SECONDS).get(50l, TimeUnit.SECONDS);
 
                 logger.info("Found " + parties.size + " parties, finding and adding Twitter links...");
                 for (CParty party : parties) {

@@ -8,6 +8,7 @@ import play.libs.F;
 import play.libs.WS;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mathias Bogaert
@@ -69,7 +70,12 @@ public abstract class CParty extends CapsuleEntity {
     }
 
     public static F.Promise<CParties> search(String query) {
+        return search(query, 10, TimeUnit.SECONDS);
+    }
+
+    public static F.Promise<CParties> search(String query, long time, TimeUnit unit) {
         return WS.url(capsuleUrl + "/api/party")
+                .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("q", query)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
@@ -82,25 +88,31 @@ public abstract class CParty extends CapsuleEntity {
     }
 
     public static F.Promise<CParties> listAll() {
-        return listAll(5000);
+        return listAll(10, TimeUnit.SECONDS);
     }
 
-    public static F.Promise<CParties> listAll(int timeoutMillis) {
+    public static F.Promise<CParties> listAll(long time, TimeUnit unit) {
         return WS.url(capsuleUrl + "/api/party")
-                .setTimeout(timeoutMillis)
+                .setTimeout((int) unit.toMillis(time))
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
-                        if (response.getStatus() == 401) throw new RuntimeException("Not Authorized, check your Play configuration.");
+                        if (response.getStatus() == 401)
+                            throw new RuntimeException("Not Authorized, check your Play configuration.");
                         return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
                     }
                 });
     }
 
     public static F.Promise<CParties> listModifiedSince(DateTime modifiedSince) {
+        return listModifiedSince(modifiedSince, 10, TimeUnit.SECONDS);
+    }
+
+    public static F.Promise<CParties> listModifiedSince(DateTime modifiedSince, long time, TimeUnit unit) {
         return WS.url(capsuleUrl + "/api/party")
+                .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
@@ -113,7 +125,12 @@ public abstract class CParty extends CapsuleEntity {
     }
 
     public static F.Promise<CParties> listByEmailAddress(String emailAddress) {
+        return listByEmailAddress(emailAddress, 10, TimeUnit.SECONDS);
+    }
+
+    public static F.Promise<CParties> listByEmailAddress(String emailAddress, long time, TimeUnit unit) {
         return WS.url(capsuleUrl + "/api/party")
+                .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("email", emailAddress)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
@@ -126,7 +143,12 @@ public abstract class CParty extends CapsuleEntity {
     }
 
     public static F.Promise<CParties> listByTag(String tag) {
+        return listByTag(tag, 10, TimeUnit.SECONDS);
+    }
+
+    public static F.Promise<CParties> listByTag(String tag, long time, TimeUnit unit) {
         return WS.url(capsuleUrl + "/api/party")
+                .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("tag", tag)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
