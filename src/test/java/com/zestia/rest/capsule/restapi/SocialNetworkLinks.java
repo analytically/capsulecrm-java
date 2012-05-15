@@ -176,7 +176,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                             party.addContact(twitterLink);
 
                             WS.Response response = party.save().get();
-                            if (response.getStatus() != 200 || response.getStatus() != 201) {
+                            if (response.getStatus() < 200 || response.getStatus() > 206) {
                                 logger.info("Failure saving party " + party + ", response " + response.getStatusText());
                             }
                         }
