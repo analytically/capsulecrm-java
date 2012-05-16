@@ -1,7 +1,7 @@
 capsulecrm-java
 ===============
 
-Unofficial and unsupported [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.0](http://www.playframework.org/).
+Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.0](http://www.playframework.org/).
 Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Under development.
 
 USE WITH CAUTION!
@@ -88,7 +88,7 @@ Add a task to a party:
 party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
 
-Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/test/java/com/capsulecrm/rest) for more examples.
+Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/test/java/com/zestia/rest/capsule/restapi) for more examples.
 
 License
 -------
