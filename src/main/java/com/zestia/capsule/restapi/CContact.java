@@ -8,6 +8,9 @@ import com.google.common.base.Objects;
 public abstract class CContact extends CIdentifiable {
     public String type;
 
+    protected CContact() {
+    }
+
     protected CContact(String type) {
         this.type = type;
     }

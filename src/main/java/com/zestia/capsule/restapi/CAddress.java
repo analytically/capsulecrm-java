@@ -12,6 +12,9 @@ public class CAddress extends CContact {
     public String state;
     public String country;
 
+    public CAddress() {
+    }
+
     public CAddress(String type, String street, String city, String zip, String state, String country) {
         super(type);
         this.street = street;

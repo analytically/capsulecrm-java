@@ -10,11 +10,21 @@ public class CWebsite extends CContact {
     public String webService = "URL";
     public String url;
 
+    public CWebsite() {
+    }
+
     public CWebsite(String type, String webAddress) {
         super(type);
         this.webAddress = webAddress;
     }
 
+    /**
+     * Creates a website.
+     *
+     * @param type the type
+     * @param webAddress the address
+     * @param webService the service, defaults to 'URL'
+     */
     public CWebsite(String type, String webAddress, String webService) {
         super(type);
         this.webAddress = webAddress;

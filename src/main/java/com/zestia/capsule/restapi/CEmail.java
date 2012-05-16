@@ -8,8 +8,7 @@ import com.google.common.base.Objects;
 public class CEmail extends CContact {
     public String emailAddress;
 
-    public CEmail(String type) {
-        super(type);
+    public CEmail() {
     }
 
     public CEmail(String type, String emailAddress) {
