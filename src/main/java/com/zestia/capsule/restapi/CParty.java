@@ -93,7 +93,6 @@ public abstract class CParty extends CapsuleEntity {
 
     public static F.Promise<CParties> listAll(long time, TimeUnit unit) {
         return WS.url(capsuleUrl + "/api/party")
-                .setTimeout((int) unit.toMillis(time))
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
@@ -177,7 +176,6 @@ public abstract class CParty extends CapsuleEntity {
 
     public F.Promise<WS.Response> deleteContact(CContact contact) {
         return WS.url(capsuleUrl + "/api/party/" + id + "/contact/" + contact.id)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .delete();
     }

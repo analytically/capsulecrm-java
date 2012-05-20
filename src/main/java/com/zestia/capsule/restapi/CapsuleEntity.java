@@ -53,7 +53,6 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
 
     public F.Promise<WS.Response> remove(CCustomField customField) {
         return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .delete();
     }
@@ -88,7 +87,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                             if (location == null) {
                                 throw new RuntimeException("null location, cannot assign id to history item " + this + ", status is " + response.getStatus() + " " + response.getStatusText());
                             }
-                            item.id = Integer.parseInt(location.substring(location.lastIndexOf("/")));
+                            item.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
 
                             return response;
                         }
@@ -98,7 +97,6 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
 
     public F.Promise<WS.Response> remove(final CHistoryItem item) {
         return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .delete();
     }
@@ -112,7 +110,6 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
 
     public F.Promise<WS.Response> remove(CTag tag) {
         return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .delete();
     }
@@ -141,7 +138,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                         if (location == null) {
                             throw new RuntimeException("null location, cannot assign id to task " + this + ", status is " + response.getStatus() + " " + response.getStatusText());
                         }
-                        task.id = Integer.parseInt(location.substring(location.lastIndexOf("/")));
+                        task.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
 
                         return response;
                     }

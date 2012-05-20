@@ -6,7 +6,7 @@ import com.google.common.base.Objects;
  * @author Mathias Bogaert
  */
 public class CPerson extends CParty {
-    public String title;
+    public Title title;
     public String firstName;
     public String lastName;
     public String jobTitle;

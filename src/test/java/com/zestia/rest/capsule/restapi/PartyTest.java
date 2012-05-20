@@ -20,7 +20,7 @@ public class PartyTest extends CapsuleTest {
             public void run() {
                 CPerson person = createTestPerson();
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(1);
-                
+
                 CPerson fetchedPerson = CPerson.listByEmailAddress(person.firstEmail().emailAddress).get().persons.iterator().next();
                 assertThat(fetchedPerson.title).isEqualTo(person.title);
                 assertThat(fetchedPerson.firstName).isEqualTo(person.firstName);
@@ -28,9 +28,9 @@ public class PartyTest extends CapsuleTest {
                 assertThat(fetchedPerson.jobTitle).isEqualTo(person.jobTitle);
                 assertThat(fetchedPerson.organisationId).isEqualTo(person.organisationId);
                 assertThat(fetchedPerson.organisationName).isEqualTo(person.organisationName);
-                
+
                 assertThat(fetchedPerson.about).isEqualTo(person.about);
-                
+
                 assertThat(fetchedPerson.createdOn).isNotNull();
                 assertThat(fetchedPerson.pictureURL).isNotNull();
 
@@ -59,10 +59,10 @@ public class PartyTest extends CapsuleTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
-                person.add(new CTag("testpersontag123"));
+                person.add(new CTag("testpersontag123")).get();
                 assertThat(CPerson.listByTag("testpersontag123").get()).hasSize(1);
 
-                person.remove(new CTag("testpersontag123"));
+                person.remove(new CTag("testpersontag123")).get();
                 assertThat(CPerson.listByTag("testpersontag123").get()).hasSize(0);
 
                 deleteTestPerson();
@@ -77,7 +77,7 @@ public class PartyTest extends CapsuleTest {
             public void run() {
                 CPerson person = createTestPerson();
                 DateTime entryDateTime = new DateTime().minusDays(2);
-                person.add(new CHistoryItem("test note", entryDateTime));
+                person.add(new CHistoryItem("test note", entryDateTime)).get();
 
                 assertThat(person.listHistory().get()).hasSize(1);
 
@@ -97,7 +97,7 @@ public class PartyTest extends CapsuleTest {
             public void run() {
                 CPerson person = createTestPerson();
                 DateTime dueDateTime = new DateTime().plus(Days.days(2));
-                person.add(new CTask("test task", dueDateTime, true));
+                person.add(new CTask("test task", dueDateTime, true)).get();
 
                 assertThat(person.listTasks().get()).hasSize(1);
 
@@ -115,7 +115,7 @@ public class PartyTest extends CapsuleTest {
     private CPerson createTestPerson() {
         // create a test person
         CPerson testPerson = new CPerson();
-        testPerson.title = "Mr";
+        testPerson.title = Title.Dr;
         testPerson.firstName = "firstName";
         testPerson.lastName = "lastName";
         testPerson.jobTitle = "jobTitle";

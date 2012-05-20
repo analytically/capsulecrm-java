@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
  */
 public class CWebsite extends CContact {
     public String webAddress;
-    public String webService = "URL";
+    public WebService webService = WebService.URL;
     public String url;
 
     public CWebsite() {
@@ -25,7 +25,7 @@ public class CWebsite extends CContact {
      * @param webAddress the address
      * @param webService the service, defaults to 'URL'
      */
-    public CWebsite(String type, String webAddress, String webService) {
+    public CWebsite(String type, String webAddress, WebService webService) {
         super(type);
         this.webAddress = webAddress;
         this.webService = webService;
