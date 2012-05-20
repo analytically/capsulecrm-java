@@ -1,12 +1,12 @@
 capsulecrm-java
 ===============
 
-Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.0](http://www.playframework.org/).
+Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.1](http://www.playframework.org/).
 Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Under development.
 
-USE WITH CAUTION!
+USE WITH CAUTION! ONLY WORKS WITH VERSION 2.1-SNAPSHOT.
 
-See [Capsule API](http://developer.capsulecrm.com/v1/) for more information on Capsule CRM's REST API.
+See [Capsule API](http://developer.capsulecrm.com/) for more information on Capsule CRM's REST API.
 Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
 Configuration
@@ -62,8 +62,7 @@ CParty.listAll().onRedeem(new F.Callback<CParties>() {
             // save changes
             WS.Response response = party.save().get();
             if (response.getStatus() < 200 || response.getStatus() > 206) {
-                // in Play Framework 2.0.1 and up, add response.getStatusText() here
-                log.info("Failure saving party " + party + ", response " + response.getStatus());
+                log.info("Failure saving party " + party + ", response " + response.getStatus() + " " + response.getStatusText());
             }
         }
     }
@@ -98,7 +97,6 @@ Licensed under the [WTFPL](http://en.wikipedia.org/wiki/WTFPL).
 Todo
 ----
 
-* Test, test, test...
 * Package and publish to TypeSafe repository?
 
 Enjoy!
