@@ -89,7 +89,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
 
         if (id != null) {
             return WS.url(capsuleUrl + "/api" + writeContextPath() + "/" + id)
-                    .setHeader("Content-Type", "text/xml; charset=\"UTF-8\"")
+                    .setHeader("Content-Type", "text/xml; charset=utf-8")
                     .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                     .put(new ByteArrayInputStream(outputStream.toByteArray()));
         } else {
