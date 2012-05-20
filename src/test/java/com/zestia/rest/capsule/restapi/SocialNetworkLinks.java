@@ -50,7 +50,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                     public void invoke(CParties parties) throws Throwable {
                         System.out.println("Found " + parties.size + " parties, adding Skype links from phone numbers...");
 
-                        List<F.Promise<WS.Response>> deletePromises = Lists.newArrayList();
+                        List<F.Promise<? extends WS.Response>> deletePromises = Lists.newArrayList();
 
                         for (CParty party : parties) {
                             Set<String> phoneNumbers = Sets.newHashSet();
