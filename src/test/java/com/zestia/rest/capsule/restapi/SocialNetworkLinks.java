@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 import play.libs.F;
 import play.libs.WS;
-import play.mvc.Http;
 
 import java.io.IOException;
 import java.nio.charset.IllegalCharsetNameException;
@@ -45,7 +44,7 @@ public class SocialNetworkLinks extends CapsuleTest {
             public void run() {
                 System.out.println("Listing all parties...");
 
-                CParty.listAll(10, TimeUnit.SECONDS).onRedeem(new F.Callback<CParties>() {
+                CParty.listAll(30, TimeUnit.SECONDS).onRedeem(new F.Callback<CParties>() {
                     @Override
                     public void invoke(CParties parties) throws Throwable {
                         System.out.println("Found " + parties.size + " parties, adding Skype links from phone numbers...");
@@ -190,7 +189,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                                 if (contact instanceof CWebsite) {
                                     CWebsite website = (CWebsite) contact;
 
-                                    if ("TWITTER".equals(website.webService)) {
+                                    if (WebService.TWITTER.equals(website.webService)) {
                                         System.out.println("Skipping " + party + " since it already has a twitter link.");
 
                                         hasTwitterLink = true;
@@ -201,45 +200,45 @@ public class SocialNetworkLinks extends CapsuleTest {
                             if (!hasTwitterLink) {
                                 Set<String> twitterUsers = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
 
-                            for (CContact contact : party.contacts) {
-                                if (contact instanceof CWebsite) {
-                                    CWebsite website = (CWebsite) contact;
+                                for (CContact contact : party.contacts) {
+                                    if (contact instanceof CWebsite) {
+                                        CWebsite website = (CWebsite) contact;
 
-                                    if (WebService.URL.equals(website.webService) && !website.url.contains("google")) {
-                                        System.out.println("Visiting website of " + party.getName() + " at " + website.url);
+                                        if (WebService.URL.equals(website.webService) && !website.url.contains("google")) {
+                                            System.out.println("Visiting website of " + party.getName() + " at " + website.url);
 
-                                        try {
-                                            Document doc = Jsoup.connect(website.url)
-                                                    .timeout(15000)
-                                                    .ignoreHttpErrors(true)
-                                                    .get();
+                                            try {
+                                                Document doc = Jsoup.connect(website.url)
+                                                        .timeout(15000)
+                                                        .ignoreHttpErrors(true)
+                                                        .get();
 
-                                            Elements links = doc.select("a[href]");
-                                            for (Element link : links) {
-                                                String href = link.attr("href");
+                                                Elements links = doc.select("a[href]");
+                                                for (Element link : links) {
+                                                    String href = link.attr("href");
 
-                                                if (!href.contains("/search")
-                                                        && !href.contains("/share")
-                                                        && !href.contains("/home")
-                                                        && !href.contains("/intent")) {
+                                                    if (!href.contains("/search")
+                                                            && !href.contains("/share")
+                                                            && !href.contains("/home")
+                                                            && !href.contains("/intent")) {
 
-                                                    Matcher matcher = Pattern.compile("(www\\.)?twitter\\.com/(#!/)?@?([^/]*)").matcher(href);
-                                                    while (matcher.find()) {
-                                                        String twitterUser = CharMatcher.WHITESPACE.trimFrom(href.substring(matcher.start(3), matcher.end(3)));
+                                                        Matcher matcher = Pattern.compile("(www\\.)?twitter\\.com/(#!/)?@?([^/]*)").matcher(href);
+                                                        while (matcher.find()) {
+                                                            String twitterUser = CharMatcher.WHITESPACE.trimFrom(href.substring(matcher.start(3), matcher.end(3)));
 
-                                                        if (!"".equals(twitterUser)) {
-                                                            twitterUsers.add(twitterUser);
+                                                            if (!"".equals(twitterUser)) {
+                                                                twitterUsers.add(twitterUser);
+                                                            }
                                                         }
                                                     }
                                                 }
+                                            } catch (IllegalCharsetNameException e) { // see https://github.com/jhy/jsoup/commit/2714d6be6cbe465b522a724c2796ddf74df06482#-P0
+                                                System.out.println("Illegal charset name for " + website + " of " + party);
+                                            } catch (IOException e) {
+                                                System.out.println("Unable to GET " + website + " of " + party);
                                             }
-                                        } catch (IllegalCharsetNameException e) { // see https://github.com/jhy/jsoup/commit/2714d6be6cbe465b522a724c2796ddf74df06482#-P0
-                                            System.out.println("Illegal charset name for " + website + " of " + party);
-                                        } catch (IOException e) {
-                                            System.out.println("Unable to GET " + website + " of " + party);
                                         }
                                     }
-                                }
                                 }
 
                                 for (String twitterUser : twitterUsers) {

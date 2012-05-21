@@ -56,9 +56,17 @@ public abstract class CParty extends CapsuleEntity {
     }
 
     public CWebsite firstWebsite() {
+        return firstWebsite(null);
+    }
+
+    public CWebsite firstWebsite(WebService webService) {
         for (CContact contact : contacts) {
             if (contact instanceof CWebsite) {
-                return (CWebsite) contact;
+                CWebsite website = (CWebsite) contact;
+
+                if (webService == null || webService == website.webService) {
+                    return (CWebsite) contact;
+                }
             }
         }
         return null;
@@ -93,6 +101,7 @@ public abstract class CParty extends CapsuleEntity {
 
     public static F.Promise<CParties> listAll(long time, TimeUnit unit) {
         return WS.url(capsuleUrl + "/api/party")
+                .setTimeout((int) unit.toMillis(time))
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
                 .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
                 .get().map(new F.Function<WS.Response, CParties>() {
