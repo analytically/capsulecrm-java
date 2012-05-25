@@ -1,6 +1,5 @@
 package com.zestia.capsule.restapi;
 
-import com.ning.http.client.Realm;
 import com.thoughtworks.xstream.io.xml.DomReader;
 import org.joda.time.DateTime;
 import play.libs.F;
@@ -50,7 +49,7 @@ public class CTask extends SimpleCapsuleEntity {
         }
 
         return holder.setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
+                .setAuth(capsuleToken, "")
                 .get().map(new F.Function<WS.Response, CTasks>() {
                     @Override
                     public CTasks apply(WS.Response response) throws Throwable {
@@ -62,14 +61,14 @@ public class CTask extends SimpleCapsuleEntity {
     public F.Promise<WS.Response> complete() {
         return WS.url(capsuleUrl + "/api/task/" + id + "/complete")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
+                .setAuth(capsuleToken, "")
                 .post("");
     }
 
     public F.Promise<WS.Response> reopen() {
         return WS.url(capsuleUrl + "/api/task/" + id + "/reopen")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
+                .setAuth(capsuleToken, "")
                 .post("");
     }
 }

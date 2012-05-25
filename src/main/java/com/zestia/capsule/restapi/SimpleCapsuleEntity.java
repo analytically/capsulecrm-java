@@ -1,9 +1,6 @@
 package com.zestia.capsule.restapi;
 
-import com.google.common.io.ByteStreams;
-import com.ning.http.client.Realm;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.zestia.capsule.restapi.utils.JodaDateTimeXStreamConverter;
 import play.Play;
 import play.libs.F;
@@ -90,12 +87,12 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         if (id != null) {
             return WS.url(capsuleUrl + "/api" + writeContextPath() + "/" + id)
                     .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
+                    .setAuth(capsuleToken, "")
                     .put(new ByteArrayInputStream(outputStream.toByteArray()));
         } else {
             return WS.url(capsuleUrl + "/api" + writeContextPath())
                     .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
+                    .setAuth(capsuleToken, "")
                     .post(new ByteArrayInputStream(outputStream.toByteArray())).map(new F.Function<WS.Response, WS.Response>() {
                         @Override
                         public WS.Response apply(WS.Response response) throws Throwable {
@@ -112,7 +109,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
 
     public F.Promise<WS.Response> delete() {
         return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id)
-                .setAuth(capsuleToken, "x", Realm.AuthScheme.BASIC)
+                .setAuth(capsuleToken, "")
                 .delete();
     }
 }

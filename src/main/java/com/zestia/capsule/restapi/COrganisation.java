@@ -1,7 +1,6 @@
 package com.zestia.capsule.restapi;
 
 import com.google.common.base.Objects;
-import com.ning.http.client.Realm;
 import com.thoughtworks.xstream.io.xml.DomReader;
 import play.libs.F;
 import play.libs.WS;
@@ -40,7 +39,7 @@ public class COrganisation extends CParty {
     public F.Promise<CParties> listPeople() throws Exception {
         return WS.url(capsuleUrl + "/api/party/" + id + "/people")
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "", Realm.AuthScheme.BASIC)
+                .setAuth(capsuleToken, "")
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
