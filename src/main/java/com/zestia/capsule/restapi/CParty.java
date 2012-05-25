@@ -85,7 +85,7 @@ public abstract class CParty extends CapsuleEntity {
                 .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("q", query)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x")
+                .setAuth(capsuleToken, "")
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -102,7 +102,7 @@ public abstract class CParty extends CapsuleEntity {
         return WS.url(capsuleUrl + "/api/party")
                 .setTimeout((int) unit.toMillis(time))
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x")
+                .setAuth(capsuleToken, "")
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -122,7 +122,7 @@ public abstract class CParty extends CapsuleEntity {
                 .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x")
+                .setAuth(capsuleToken, "")
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -140,7 +140,7 @@ public abstract class CParty extends CapsuleEntity {
                 .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("email", emailAddress)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x")
+                .setAuth(capsuleToken, "")
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
@@ -158,7 +158,7 @@ public abstract class CParty extends CapsuleEntity {
                 .setTimeout((int) unit.toMillis(time))
                 .setQueryParameter("tag", tag)
                 .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "x")
+                .setAuth(capsuleToken, "")
                 .get().map(new F.Function<WS.Response, CParties>() {
                     @Override
                     public CParties apply(WS.Response response) throws Throwable {
