@@ -56,6 +56,14 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.alias("customFields", CCustomFields.class);
         xstream.aliasAttribute(CCustomFields.class, "size", "size");
         xstream.addImplicitCollection(CCustomFields.class, "customFields", CCustomField.class);
+
+        xstream.alias("opportunities", COpportunities.class);
+        xstream.addImplicitCollection(COpportunities.class, "opportunities", COpportunity.class);
+        xstream.alias("opportunity", COpportunity.class);
+
+        xstream.alias("milestones", CMilestones.class);
+        xstream.addImplicitCollection(CMilestones.class, "milestones", CMilestone.class);
+        xstream.alias("milestone", CMilestone.class);
     }
 
     static final String capsuleUrl = Play.application().configuration().getString("capsulecrm.url");

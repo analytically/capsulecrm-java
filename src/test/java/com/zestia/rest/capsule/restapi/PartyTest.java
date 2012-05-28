@@ -12,8 +12,6 @@ import static play.test.Helpers.running;
  * @author Mathias Bogaert
  */
 public class PartyTest extends CapsuleTest {
-    private int testPersonId;
-
     @Test
     public void testSaveDelete() {
         running(fakeApplication(), new Runnable() {
@@ -110,26 +108,5 @@ public class PartyTest extends CapsuleTest {
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
             }
         });
-    }
-
-    private CPerson createTestPerson() {
-        // create a test person
-        CPerson testPerson = new CPerson();
-        testPerson.title = Title.Dr;
-        testPerson.firstName = "firstName";
-        testPerson.lastName = "lastName";
-        testPerson.jobTitle = "jobTitle";
-        testPerson.addContact(new CEmail(null, "testperson123@testing.com"));
-        testPerson.addContact(new CPhone(null, "123456789"));
-        testPerson.addContact(new CWebsite(null, "www.test123.com"));
-        testPerson.addContact(new CAddress(null, "street", "city", "zip", "state", "United Kingdom"));
-        testPerson.save().get();
-
-        testPersonId = testPerson.id;
-        return testPerson;
-    }
-
-    private void deleteTestPerson() {
-        CPerson.byId(testPersonId).get().delete().get();
     }
 }

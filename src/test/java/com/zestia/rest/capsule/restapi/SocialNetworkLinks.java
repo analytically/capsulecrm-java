@@ -44,7 +44,7 @@ public class SocialNetworkLinks extends CapsuleTest {
             public void run() {
                 System.out.println("Listing all parties...");
 
-                CParty.listAll(30, TimeUnit.SECONDS).onRedeem(new F.Callback<CParties>() {
+                CParty.listAll().onRedeem(new F.Callback<CParties>() {
                     @Override
                     public void invoke(CParties parties) throws Throwable {
                         System.out.println("Found " + parties.size + " parties, adding Skype links from phone numbers...");
@@ -127,7 +127,7 @@ public class SocialNetworkLinks extends CapsuleTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 System.out.println("Listing all parties...");
-                CParty.listAll(10, TimeUnit.SECONDS).onRedeem(new F.Callback<com.zestia.capsule.restapi.CParties>() {
+                CParty.listAll().onRedeem(new F.Callback<com.zestia.capsule.restapi.CParties>() {
                     @Override
                     public void invoke(CParties parties) throws Throwable {
                         System.out.println("Found " + parties.size + " parties, removing type from address...");
@@ -177,7 +177,7 @@ public class SocialNetworkLinks extends CapsuleTest {
             public void run() {
                 System.out.println("Listing all parties...");
 
-                CParty.listAll(10, TimeUnit.SECONDS).onRedeem(new F.Callback<com.zestia.capsule.restapi.CParties>() {
+                CParty.listAll().onRedeem(new F.Callback<com.zestia.capsule.restapi.CParties>() {
                     @Override
                     public void invoke(CParties parties) throws Throwable {
 
