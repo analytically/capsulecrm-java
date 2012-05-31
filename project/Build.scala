@@ -18,6 +18,7 @@ object MinimalBuild extends Build {
     },
     organization := "com.zestia",
     resolvers += repo,
+    resolvers ++= Seq("Codahale" at "http://repo.codahale.com"),
     javacOptions += "-Xlint:unchecked",
     libraryDependencies += "play" %% "play" % playVersion,
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.2",
