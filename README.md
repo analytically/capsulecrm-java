@@ -7,7 +7,7 @@ Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XS
 USE WITH CAUTION! ONLY WORKS WITH VERSION 2.1-SNAPSHOT.
 
 See [Capsule API](http://developer.capsulecrm.com/) for more information on Capsule CRM's REST API.
-Developed for [Pearsons Associates Ltd](http://www.pearsonsltd.com/). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
+Developed for [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
 Configuration
 -------------
