@@ -1,13 +1,15 @@
 capsulecrm-java
 ===============
 
-Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [PlayFramework 2.1](http://www.playframework.org/).
-Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/). Under development.
+Unofficial [Capsule CRM](http://capsulecrm.com/) API plugin for [Play framework 2.1](http://www.playframework.org/).
+Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
 
-USE WITH CAUTION! ONLY WORKS WITH VERSION 2.1-SNAPSHOT.
+Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
+
+Capsule CRM
+-----------
 
 See [Capsule API](http://developer.capsulecrm.com/) for more information on Capsule CRM's REST API.
-Developed for [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
 Configuration
 -------------
@@ -43,7 +45,7 @@ Usage Examples
 
 Fetch all parties, change something and save:
 
-```
+```java
 CParty.listAll().onRedeem(new F.Callback<CParties>() {
     @Override
     public void invoke(CParties parties) throws Throwable {
@@ -71,32 +73,25 @@ CParty.listAll().onRedeem(new F.Callback<CParties>() {
 
 Add a tag to a party:
 
-```
+```java
 party.add(new CTag("iamatag")).get();
 ```
 
 Add a note to a party:
 
-```
+```java
 party.add(new CHistoryItem("hello I'm a note"));
 ```
 
 Add a task to a party:
 
-```
+```java
 party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
 
-Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/test/java/com/zestia/rest/capsule/restapi) for more examples.
+Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/test/java/com/zestia/rest/capsule/restapi) for more examples.
 
 License
 -------
 
 Licensed under the [WTFPL](http://en.wikipedia.org/wiki/WTFPL).
-
-Todo
-----
-
-* Package and publish to TypeSafe repository?
-
-Enjoy!

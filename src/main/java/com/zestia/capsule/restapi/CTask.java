@@ -10,6 +10,7 @@ import play.libs.WS;
  */
 public class CTask extends SimpleCapsuleEntity {
     public String description;
+    public String detail;
     public String category;
     public DateTime dueDate;
     public DateTime dueDateTime;
@@ -25,7 +26,12 @@ public class CTask extends SimpleCapsuleEntity {
     }
 
     public CTask(String description, DateTime dueDateTime, boolean saveTime) {
+        this(description, null, dueDateTime, saveTime);
+    }
+
+    public CTask(String description, String detail, DateTime dueDateTime, boolean saveTime) {
         this.description = description;
+        this.detail = detail;
         if (saveTime) {
             this.dueDateTime = dueDateTime;
         } else {

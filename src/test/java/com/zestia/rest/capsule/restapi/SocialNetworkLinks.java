@@ -59,7 +59,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                                 if (contact instanceof CPhone) {
                                     CPhone phone = (CPhone) contact;
 
-                                    if (!"Fax".equals(phone.type)) {
+                                    if (!"fax".equalsIgnoreCase(phone.type)) {
                                         String phoneNumber = CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber);
 
                                         if (phoneNumbers.contains(phoneNumber)) {
