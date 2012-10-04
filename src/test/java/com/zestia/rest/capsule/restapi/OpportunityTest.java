@@ -2,7 +2,6 @@ package com.zestia.rest.capsule.restapi;
 
 import com.zestia.capsule.restapi.CMilestones;
 import com.zestia.capsule.restapi.COpportunity;
-import com.zestia.capsule.restapi.CParty;
 import com.zestia.capsule.restapi.CPerson;
 import org.junit.Test;
 

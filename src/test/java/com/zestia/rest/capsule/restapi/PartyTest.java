@@ -104,6 +104,11 @@ public class PartyTest extends CapsuleTest {
                 assertThat(task.dueDateTime).isEqualTo(dueDateTime.withSecondOfMinute(0).withMillisOfSecond(0));
                 assertThat(task.partyId).isEqualTo(person.id);
 
+                task.complete().get();
+
+                task.delete().get();
+                assertThat(person.listTasks().get()).hasSize(0);
+
                 deleteTestPerson();
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
             }
