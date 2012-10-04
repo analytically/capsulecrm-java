@@ -1,8 +1,8 @@
 capsulecrm-java
 ===============
 
-Unofficial [Capsule CRM](http://capsulecrm.com/) API developed with [Play framework 2.1](http://www.playframework.org/).
-Uses [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
+Unofficial [Capsule CRM](http://capsulecrm.com/) Java API for use with [Play framework 2.1](http://www.playframework.org/).
+Depends on [the Play WS API](https://github.com/playframework/Play20/wiki/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
