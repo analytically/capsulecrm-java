@@ -14,7 +14,7 @@ import static play.test.Helpers.running;
 public class OpportunityTest extends CapsuleTest {
     @Test
     public void testSaveDelete() {
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
 

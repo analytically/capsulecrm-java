@@ -14,7 +14,7 @@ import static play.test.Helpers.running;
 public class PartyTest extends CapsuleTest {
     @Test
     public void testSaveDelete() {
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
                 assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(1);
@@ -54,7 +54,7 @@ public class PartyTest extends CapsuleTest {
 
     @Test
     public void testListByTag() {
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
                 person.add(new CTag("testpersontag123")).get();
@@ -71,7 +71,7 @@ public class PartyTest extends CapsuleTest {
 
     @Test
     public void testNotes() {
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
                 DateTime entryDateTime = new DateTime().minusDays(2);
@@ -91,7 +91,7 @@ public class PartyTest extends CapsuleTest {
 
     @Test
     public void testTasks() {
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
                 CPerson person = createTestPerson();
                 DateTime dueDateTime = new DateTime().plus(Days.days(2));

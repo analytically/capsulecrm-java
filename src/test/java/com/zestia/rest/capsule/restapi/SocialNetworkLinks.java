@@ -18,7 +18,6 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,13 +35,12 @@ import static play.test.Helpers.running;
 public class SocialNetworkLinks extends CapsuleTest {
     // TODO logging isn't working in Play 2.0 unit tests, find a solution
 
-    @Test
     public void addSkypeLinks() throws Exception {
         final CountDownLatch lock = new CountDownLatch(1);
 
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
-                System.out.println("Listing all parties...");
+                System.out.println("addSkypeLinks - listing all parties...");
 
                 CParty.listAll().onRedeem(new F.Callback<CParties>() {
                     @Override
@@ -120,13 +118,12 @@ public class SocialNetworkLinks extends CapsuleTest {
         lock.await();
     }
 
-    @Test
     public void removeAddressType() throws Exception {
         final CountDownLatch lock = new CountDownLatch(1);
 
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
-                System.out.println("Listing all parties...");
+                System.out.println("removeAddressType - listing all parties...");
                 CParty.listAll().onRedeem(new F.Callback<com.zestia.capsule.restapi.CParties>() {
                     @Override
                     public void invoke(CParties parties) throws Throwable {
@@ -173,9 +170,9 @@ public class SocialNetworkLinks extends CapsuleTest {
     public void addTwitterLinks() throws InterruptedException {
         final CountDownLatch lock = new CountDownLatch(1);
 
-        running(fakeApplication(), new Runnable() {
+        running(testServer(8080), new Runnable() {
             public void run() {
-                System.out.println("Listing all parties...");
+                System.out.println("addTwitterLinks - listing all parties...");
 
                 CParty.listAll().onRedeem(new F.Callback<com.zestia.capsule.restapi.CParties>() {
                     @Override
