@@ -94,4 +94,4 @@ Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/
 License
 -------
 
-Licensed under the [WTFPL](http://en.wikipedia.org/wiki/WTFPL).
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
