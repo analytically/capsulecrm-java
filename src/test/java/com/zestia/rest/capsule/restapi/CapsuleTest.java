@@ -25,7 +25,7 @@ public abstract class CapsuleTest {
                 "ws.timeout", "30s",
                 "promise.akka.actor.typed.timeout", "30s");
 
-        return new FakeApplication(new java.io.File("."), Helpers.class.getClassLoader(), config, new ArrayList<String>());
+        return new FakeApplication(new java.io.File("."), Helpers.class.getClassLoader(), config, new ArrayList<String>(), null);
     }
 
     public TestServer testServer(int port) {
