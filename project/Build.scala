@@ -9,7 +9,7 @@ object Build extends sbt.Build {
     version := buildVersion,
     organization := "com.zestia",
     resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
-    scalaVersion := "2.10.0-M3",
+    scalaVersion := "2.10.0-RC3",
     parallelExecution in Test := false,
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v"),
     libraryDependencies += "play" %% "play-java" % playVersion,
