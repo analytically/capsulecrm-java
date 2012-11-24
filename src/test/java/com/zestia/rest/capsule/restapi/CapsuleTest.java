@@ -2,13 +2,10 @@ package com.zestia.rest.capsule.restapi;
 
 import com.google.common.collect.ImmutableMap;
 import com.zestia.capsule.restapi.*;
-import play.mvc.Http;
 import play.test.FakeApplication;
 import play.test.Helpers;
 import play.test.TestServer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,7 +22,7 @@ public abstract class CapsuleTest {
                 "ws.timeout", "30s",
                 "promise.akka.actor.typed.timeout", "30s");
 
-        return new FakeApplication(new java.io.File("."), Helpers.class.getClassLoader(), config, new ArrayList<String>(), null);
+        return Helpers.fakeApplication(config);
     }
 
     public TestServer testServer(int port) {
