@@ -6,7 +6,7 @@ Depends on [the Play WS API](http://www.playframework.com/documentation/2.0/Java
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
-https://travis-ci.org/coenrecruitment/capsulecrm-java.png
+[![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java)
 
 Capsule CRM
 -----------
