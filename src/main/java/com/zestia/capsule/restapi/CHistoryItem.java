@@ -12,10 +12,21 @@ public class CHistoryItem extends CIdentifiable {
     public String type = "Note";
     public DateTime entryDate;
     public String creator;
+    public String creatorName;
     public String subject;
     public String note;
 
     public List<CAttachment> attachments;
+
+    public Integer partyId;
+    public String partyName;
+    public String partyPictureURL;
+
+    public Integer caseId;
+    public String caseName;
+
+    public Integer opportunityId;
+    public String opportunityName;
 
     public CHistoryItem(String note) {
         this.note = note;
@@ -43,9 +54,17 @@ public class CHistoryItem extends CIdentifiable {
                 .add("type", type)
                 .add("entryDate", entryDate)
                 .add("creator", creator)
+                .add("creatorName", creatorName)
                 .add("subject", subject)
                 .add("note", note)
                 .add("attachments", attachments)
+                .add("partyId", partyId)
+                .add("partyName", partyName)
+                .add("partyPictureURL", partyPictureURL)
+                .add("caseId", caseId)
+                .add("caseName", caseName)
+                .add("opportunityId", opportunityId)
+                .add("opportunityName", opportunityName)
                 .toString();
     }
 }

@@ -12,15 +12,19 @@ public class CTask extends SimpleCapsuleEntity {
     public String description;
     public String detail;
     public String category;
+    public String status;
     public DateTime dueDate;
     public DateTime dueDateTime;
     public String owner;
+
     public Integer partyId;
     public String partyName;
-    public Integer opportunityId;
-    public String opportunityName;
+
     public Integer caseId;
     public String caseName;
+
+    public Integer opportunityId;
+    public String opportunityName;
 
     public CTask() {
     }
@@ -42,6 +46,10 @@ public class CTask extends SimpleCapsuleEntity {
     @Override
     protected String readContextPath() {
         return "/task";
+    }
+
+    public static F.Promise<CTasks> list() {
+        return list(null, null);
     }
 
     public static F.Promise<CTasks> list(String category, String user) {
