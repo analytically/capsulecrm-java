@@ -1,20 +1,15 @@
 capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java)
 ===============
 
-Unofficial [Capsule CRM](http://capsulecrm.com/) API Java Client.
-Depends on [the Play WS API](http://www.playframework.com/documentation/2.0/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
+Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
+Depends on [the Play WS API](http://www.playframework.com/documentation/2.1.1/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
-
-Capsule CRM
------------
-
-See [Capsule API](http://developer.capsulecrm.com/) for more information on Capsule CRM's REST API.
 
 Requirements
 ------------
 
-Java 6 or later. A Capsule CRM account.
+Java 6 or later. A Capsule CRM account and token.
 
 Configuration
 -------------
@@ -22,14 +17,14 @@ Configuration
 In `application.conf`, add your URL and Capsule CRM API token. Users can find their API token by visiting My Preferences via
 their username menu in the Capsule navigation bar.
 
-```
+```ruby
 capsulecrm.url="https://<yourdomain>.capsulecrm.com"
 capsulecrm.token="<your token here>"
 ```
 
 When fetching large amounts of parties, make sure you set the timeout high enough:
 
-```
+```ruby
 # Connection timeout in ms (default 120000)
 ws.timeout=400000
 ```
