@@ -1,4 +1,4 @@
-capsulecrm-java
+capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java)
 ===============
 
 Unofficial [Capsule CRM](http://capsulecrm.com/) API Java Client.
@@ -6,12 +6,15 @@ Depends on [the Play WS API](http://www.playframework.com/documentation/2.0/Java
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
-[![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java)
-
 Capsule CRM
 -----------
 
 See [Capsule API](http://developer.capsulecrm.com/) for more information on Capsule CRM's REST API.
+
+Requirements
+------------
+
+Java 6 or later. A Capsule CRM account.
 
 Configuration
 -------------
