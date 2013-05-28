@@ -16,8 +16,8 @@ public abstract class CapsuleTest {
 
     public FakeApplication fakeApplication() {
         Map<String, String> config = ImmutableMap.of(
-                "capsulecrm.url", "https://coen.capsulecrm.com",
-                "capsulecrm.token", "c81a749ef4efee9875e99d8967eb8886",
+                "capsulecrm.url", "https://YOUR-DOMAIN.capsulecrm.com",
+                "capsulecrm.token", "YOUR-TOKEN",
                 "ehcacheplugin", "disabled",
                 "ws.timeout", "30s",
                 "promise.akka.actor.typed.timeout", "30s");
