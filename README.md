@@ -48,6 +48,12 @@ See [Hosting the Annotation Files Yourself](https://developers.google.com/custom
 Usage Examples
 --------------
 
+Start by importing the client package:
+
+```java
+import uk.co.coen.capsulecrm.client.*
+```
+
 Fetch all parties, change something and save:
 
 ```java
@@ -94,7 +100,7 @@ Add a task to a party:
 party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
 
-Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/test/java/com/zestia/rest/capsule/restapi) for more examples.
+Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/test/java/uk/co/coen/capsulecrm/client) for more examples.
 
 License
 -------

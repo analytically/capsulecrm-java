@@ -8,7 +8,7 @@ object Build extends sbt.Build {
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
     version := buildVersion,
     name := "Capsule CRM API Java Client",
-    organization := "com.zestia",
+    organization := "uk.co.coen",
     resolvers += Resolver.typesafeRepo("releases"),
     scalaVersion := "2.10.1",
     parallelExecution in Test := false,

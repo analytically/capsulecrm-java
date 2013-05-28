@@ -10,7 +10,7 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       javaCore,
       "com.thoughtworks.xstream" % "xstream" % "1.4.4",
-      "com.zestia" % "capsulecrm-java" % "1.0.1"
+      "com.coen" % "capsulecrm-java" % "1.0.1"
     )
 
     val main = play.Project(appName, appVersion, appDependencies).settings(
