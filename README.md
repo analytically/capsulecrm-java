@@ -6,15 +6,29 @@ Depends on [the Play WS API](http://www.playframework.com/documentation/2.1.1/Ja
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
 
-Requirements
-------------
+### Requirements
 
 Java 6 or later. A Capsule CRM account and token.
 
-Configuration
--------------
+### Using with SBT
 
-In `application.conf`, add your URL and Capsule CRM API token. Users can find their API token by visiting My Preferences via
+Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
+
+    "uk.co.coen" % "capsulecrm-java" % "1.0.1"
+
+### Using with Maven
+
+Add this dependency to your project's POM file:
+
+    <dependency>
+      <groupId>uk.co.coen</groupId>
+      <artifactId>capsulecrm-java</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+
+### Configuration
+
+In Play's `application.conf`, add your URL and Capsule CRM API token. Users can find their API token by visiting My Preferences via
 their username menu in the Capsule navigation bar.
 
 ```ruby
@@ -29,8 +43,7 @@ When fetching large amounts of parties, make sure you set the timeout high enoug
 ws.timeout=400000
 ```
 
-Google Custom Search
---------------------
+### Google Custom Search
 
 If you need a [Google Custom Search](http://www.google.co.uk/cse/) searching all websites of your contacts, see the `sample` directory. Point Google Custom Search
 to a server hosting this application.
