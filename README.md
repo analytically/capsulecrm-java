@@ -43,13 +43,16 @@ When fetching large amounts of parties, make sure you set the timeout high enoug
 ws.timeout=400000
 ```
 
-### Google Custom Search
+### Google Custom Search Engine for your Capsule CRM contact's websites
 
-If you need a [Google Custom Search](http://www.google.co.uk/cse/) searching all websites of your contacts, see the `sample` directory. Point Google Custom Search
-to a server hosting this application.
+If you need a [Google Custom Search](http://www.google.co.uk/cse/) searching all websites of your contacts, see the `sample`
+directory for a Play! application hosting custom search annotations files. Point Google Custom Search to a server hosting this application.
 
-* In `application.conf`, change `gcs.label` to your Custom Search Engine label.
-* Under `Control panel > Advanced > Add annotations feed`, add `http://yourhost/cse/persons` for all person annotations, or `http://yourhost/cse/organisations` for all organisation annotations.
+* In `sample/conf/application.conf`, change `capsulecrm.url` and `capsulecrm.token` to your Capsule CRM account details
+* In `sample/conf/application.conf`, change `gcs.label` to your Custom Search Engine label.
+* Run the application by using the `play run` command, see [here](http://www.playframework.com/documentation/2.0/PlayConsole) for more information.
+* Under `Control panel > Advanced > Add annotations feed`, add `http://yourhost/cse/persons` for
+all person annotations, or `http://yourhost/cse/organisations` for all organisation annotations.
 
 See [Hosting the Annotation Files Yourself](https://developers.google.com/custom-search/docs/annotations#host) for more details.
 
