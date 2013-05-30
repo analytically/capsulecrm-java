@@ -2,7 +2,7 @@ import sbt._
 import Keys._
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.0.1"
+  lazy val buildVersion = "1.0.2"
   lazy val playVersion = "2.1.1"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
