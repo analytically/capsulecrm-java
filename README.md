@@ -28,8 +28,8 @@ Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
 ### Configuration
 
-In Play's `application.conf`, add your URL and Capsule CRM API token. Users can find their API token by visiting My Preferences via
-their username menu in the Capsule navigation bar.
+In your Play! application's `conf/application.conf`, add your URL and Capsule CRM API token.
+Capsule CRM users can find their API token by visiting `My Preferences` via their username menu in the Capsule navigation bar.
 
 ```ruby
 capsulecrm.url="https://<yourdomain>.capsulecrm.com"
