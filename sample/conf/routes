@@ -7,3 +7,5 @@ GET     /                           controllers.Application.index()
 
 GET     /cse/persons                controllers.GoogleCustomSearch.persons()
 GET     /cse/organisations          controllers.GoogleCustomSearch.organisations()
+
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

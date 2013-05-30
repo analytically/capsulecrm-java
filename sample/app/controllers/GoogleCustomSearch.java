@@ -1,7 +1,6 @@
 package controllers;
 
-import uk.co.coen.capsulecrm.client.COrganisation;
-import uk.co.coen.capsulecrm.client.CPerson;
+import uk.co.coen.capsulecrm.client.*;
 import com.thoughtworks.xstream.XStream;
 import play.Play;
 import play.mvc.Controller;
@@ -57,15 +56,13 @@ public class GoogleCustomSearch extends Controller {
 
         List<Annotation> annotations = new ArrayList<Annotation>();
         for (CPerson person : COrganisation.listAll().get().persons) {
-            if (person.firstWebsite() != null) {
-                String websiteUrl = person.firstWebsite().url;
+            CWebsite website = person.firstWebsite(WebService.URL);
 
-                if (websiteUrl != null) {
-                    annotations.add(new Annotation(
-                            websiteUrl,
-                            new Label(Play.application().configuration().getString("gcs.label")),
-                            person.getName()));
-                }
+            if (website != null && website.url != null) {
+                annotations.add(new Annotation(
+                        website.url,
+                        new Label(Play.application().configuration().getString("gcs.label")),
+                        person.getName()));
             }
         }
 
@@ -91,16 +88,13 @@ public class GoogleCustomSearch extends Controller {
 
         List<Annotation> annotations = new ArrayList<Annotation>();
         for (COrganisation organisation : COrganisation.listAll().get().organisations) {
-            if (organisation.firstWebsite() != null) {
+            CWebsite website = organisation.firstWebsite(WebService.URL);
 
-                String websiteUrl = organisation.firstWebsite().url;
-
-                if (websiteUrl != null) {
-                    annotations.add(new Annotation(
-                            websiteUrl,
-                            new Label(Play.application().configuration().getString("gcs.label")),
-                            organisation.name));
-                }
+            if (website != null && website.url != null) {
+                annotations.add(new Annotation(
+                        website.url,
+                        new Label(Play.application().configuration().getString("gcs.label")),
+                        organisation.name));
             }
         }
 
