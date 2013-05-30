@@ -10,12 +10,6 @@ Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@ana
 
 Java 6 or later. A Capsule CRM account and token.
 
-### Using with SBT
-
-Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
-
-    "uk.co.coen" % "capsulecrm-java" % "1.0.1"
-
 ### Using with Maven
 
 Add this dependency to your project's POM file:
@@ -25,6 +19,12 @@ Add this dependency to your project's POM file:
       <artifactId>capsulecrm-java</artifactId>
       <version>1.0.1</version>
     </dependency>
+
+### Using with SBT
+
+Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
+
+    "uk.co.coen" % "capsulecrm-java" % "1.0.1"
 
 ### Configuration
 
@@ -59,36 +59,39 @@ See [Hosting the Annotation Files Yourself](https://developers.google.com/custom
 Usage Examples
 --------------
 
-Start by importing the client package:
+Start by importing the client package and the necessary Play! classes:
 
 ```java
 import uk.co.coen.capsulecrm.client.*
+import play.libs.F;
+import play.libs.WS;
 ```
 
-Fetch all parties, change something and save:
+Fetch all parties, change something and save - [asynchronous](http://www.playframework.com/documentation/2.1.1/JavaAsync):
 
 ```java
+// perform callback when the list of parties is 'redeemed'
 CParty.listAll().onRedeem(new F.Callback<CParties>() {
     @Override
     public void invoke(CParties parties) throws Throwable {
-        log.info("Found " + parties.size + " parties...");
 
         for (CParty party : parties) {
-            // do something with the party
-            party.about = "123";
+            party.about = "...";
 
             if (party instanceof COrganisation) {
                 COrganisation org = (COrganisation) party;
 
-                org.name = "blah 123";
+                // if it's an organisation, change it's name
+                org.name = "...";
             }
 
-            // save changes
+            // save changes - blocking
             WS.Response response = party.save().get();
             if (response.getStatus() < 200 || response.getStatus() > 206) {
                 log.info("Failure saving party " + party + ", response " + response.getStatus() + " " + response.getStatusText());
             }
         }
+
     }
 });
 ```
