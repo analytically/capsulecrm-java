@@ -17,14 +17,14 @@ Add this dependency to your project's POM file:
     <dependency>
       <groupId>uk.co.coen</groupId>
       <artifactId>capsulecrm-java</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
 
 ### Using with SBT
 
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
-    "uk.co.coen" % "capsulecrm-java" % "1.0.1"
+    "uk.co.coen" % "capsulecrm-java" % "1.0.2"
 
 ### Configuration
 

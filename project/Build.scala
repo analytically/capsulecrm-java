@@ -8,20 +8,25 @@ object Build extends sbt.Build {
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
     version := buildVersion,
     organization := "uk.co.coen",
+    organizationName := "Coen Recruitment",
+    organizationHomepage := Some(new URL("http://www.coen.co.uk")),
+    description := "Unofficial Capsule CRM API Java Client",
+    startYear := Some(2011),
     resolvers += Resolver.typesafeRepo("releases"),
     scalaVersion := "2.10.1",
     parallelExecution in Test := false,
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v"),
+
     libraryDependencies += "play" %% "play-java" % playVersion,
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.4",
-    crossPaths := false,
-
       // testing
     libraryDependencies += "play" %% "play-test" % playVersion % "test",
     libraryDependencies += "org.specs2" %% "specs2" % "1.14" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.2" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10-M4" % "test",
 
+    crossPaths := false,
+    autoScalaLibrary := false,
     publishMavenStyle := true,
     publishTo <<= version {
       v: String =>
