@@ -14,17 +14,21 @@ Java 6 or later. A Capsule CRM account and token.
 
 Add this dependency to your project's POM file:
 
-    <dependency>
-      <groupId>uk.co.coen</groupId>
-      <artifactId>capsulecrm-java</artifactId>
-      <version>1.0.2</version>
-    </dependency>
+```xml
+<dependency>
+  <groupId>uk.co.coen</groupId>
+  <artifactId>capsulecrm-java</artifactId>
+  <version>1.0.2</version>
+</dependency>
+```
 
 ### Using with SBT
 
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
-    "uk.co.coen" % "capsulecrm-java" % "1.0.2"
+```scala
+"uk.co.coen" % "capsulecrm-java" % "1.0.2"
+```
 
 ### Configuration
 
@@ -56,8 +60,7 @@ all person annotations, or `http://yourhost/cse/organisations` for all organisat
 
 See [Hosting the Annotation Files Yourself](https://developers.google.com/custom-search/docs/annotations#host) for more details.
 
-Usage Examples
---------------
+### Usage Examples
 
 Start by importing the client package and the necessary Play! classes:
 
@@ -116,7 +119,8 @@ party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 
 Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/test/java/uk/co/coen/capsulecrm/client) for more examples.
 
-License
--------
+### License
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+Copyright 2013 Coen Recruitment Ltd - www.coen.co.uk. All rights reserved.
