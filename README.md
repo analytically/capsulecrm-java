@@ -27,7 +27,7 @@ Add this dependency to your project's POM file:
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
 ```scala
-"uk.co.coen" % "capsulecrm-java" % "1.0.2"
+libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.0.2"
 ```
 
 ### Configuration
