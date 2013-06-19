@@ -13,7 +13,7 @@ object Build extends sbt.Build {
     description := "Unofficial Capsule CRM API Java Client",
     startYear := Some(2011),
     resolvers += Resolver.typesafeRepo("releases"),
-    scalaVersion := "2.10.1",
+    scalaVersion := "2.10.2",
     parallelExecution in Test := false,
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v"),
 
@@ -21,7 +21,6 @@ object Build extends sbt.Build {
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.4",
       // testing
     libraryDependencies += "play" %% "play-test" % playVersion % "test",
-    libraryDependencies += "org.specs2" %% "specs2" % "1.14" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.2" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10-M4" % "test",
 

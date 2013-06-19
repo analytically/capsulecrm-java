@@ -1,17 +1,29 @@
-# Extracted from https://github.com/ulrich/macaron-factory/blob/master/.gitignore
-# Ignore all dotfiles...
-.*
-# except for .gitignore and .travis.yml
-!.gitignore
-!.travis.yml
+# SBT
+boot/
+lib_managed/
+src_managed/
+test-output/
+target/
+.history
 
-# Ignore Play! working directory #
-db
-eclipse
-log
-logs
-precompiled
-tmp
-test-result
-eclipse
-server.pid
+# IntelliJ
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.cache
+.classpath
+.project
+.scala_dependencies
+.settings
+.target/
+
+# Mac
+.DS_Store
+
+# Other
+*.pyc
