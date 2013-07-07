@@ -4,7 +4,7 @@ capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecr
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
 Depends on [the Play WS API](http://www.playframework.com/documentation/2.1.1/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
 
-Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) on Twitter for updates.
+Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) for updates.
 
 ### Requirements
 
