@@ -40,9 +40,13 @@ object Build extends sbt.Build {
     pomExtra := (
       <url>http://coenrecruitment.github.io/capsulecrm-java/</url>
       <issueManagement>
-        <url>https://github.com/coenrecruitment/capsulecrm-java/issues</url>
         <system>GitHub Issues</system>
+        <url>https://github.com/coenrecruitment/capsulecrm-java/issues</url>
       </issueManagement>
+      <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/coenrecruitment/capsulecrm-java</url>
+      </ciManagement>
       <licenses>
         <license>
           <name>Apache 2</name>
@@ -51,8 +55,9 @@ object Build extends sbt.Build {
         </license>
       </licenses>
       <scm>
-        <url>git@github.com:coenrecruitment/capsulecrm-java.git</url>
+        <url>https://github.com/coenrecruitment/capsulecrm-java</url>
         <connection>scm:git:git@github.com:coenrecruitment/capsulecrm-java.git</connection>
+        <developerConnection>scm:git:git@github.com:coenrecruitment/capsulecrm-java.git</developerConnection>
       </scm>
       <developers>
         <developer>
