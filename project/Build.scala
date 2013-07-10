@@ -2,10 +2,11 @@ import sbt._
 import Keys._
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.0.2"
+  lazy val buildVersion = "1.0.3"
   lazy val playVersion = "2.1.2"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
+    shellPrompt := ShellPrompt.buildShellPrompt,
     version := buildVersion,
     organization := "uk.co.coen",
     organizationName := "Coen Recruitment",
@@ -19,7 +20,8 @@ object Build extends sbt.Build {
 
     libraryDependencies += "play" %% "play-java" % playVersion,
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.4",
-      // testing
+
+    // testing
     libraryDependencies += "play" %% "play-test" % playVersion % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.2" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10-M4" % "test",
@@ -37,6 +39,10 @@ object Build extends sbt.Build {
     },
     pomExtra := (
       <url>http://coenrecruitment.github.io/capsulecrm-java/</url>
+      <issueManagement>
+        <url>https://github.com/coenrecruitment/capsulecrm-java/issues</url>
+        <system>GitHub Issues</system>
+      </issueManagement>
       <licenses>
         <license>
           <name>Apache 2</name>
@@ -52,9 +58,40 @@ object Build extends sbt.Build {
         <developer>
           <id>analytically</id>
           <name>Mathias Bogaert</name>
-          <url>http://coen.co.uk</url>
+          <url>http://twitter.com/analytically</url>
+          <organization>Coen Recruitment</organization>
+          <organizationUrl>http://www.coen.co.uk</organizationUrl>
         </developer>
       </developers>
       )
   )
+}
+
+// Shell prompt which show the current project and git branch
+object ShellPrompt {
+  object devnull extends ProcessLogger {
+    def info(s: => String) {}
+    def error(s: => String) {}
+    def buffer[T](f: => T): T = f
+  }
+
+  val buildShellPrompt = {
+    val LGREEN = "\033[1;32m"
+    val LBLUE = "\033[01;34m"
+
+    (state: State) => {
+      val currProject = Project.extract(state).currentProject.id
+      if (System.getProperty("sbt.nologformat", "false") != "true") {
+        def currBranch = (
+          ("git status -sb" lines_! devnull headOption)
+            getOrElse "-" stripPrefix "## "
+          )
+
+        "%s%s%s:%s%s%s » ".format(LBLUE, currProject, scala.Console.WHITE, LGREEN, currBranch, scala.Console.WHITE)
+      }
+      else {
+        "%s%s%s » ".format(LBLUE, currProject, scala.Console.WHITE)
+      }
+    }
+  }
 }
