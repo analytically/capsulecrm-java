@@ -32,7 +32,7 @@ libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.0.2"
 
 ### Configuration
 
-In your Play! application's `conf/application.conf`, add your URL and Capsule CRM API token.
+In your application's `application.conf`, add your URL and Capsule CRM API token.
 Capsule CRM users can find their API token by visiting `My Preferences` via their username menu in the Capsule navigation bar.
 
 ```ruby
@@ -121,6 +121,6 @@ Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/
 
 ### License
 
-Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
-
 Copyright 2013 Coen Recruitment Ltd - www.coen.co.uk. All rights reserved.
+
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
