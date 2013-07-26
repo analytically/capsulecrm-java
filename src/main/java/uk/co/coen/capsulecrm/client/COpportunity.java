@@ -24,6 +24,7 @@ public class COpportunity extends CapsuleEntity {
     public String milestone;
     public String probability;
     public String owner;
+    public Integer trackId;
 
     @Override
     protected String readContextPath() {
@@ -134,6 +135,7 @@ public class COpportunity extends CapsuleEntity {
                 .add("milestone", milestone)
                 .add("probability", probability)
                 .add("owner", owner)
+                .add("trackId", trackId)
                 .toString();
     }
 }

@@ -13,6 +13,7 @@ public class CCase extends CapsuleEntity {
     public Integer partyId;
     public DateTime closeDate;
     public String owner;
+    public Integer trackId;
 
     @Override
     protected String readContextPath() {
@@ -28,6 +29,7 @@ public class CCase extends CapsuleEntity {
                 .add("partyId", partyId)
                 .add("closeDate", closeDate)
                 .add("owner", owner)
+                .add("trackId", trackId)
                 .toString();
     }
 }

@@ -42,8 +42,12 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.addImplicitCollection(CTasks.class, "tasks", CTask.class);
         xstream.alias("task", CTask.class);
 
-        xstream.alias("users", CTasks.class);
-        xstream.addImplicitCollection(CUser.class, "users", CUser.class);
+        xstream.alias("tracks", CTracks.class);
+        xstream.addImplicitCollection(CTracks.class, "tracks", CTrack.class);
+        xstream.alias("track", CTrack.class);
+
+        xstream.alias("users", CUsers.class);
+        xstream.addImplicitCollection(CUsers.class, "users", CUser.class);
         xstream.alias("user", CUser.class);
 
         xstream.alias("history", CHistory.class);

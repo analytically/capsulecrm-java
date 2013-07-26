@@ -18,7 +18,7 @@ Add this dependency to your project's POM file:
 <dependency>
   <groupId>uk.co.coen</groupId>
   <artifactId>capsulecrm-java</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 ```
 
@@ -27,12 +27,12 @@ Add this dependency to your project's POM file:
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
 ```scala
-libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.0.2"
+libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.0.3"
 ```
 
 ### Configuration
 
-In your application's `application.conf`, add your URL and Capsule CRM API token.
+In your Play! application's `conf/application.conf`, add your URL and Capsule CRM API token.
 Capsule CRM users can find their API token by visiting `My Preferences` via their username menu in the Capsule navigation bar.
 
 ```ruby
@@ -121,6 +121,6 @@ Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/
 
 ### License
 
-Copyright 2013 Coen Recruitment Ltd - www.coen.co.uk. All rights reserved.
-
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+Copyright 2013 Coen Recruitment Ltd - www.coen.co.uk.
