@@ -49,11 +49,11 @@ ws.timeout=400000
 
 ### Google Custom Search Engine for your Capsule CRM contact's websites
 
-If you need a [Google Custom Search](http://www.google.co.uk/cse/) searching all websites of your contacts, see the `sample`
+If you need a [Google Custom Search](http://www.google.co.uk/cse/) searching all websites of your contacts, see the `gcse`
 directory for a Play! application hosting custom search annotations files. Point Google Custom Search to a server hosting this application.
 
-* In `sample/conf/application.conf`, change `capsulecrm.url` and `capsulecrm.token` to your Capsule CRM account details
-* In `sample/conf/application.conf`, change `gcs.label` to your Custom Search Engine label.
+* In `gcse/conf/application.conf`, change `capsulecrm.url` and `capsulecrm.token` to your Capsule CRM account details
+* In `gcse/conf/application.conf`, change `gcs.label` to your Custom Search Engine label.
 * Run the application by using the `play run` command, see [here](http://www.playframework.com/documentation/2.0/PlayConsole) for more information.
 * Under `Control panel > Advanced > Add annotations feed`, add `http://yourhost/cse/persons` for
 all person annotations, or `http://yourhost/cse/organisations` for all organisation annotations.
