@@ -3,7 +3,7 @@ import Keys._
 
 object Build extends sbt.Build {
   lazy val buildVersion = "1.0.3"
-  lazy val playVersion = "2.1.2"
+  lazy val playVersion = "2.1.5"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
     shellPrompt := ShellPrompt.buildShellPrompt,
