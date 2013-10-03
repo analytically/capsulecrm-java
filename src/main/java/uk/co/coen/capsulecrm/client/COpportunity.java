@@ -8,9 +8,6 @@ import play.libs.WS;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Mathias Bogaert
- */
 public class COpportunity extends CapsuleEntity {
     public String name;
     public String description;

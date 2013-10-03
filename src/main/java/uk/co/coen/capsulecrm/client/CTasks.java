@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Mathias Bogaert
- */
 public class CTasks implements Iterable<CTask> {
     public int size;
     public List<CTask> tasks;

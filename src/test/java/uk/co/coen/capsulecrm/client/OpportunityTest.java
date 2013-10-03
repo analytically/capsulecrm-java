@@ -5,9 +5,6 @@ import org.junit.Test;
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.running;
 
-/**
- * @author Mathias Bogaert
- */
 public class OpportunityTest extends CapsuleTest {
     @Test
     public void testSaveDelete() {

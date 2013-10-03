@@ -4,6 +4,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,10 +27,8 @@ import static play.test.Helpers.running;
  * Integration tests or demo's that serve a greater purpose.
  * <ul>
  * <li>Skype: creates Skype social network links from phone numbers of your contacts (ignores fax numbers and deletes duplicate numbers)</li>
- * <li>Twitter: creates Twitter social network lniks by visiting your contacts' websites and looking for a screen name</li>
+ * <li>Twitter: creates Twitter social network links by visiting your contacts' websites and looking for a screen name</li>
  * </ul>
- *
- * @author Mathias Bogaert
  */
 public class SocialNetworkLinks extends CapsuleTest {
     // TODO logging isn't working in Play 2.0 unit tests, find a solution
@@ -93,7 +92,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                             }
 
                             if (save) {
-                                F.Promise.waitAll(deletePromises).get();
+                                F.Promise.sequence(deletePromises).get();
 
                                 System.out.println("Saving " + party);
 
@@ -173,7 +172,7 @@ public class SocialNetworkLinks extends CapsuleTest {
             public void run() {
                 System.out.println("addTwitterLinks - listing all parties...");
 
-                CParty.listAll().onRedeem(new F.Callback<CParties>() {
+                CParty.listModifiedSince(new DateTime().minusWeeks(1)).onRedeem(new F.Callback<CParties>() {
                     @Override
                     public void invoke(CParties parties) throws Throwable {
 

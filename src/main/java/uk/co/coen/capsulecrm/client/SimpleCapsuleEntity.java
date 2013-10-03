@@ -10,9 +10,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Mathias Bogaert
- */
 public abstract class SimpleCapsuleEntity extends CIdentifiable {
     static final XStream xstream;
 
@@ -90,26 +87,16 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     }
 
     public F.Promise<WS.Response> save() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Writer writer;
-        try {
-            writer = new OutputStreamWriter(outputStream, "UTF-8");
-            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        xstream.toXML(this, writer);
-
         if (id != null) {
             return WS.url(capsuleUrl + "/api" + writeContextPath() + "/" + id)
                     .setHeader("Content-Type", "text/xml; charset=utf-8")
                     .setAuth(capsuleToken, "")
-                    .put(new ByteArrayInputStream(outputStream.toByteArray()));
+                    .put(xstream.toXML(this));
         } else {
             return WS.url(capsuleUrl + "/api" + writeContextPath())
                     .setHeader("Content-Type", "text/xml; charset=utf-8")
                     .setAuth(capsuleToken, "")
-                    .post(new ByteArrayInputStream(outputStream.toByteArray())).map(new F.Function<WS.Response, WS.Response>() {
+                    .post(xstream.toXML(this)).map(new F.Function<WS.Response, WS.Response>() {
                         @Override
                         public WS.Response apply(WS.Response response) throws Throwable {
                             String location = response.getHeader("Location");

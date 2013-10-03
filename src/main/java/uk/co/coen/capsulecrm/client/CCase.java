@@ -3,9 +3,6 @@ package uk.co.coen.capsulecrm.client;
 import com.google.common.base.Objects;
 import org.joda.time.DateTime;
 
-/**
- * @author Mathias Bogaert
- */
 public class CCase extends CapsuleEntity {
     public String status;
     public String name;

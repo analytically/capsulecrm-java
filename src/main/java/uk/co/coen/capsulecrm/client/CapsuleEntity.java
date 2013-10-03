@@ -2,12 +2,10 @@ package uk.co.coen.capsulecrm.client;
 
 import com.thoughtworks.xstream.io.xml.DomReader;
 import org.joda.time.DateTime;
+import play.Logger;
 import play.libs.F;
 import play.libs.WS;
 
-/**
- * @author Mathias Bogaert
- */
 public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     public DateTime createdOn;
     public DateTime updatedOn;

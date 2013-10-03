@@ -9,9 +9,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-/**
- * @author Mathias Bogaert
- */
 public class JodaDateTimeXStreamConverter implements Converter {
     public static final DateTimeFormatter dt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 

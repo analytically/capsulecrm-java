@@ -5,9 +5,6 @@ import com.google.common.base.Objects;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Mathias Bogaert
- */
 public class CCases implements Iterable<CCase> {
     public int size;
     public List<CCase> cases;

@@ -6,9 +6,6 @@ import org.joda.time.DateTime;
 import play.libs.F;
 import play.libs.WS;
 
-/**
- * @author Mathias Bogaert
- */
 public class CTask extends SimpleCapsuleEntity {
     public String description;
     public String detail;

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Mathias Bogaert
- */
 public class COpportunities implements Iterable<COpportunity> {
     public List<COpportunity> opportunities;
 

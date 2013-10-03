@@ -9,9 +9,6 @@ import play.libs.WS;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Mathias Bogaert
- */
 public abstract class CParty extends CapsuleEntity {
     public List<CContact> contacts; // mixes Address, Phone, Email, Website
 

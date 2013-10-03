@@ -5,9 +5,6 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-/**
- * @author Mathias Bogaert
- */
 public class CHistoryItem extends CIdentifiable {
     public String type = "Note";
     public DateTime entryDate;

@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Mathias Bogaert
- */
 public class CParties implements Iterable<CParty> {
     public int size;
 

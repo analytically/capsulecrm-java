@@ -1,8 +1,5 @@
 package uk.co.coen.capsulecrm.client;
 
-/**
- * @author Mathias Bogaert
- */
 public enum WebService {
     URL,
     SKYPE,

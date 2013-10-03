@@ -9,7 +9,7 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       javaCore,
-      "uk.co.coen" % "capsulecrm-java" % "1.0.3"
+      "uk.co.coen" % "capsulecrm-java" % "1.1.0"
     )
 
     val main = play.Project(appName, appVersion, appDependencies).settings(

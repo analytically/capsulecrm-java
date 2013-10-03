@@ -2,7 +2,7 @@ capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecr
 ===============
 
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
-Depends on [the Play WS API](http://www.playframework.com/documentation/2.1.1/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
+Depends on [the Play Framework 2.2 WS API](http://www.playframework.com/documentation/2.2.0/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) for updates.
 
@@ -18,7 +18,7 @@ Add this dependency to your project's POM file:
 <dependency>
   <groupId>uk.co.coen</groupId>
   <artifactId>capsulecrm-java</artifactId>
-  <version>1.0.3</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
@@ -27,12 +27,12 @@ Add this dependency to your project's POM file:
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
 ```scala
-libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.0.3"
+libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.1.0"
 ```
 
 ### Configuration
 
-In your Play! application's `conf/application.conf`, add your URL and Capsule CRM API token.
+In your Play Framework application's `conf/application.conf`, add your URL and Capsule CRM API token.
 Capsule CRM users can find their API token by visiting `My Preferences` via their username menu in the Capsule navigation bar.
 
 ```ruby
@@ -50,7 +50,7 @@ ws.timeout=400000
 ### Google Custom Search Engine for your Capsule CRM contact's websites
 
 If you need a [Google Custom Search](http://www.google.co.uk/cse/) searching all websites of your contacts, see the `gcse`
-directory for a Play! application hosting custom search annotations files. Point Google Custom Search to a server hosting this application.
+directory for a Play Framework application hosting custom search annotations files. Point Google Custom Search to a server hosting this application.
 
 * In `gcse/conf/application.conf`, change `capsulecrm.url` and `capsulecrm.token` to your Capsule CRM account details
 * In `gcse/conf/application.conf`, change `gcs.label` to your Custom Search Engine label.
@@ -62,7 +62,7 @@ See [Hosting the Annotation Files Yourself](https://developers.google.com/custom
 
 ### Usage Examples
 
-Start by importing the client package and the necessary Play! classes:
+Start by importing the client package and the necessary Play Framework classes:
 
 ```java
 import uk.co.coen.capsulecrm.client.*

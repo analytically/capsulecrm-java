@@ -2,8 +2,8 @@ import sbt._
 import Keys._
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.0.3"
-  lazy val playVersion = "2.1.5"
+  lazy val buildVersion = "1.1.0"
+  lazy val playVersion = "2.2.0"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
     shellPrompt := ShellPrompt.buildShellPrompt,
@@ -18,13 +18,13 @@ object Build extends sbt.Build {
     parallelExecution in Test := false,
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v"),
 
-    libraryDependencies += "play" %% "play-java" % playVersion,
-    libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.4",
+    libraryDependencies += "com.typesafe.play" %% "play-java" % playVersion,
+    libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.5",
 
     // testing
-    libraryDependencies += "play" %% "play-test" % playVersion % "test",
+    libraryDependencies += "com.typesafe.play" %% "play-test" % playVersion % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.2" % "test",
-    libraryDependencies += "com.novocode" % "junit-interface" % "0.10-M4" % "test",
+    libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
 
     crossPaths := false,
     autoScalaLibrary := false,

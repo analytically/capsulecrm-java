@@ -3,9 +3,6 @@ package uk.co.coen.capsulecrm.client;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Mathias Bogaert
- */
 public class CMilestones implements Iterable<CMilestone> {
     public List<CMilestone> milestones;
 

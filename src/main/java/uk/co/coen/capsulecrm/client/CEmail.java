@@ -2,9 +2,6 @@ package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
 
-/**
- * @author Mathias Bogaert
- */
 public class CEmail extends CContact {
     public String emailAddress;
 

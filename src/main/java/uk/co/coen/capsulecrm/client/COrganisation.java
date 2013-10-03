@@ -5,9 +5,6 @@ import com.thoughtworks.xstream.io.xml.DomReader;
 import play.libs.F;
 import play.libs.WS;
 
-/**
- * @author Mathias Bogaert
- */
 public class COrganisation extends CParty {
     public String name;
 
