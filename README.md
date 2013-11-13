@@ -1,4 +1,4 @@
-capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java)
+capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java) [![Build Status](https://drone.io/github.com/analytically/capsulecrm-java/status.png)](https://drone.io/github.com/analytically/capsulecrm-java/latest)
 ===============
 
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
