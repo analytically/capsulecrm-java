@@ -3,7 +3,7 @@ import Keys._
 
 object Build extends sbt.Build {
   lazy val buildVersion = "1.1.0"
-  lazy val playVersion = "2.2.0"
+  lazy val playVersion = "2.2.1"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
     shellPrompt := ShellPrompt.buildShellPrompt,
@@ -23,7 +23,7 @@ object Build extends sbt.Build {
 
     // testing
     libraryDependencies += "com.typesafe.play" %% "play-test" % playVersion % "test",
-    libraryDependencies += "org.jsoup" % "jsoup" % "1.7.2" % "test",
+    libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
 
     crossPaths := false,
