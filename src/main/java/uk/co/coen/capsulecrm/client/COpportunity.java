@@ -1,12 +1,13 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
-import com.thoughtworks.xstream.io.xml.DomReader;
 import org.joda.time.DateTime;
-import play.libs.F;
-import play.libs.WS;
 
+import java.io.IOException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import static com.google.common.util.concurrent.Futures.transform;
 
 public class COpportunity extends CapsuleEntity {
     public String name;
@@ -33,88 +34,57 @@ public class COpportunity extends CapsuleEntity {
         return "/party/" + partyId + "/opportunity";
     }
 
-    public static F.Promise<CMilestones> listMilestones() {
-        return WS.url(capsuleUrl + "/api/opportunity/milestones")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CMilestones>() {
-                    @Override
-                    public CMilestones apply(WS.Response response) throws Throwable {
-                        return (CMilestones) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<CMilestones> listMilestones() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity/milestones")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CMilestones>(xstream));
     }
 
-    public static F.Promise<COpportunities> listAll() {
+    public static Future<COpportunities> listAll() throws IOException {
         return listAll(12, TimeUnit.SECONDS);
     }
 
-    public static F.Promise<COpportunities> listAll(long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/opportunity")
-                .setTimeout((int) unit.toMillis(time))
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, COpportunities>() {
-                    @Override
-                    public COpportunities apply(WS.Response response) throws Throwable {
-                        if (response.getStatus() == 401)
-                            throw new RuntimeException("Not Authorized, check your Play configuration.");
-                        return (COpportunities) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<COpportunities> listAll(long time, TimeUnit unit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<COpportunities>(xstream));
     }
 
-    public static F.Promise<COpportunities> listByTag(String tag) {
+    public static Future<COpportunities> listByTag(String tag) throws IOException {
         return listByTag(tag, 12, TimeUnit.SECONDS);
     }
 
-    public static F.Promise<COpportunities> listByTag(String tag, long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/opportunity")
-                .setTimeout((int) unit.toMillis(time))
-                .setQueryParameter("tag", tag)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, COpportunities>() {
-                    @Override
-                    public COpportunities apply(WS.Response response) throws Throwable {
-                        return (COpportunities) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<COpportunities> listByTag(String tag, long time, TimeUnit unit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
+                .addQueryParameter("tag", tag)
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<COpportunities>(xstream));
     }
 
-    public static F.Promise<COpportunities> listModifiedSince(DateTime modifiedSince) {
+    public static Future<COpportunities> listModifiedSince(DateTime modifiedSince) throws IOException {
         return listModifiedSince(modifiedSince, 12, TimeUnit.SECONDS);
     }
 
-    public static F.Promise<COpportunities> listModifiedSince(DateTime modifiedSince, long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/opportunity")
-                .setTimeout((int) unit.toMillis(time))
-                .setQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, COpportunities>() {
-                    @Override
-                    public COpportunities apply(WS.Response response) throws Throwable {
-                        return (COpportunities) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<COpportunities> listModifiedSince(DateTime modifiedSince, long time, TimeUnit unit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
+                .addQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<COpportunities>(xstream));
     }
 
-    public static F.Promise<COpportunities> listByParty(CParty party) {
+    public static Future<COpportunities> listByParty(CParty party) throws IOException {
         return listByParty(party, 12, TimeUnit.SECONDS);
     }
 
-    public static F.Promise<COpportunities> listByParty(CParty party, long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/party/" + party.id + "/opportunity")
-                .setTimeout((int) unit.toMillis(time))
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, COpportunities>() {
-                    @Override
-                    public COpportunities apply(WS.Response response) throws Throwable {
-                        return (COpportunities) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<COpportunities> listByParty(CParty party, long time, TimeUnit unit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + party.id + "/opportunity")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<COpportunities>(xstream));
     }
 
     @Override

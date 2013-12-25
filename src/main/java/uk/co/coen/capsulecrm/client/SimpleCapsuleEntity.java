@@ -1,19 +1,37 @@
 package uk.co.coen.capsulecrm.client;
 
+import com.ning.http.client.AsyncCompletionHandler;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.Realm;
+import com.ning.http.client.Response;
 import com.thoughtworks.xstream.XStream;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import uk.co.coen.capsulecrm.client.utils.JodaDateTimeXStreamConverter;
-import play.Play;
-import play.libs.F;
-import play.libs.WS;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public abstract class SimpleCapsuleEntity extends CIdentifiable {
+    static Config conf = ConfigFactory.load();
+    static final String capsuleUrl = conf.getString("capsulecrm.url");
+    static final String capsuleToken = conf.getString("capsulecrm.token");
+
+    static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+    static final Realm realm;
+
     static final XStream xstream;
 
     static {
+        realm = new Realm.RealmBuilder()
+                .setPrincipal(capsuleToken)
+                .setPassword("x")
+                .setUsePreemptiveAuth(true)
+                .setScheme(Realm.AuthScheme.BASIC)
+                .build();
+
         xstream = new XStream();
         xstream.registerConverter(new JodaDateTimeXStreamConverter());
         xstream.addDefaultImplementation(ArrayList.class, List.class);
@@ -71,9 +89,6 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.alias("milestone", CMilestone.class);
     }
 
-    static final String capsuleUrl = Play.application().configuration().getString("capsulecrm.url");
-    static final String capsuleToken = Play.application().configuration().getString("capsulecrm.token");
-
     /**
      * @return The context path where to submit GET and DELETE requests.
      */
@@ -86,22 +101,24 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         return readContextPath();
     }
 
-    public F.Promise<WS.Response> save() {
+    public Future<Response> save() throws IOException {
         if (id != null) {
-            return WS.url(capsuleUrl + "/api" + writeContextPath() + "/" + id)
-                    .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "")
-                    .put(xstream.toXML(this));
+            return asyncHttpClient.preparePut(capsuleUrl + "/api" + writeContextPath() + "/" + id)
+                    .addHeader("Accept", "application/xml")
+                    .setRealm(realm)
+                    .setBody(xstream.toXML(this))
+                    .execute();
         } else {
-            return WS.url(capsuleUrl + "/api" + writeContextPath())
-                    .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "")
-                    .post(xstream.toXML(this)).map(new F.Function<WS.Response, WS.Response>() {
+            return asyncHttpClient.preparePost(capsuleUrl + "/api" + writeContextPath())
+                    .addHeader("Content-Type", "application/xml")
+                    .setRealm(realm)
+                    .setBody(xstream.toXML(this))
+                    .execute(new AsyncCompletionHandler<Response>() {
                         @Override
-                        public WS.Response apply(WS.Response response) throws Throwable {
+                        public Response onCompleted(Response response) throws Exception {
                             String location = response.getHeader("Location");
                             if (location == null) {
-                                throw new RuntimeException("null location, cannot assign id to " + this + ", status is " + response.getStatus() + " " + response.getStatusText());
+                                throw new RuntimeException("null location, cannot assign id to " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
                             }
                             id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
                             return response;
@@ -110,9 +127,9 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         }
     }
 
-    public F.Promise<WS.Response> delete() {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id)
-                .setAuth(capsuleToken, "")
-                .delete();
+    public Future<Response> delete() throws IOException {
+        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id)
+                .setRealm(realm)
+                .execute();
     }
 }

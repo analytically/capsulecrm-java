@@ -1,19 +1,23 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.collect.Lists;
-import com.thoughtworks.xstream.io.xml.DomReader;
+import com.ning.http.client.Response;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.joda.time.DateTime;
-import play.libs.F;
-import play.libs.WS;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import static com.google.common.util.concurrent.Futures.transform;
 
 public abstract class CParty extends CapsuleEntity {
     public List<CContact> contacts; // mixes Address, Phone, Email, Website
 
     public String about;
     public String pictureURL;
+    public DateTime lastContactedOn;
 
     public abstract String getName();
 
@@ -73,115 +77,59 @@ public abstract class CParty extends CapsuleEntity {
         return "/party";
     }
 
-    public static F.Promise<CParties> search(String query) {
+    public static Future<CParties> search(String query) throws IOException {
         return search(query, 12, TimeUnit.SECONDS);
     }
 
-    public static F.Promise<CParties> search(String query, long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/party")
-                .setTimeout((int) unit.toMillis(time))
-                .setQueryParameter("q", query)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CParties>() {
-                    @Override
-                    public CParties apply(WS.Response response) throws Throwable {
-                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<CParties> search(String query, long time, TimeUnit unit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+                .addQueryParameter("q", query)
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CParties>(xstream));
     }
 
-    public static F.Promise<CParties> listAll() {
-        return listAll(12, TimeUnit.SECONDS);
+    public static Future<CParties> listAll() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CParties>(xstream));
     }
 
-    public static F.Promise<CParties> listAll(long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/party")
-                .setTimeout((int) unit.toMillis(time))
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CParties>() {
-                    @Override
-                    public CParties apply(WS.Response response) throws Throwable {
-                        if (response.getStatus() == 401)
-                            throw new RuntimeException("Not Authorized, check your Play configuration.");
-                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<CParties> listModifiedSince(DateTime modifiedSince) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+                .addQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CParties>(xstream));
     }
 
-    public static F.Promise<CParties> listModifiedSince(DateTime modifiedSince) {
-        return listModifiedSince(modifiedSince, 12, TimeUnit.SECONDS);
+    public static Future<CParties> listByEmailAddress(String emailAddress) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+                .addQueryParameter("email", emailAddress)
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CParties>(xstream));
     }
 
-    public static F.Promise<CParties> listModifiedSince(DateTime modifiedSince, long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/party")
-                .setTimeout((int) unit.toMillis(time))
-                .setQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CParties>() {
-                    @Override
-                    public CParties apply(WS.Response response) throws Throwable {
-                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<CParties> listByTag(String tag) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+                .addQueryParameter("tag", tag)
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CParties>(xstream));
     }
 
-    public static F.Promise<CParties> listByEmailAddress(String emailAddress) {
-        return listByEmailAddress(emailAddress, 12, TimeUnit.SECONDS);
+    public static Future<CParty> byId(Integer id) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + id)
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CParty>(xstream));
     }
 
-    public static F.Promise<CParties> listByEmailAddress(String emailAddress, long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/party")
-                .setTimeout((int) unit.toMillis(time))
-                .setQueryParameter("email", emailAddress)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CParties>() {
-                    @Override
-                    public CParties apply(WS.Response response) throws Throwable {
-                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
-    }
-
-    public static F.Promise<CParties> listByTag(String tag) {
-        return listByTag(tag, 12, TimeUnit.SECONDS);
-    }
-
-    public static F.Promise<CParties> listByTag(String tag, long time, TimeUnit unit) {
-        return WS.url(capsuleUrl + "/api/party")
-                .setTimeout((int) unit.toMillis(time))
-                .setQueryParameter("tag", tag)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CParties>() {
-                    @Override
-                    public CParties apply(WS.Response response) throws Throwable {
-                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
-    }
-
-    public static F.Promise<CParty> byId(Integer id) {
-        return WS.url(capsuleUrl + "/api/party/" + id)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CParty>() {
-                    @Override
-                    public CParty apply(WS.Response response) throws Throwable {
-                        if (response.getStatus() < 200 || response.getStatus() > 299)
-                            throw new IllegalStateException("Response is not OK: " + response.getStatus() + " " + response.getStatusText());
-
-                        return (CParty) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
-    }
-
-    public F.Promise<WS.Response> deleteContact(CContact contact) {
-        return WS.url(capsuleUrl + "/api/party/" + id + "/contact/" + contact.id)
-                .setAuth(capsuleToken, "")
-                .delete();
+    public Future<Response> deleteContact(CContact contact) throws IOException {
+        return asyncHttpClient.prepareDelete(capsuleUrl + "/api/party/" + id + "/contact/" + contact.id)
+                .setRealm(realm)
+                .execute();
     }
 }

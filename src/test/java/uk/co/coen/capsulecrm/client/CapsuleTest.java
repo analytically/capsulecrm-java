@@ -1,34 +1,9 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.collect.ImmutableMap;
-import play.test.FakeApplication;
-import play.test.Helpers;
-import play.test.TestServer;
-
-import java.util.Map;
-
-/**
- * @author Mathias Bogaert
- */
 public abstract class CapsuleTest {
     protected int testPersonId;
 
-    public FakeApplication fakeApplication() {
-        Map<String, String> config = ImmutableMap.of(
-                "capsulecrm.url", "https://YOURS.capsulecrm.com",
-                "capsulecrm.token", "YOUR-TOKEN",
-                "ehcacheplugin", "disabled",
-                "ws.timeout", "30s",
-                "promise.akka.actor.typed.timeout", "30s");
-
-        return Helpers.fakeApplication(config);
-    }
-
-    public TestServer testServer(int port) {
-        return new TestServer(port, fakeApplication());
-    }
-
-    protected CPerson createTestPerson() {
+    protected CPerson createTestPerson() throws Exception {
         // create a test person
         CPerson testPerson = new CPerson();
         testPerson.title = Title.Dr;
@@ -45,7 +20,7 @@ public abstract class CapsuleTest {
         return testPerson;
     }
 
-    protected void deleteTestPerson() {
+    protected void deleteTestPerson() throws Exception {
         CPerson.byId(testPersonId).get().delete().get();
     }
 }

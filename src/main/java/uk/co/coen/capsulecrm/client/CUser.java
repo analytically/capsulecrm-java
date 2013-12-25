@@ -1,9 +1,11 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
-import com.thoughtworks.xstream.io.xml.DomReader;
-import play.libs.F;
-import play.libs.WS;
+
+import java.io.IOException;
+import java.util.concurrent.Future;
+
+import static com.google.common.util.concurrent.Futures.transform;
 
 public class CUser extends SimpleCapsuleEntity {
     public String username;
@@ -30,16 +32,10 @@ public class CUser extends SimpleCapsuleEntity {
         return "/users";
     }
 
-    public static F.Promise<CUsers> list() {
-        WS.WSRequestHolder holder = WS.url(capsuleUrl + "/api/users");
-
-        return holder.setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CUsers>() {
-                    @Override
-                    public CUsers apply(WS.Response response) throws Throwable {
-                        return (CUsers) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public static Future<CUsers> list() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/users")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CUsers>(xstream));
     }
 }

@@ -3,9 +3,10 @@ import Keys._
 
 object Build extends sbt.Build {
   lazy val buildVersion = "1.1.0"
-  lazy val playVersion = "2.2.1"
 
-  lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings).settings(
+  lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
+    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+    .settings(
     shellPrompt := ShellPrompt.buildShellPrompt,
     version := buildVersion,
     organization := "uk.co.coen",
@@ -14,16 +15,22 @@ object Build extends sbt.Build {
     description := "Unofficial Capsule CRM API Java Client",
     startYear := Some(2011),
     resolvers += Resolver.typesafeRepo("releases"),
-    scalaVersion := "2.10.2",
+    scalaVersion := "2.10.3",
     parallelExecution in Test := false,
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v"),
 
-    libraryDependencies += "com.typesafe.play" %% "play-java" % playVersion,
-    libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.5",
+    libraryDependencies += "com.google.guava" % "guava" % "15.0",
+    libraryDependencies += "joda-time" % "joda-time" % "2.3",
+    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5",
+    libraryDependencies += "com.typesafe" % "config" % "1.0.2",
+
+    libraryDependencies += "com.ning" % "async-http-client" % "1.7.22",
+    libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.6",
 
     // testing
-    libraryDependencies += "com.typesafe.play" %% "play-test" % playVersion % "test",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
+    libraryDependencies += "org.easytesting" % "fest-assert" % "1.4",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
 
     crossPaths := false,

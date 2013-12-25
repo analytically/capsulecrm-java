@@ -1,10 +1,15 @@
+
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
-import com.thoughtworks.xstream.io.xml.DomReader;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.Response;
 import org.joda.time.DateTime;
-import play.libs.F;
-import play.libs.WS;
+
+import java.io.IOException;
+import java.util.concurrent.Future;
+
+import static com.google.common.util.concurrent.Futures.transform;
 
 public class CTask extends SimpleCapsuleEntity {
     public String description;
@@ -47,63 +52,61 @@ public class CTask extends SimpleCapsuleEntity {
         return "/task";
     }
 
-    public static F.Promise<CTasks> list() {
+    public static Future<CTasks> list() throws IOException {
         return list(null, null, null, 0, 0);
     }
 
-    public static F.Promise<CTasks> list(int start, int limit) {
+    public static Future<CTasks> list(int start, int limit) throws IOException {
         return list(null, null, null, start, limit);
     }
 
-    public static F.Promise<CTasks> list(TaskStatus status) {
+    public static Future<CTasks> list(TaskStatus status) throws IOException {
         return list(null, null, status, 0, 0);
     }
 
-    public static F.Promise<CTasks> list(TaskStatus status, int start, int limit) {
+    public static Future<CTasks> list(TaskStatus status, int start, int limit) throws IOException {
         return list(null, null, status, start, limit);
     }
 
-    public static F.Promise<CTasks> list(String category, String user, TaskStatus status, int start, int limit) {
-        WS.WSRequestHolder holder = WS.url(capsuleUrl + "/api/tasks");
+    public static Future<CTasks> list(String category, String user, TaskStatus status, int start, int limit) throws IOException {
+        AsyncHttpClient.BoundRequestBuilder request = asyncHttpClient.prepareGet(capsuleUrl + "/api/tasks");
 
         if (category != null) {
-            holder.setQueryParameter("category", category);
+            request.addQueryParameter("category", category);
         }
         if (user != null) {
-            holder.setQueryParameter("user", user);
+            request.addQueryParameter("user", user);
         }
         if (status != null) {
-            holder.setQueryParameter("status", status.name());
+            request.addQueryParameter("status", status.name());
         }
         if (start != 0) {
-            holder.setQueryParameter("start", "" + start);
+            request.addQueryParameter("start", "" + start);
         }
         if (limit != 0) {
-            holder.setQueryParameter("limit", "" + limit);
+            request.addQueryParameter("limit", "" + limit);
         }
 
-        return holder.setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CTasks>() {
-                    @Override
-                    public CTasks apply(WS.Response response) throws Throwable {
-                        return (CTasks) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+        return transform(new ListenableFutureAdapter<>(request
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CTasks>(xstream));
     }
 
-    public F.Promise<WS.Response> complete() {
-        return WS.url(capsuleUrl + "/api/task/" + id + "/complete")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .post("");
+    public Future<Response> complete() throws IOException {
+        return asyncHttpClient.preparePost(capsuleUrl + "/api/task/" + id + "/complete")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .setBody("")
+                .execute();
     }
 
-    public F.Promise<WS.Response> reopen() {
-        return WS.url(capsuleUrl + "/api/task/" + id + "/reopen")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .post("");
+    public Future<Response> reopen() throws IOException {
+        return asyncHttpClient.preparePost(capsuleUrl + "/api/task/" + id + "/reopen")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .setBody("")
+                .execute();
     }
 
     @Override

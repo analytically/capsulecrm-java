@@ -2,7 +2,7 @@ capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecr
 ===============
 
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
-Depends on [the Play Framework 2.2 WS API](http://www.playframework.com/documentation/2.2.0/JavaWS), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
+Depends on [async-http-client](https://github.com/AsyncHttpClient/async-http-client), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) for updates.
 
@@ -32,7 +32,7 @@ libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.1.0"
 
 ### Configuration
 
-In your Play Framework application's `conf/application.conf`, add your URL and Capsule CRM API token.
+Add an `application.conf` property file to your application's classpath with the Capsule CRM url and token.
 Capsule CRM users can find their API token by visiting `My Preferences` via their username menu in the Capsule navigation bar.
 
 ```ruby
@@ -66,18 +66,14 @@ Start by importing the client package and the necessary Play Framework classes:
 
 ```java
 import uk.co.coen.capsulecrm.client.*
-import play.libs.F;
-import play.libs.WS;
 ```
 
 Fetch all parties, change something and save - [asynchronous](http://www.playframework.com/documentation/2.1.1/JavaAsync):
 
 ```java
-// perform callback when the list of parties is 'redeemed'
-CParty.listAll().onRedeem(new F.Callback<CParties>() {
+Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CParties>() {
     @Override
-    public void invoke(CParties parties) throws Throwable {
-
+    public void onSuccess(CParties parties) {
         for (CParty party : parties) {
             party.about = "...";
 
@@ -123,4 +119,4 @@ Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
-Copyright 2013 Coen Recruitment Ltd - www.coen.co.uk.
+Copyright 2013-2014 Coen Recruitment Ltd - www.coen.co.uk.

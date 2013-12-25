@@ -6,5 +6,6 @@ public enum Title {
     Mrs,
     Miss,
     Ms,
-    Dr
+    Dr,
+    Prof
 }

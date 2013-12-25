@@ -1,155 +1,144 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.thoughtworks.xstream.io.xml.DomReader;
+import com.ning.http.client.AsyncCompletionHandler;
+import com.ning.http.client.Response;
 import org.joda.time.DateTime;
-import play.Logger;
-import play.libs.F;
-import play.libs.WS;
+
+import java.io.IOException;
+import java.util.concurrent.Future;
+
+import static com.google.common.util.concurrent.Futures.transform;
 
 public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     public DateTime createdOn;
     public DateTime updatedOn;
 
-    public F.Promise<CCustomFields> listCustomFields() {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CCustomFields>() {
-                    @Override
-                    public CCustomFields apply(WS.Response response) throws Throwable {
-                        return (CCustomFields) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public Future<CCustomFields> listCustomFields() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()), new TransformHttpResponse<CCustomFields>(xstream));
     }
 
-    public F.Promise<WS.Response> add(final CCustomField customField) {
+    public Future<Response> add(final CCustomField customField) throws IOException {
         if (customField.id != null) {
-            return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
-                    .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "")
-                    .put(xstream.toXML(customField));
+            return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
+                    .addHeader("Accept", "application/xml")
+                    .setRealm(realm)
+                    .setBody(xstream.toXML(customField))
+                    .execute();
         } else {
-            return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
-                    .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "")
-                    .post(xstream.toXML(customField)).map(new F.Function<WS.Response, WS.Response>() {
+            return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
+                    .addHeader("Content-Type", "application/xml")
+                    .setRealm(realm)
+                    .setBody(xstream.toXML(customField))
+                    .execute(new AsyncCompletionHandler<Response>() {
                         @Override
-                        public WS.Response apply(WS.Response response) throws Throwable {
+                        public Response onCompleted(Response response) throws Exception {
                             // extract ID from location
                             String location = response.getHeader("Location");
                             if (location == null) {
-                                throw new RuntimeException("null location, cannot assign id to custom field " + this + ", status is " + response.getStatus() + " " + response.getStatusText());
+                                throw new RuntimeException("null location, cannot assign id to custom field " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
                             }
                             customField.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
-
                             return response;
                         }
                     });
         }
     }
 
-    public F.Promise<WS.Response> remove(CCustomField customField) {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
-                .setAuth(capsuleToken, "")
-                .delete();
+    public Future<Response> remove(CCustomField customField) throws IOException {
+        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
+                .setRealm(realm)
+                .execute();
     }
 
-    public F.Promise<CHistory> listHistory() {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CHistory>() {
-                    @Override
-                    public CHistory apply(WS.Response response) throws Throwable {
-                        return (CHistory) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public Future<CHistory> listHistory() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()),
+                new TransformHttpResponse<CHistory>(xstream));
     }
 
-    public F.Promise<WS.Response> add(final CHistoryItem item) {
+    public Future<Response> add(final CHistoryItem item) throws IOException {
         if (item.id != null) {
-            return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
-                    .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "")
-                    .put(xstream.toXML(item));
+            return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
+                    .addHeader("Accept", "application/xml")
+                    .setRealm(realm)
+                    .setBody(xstream.toXML(item))
+                    .execute();
         } else {
-            return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
-                    .setHeader("Content-Type", "text/xml; charset=utf-8")
-                    .setAuth(capsuleToken, "")
-                    .post(xstream.toXML(item)).map(new F.Function<WS.Response, WS.Response>() {
+            return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
+                    .addHeader("Content-Type", "application/xml")
+                    .setRealm(realm)
+                    .setBody(xstream.toXML(item))
+                    .execute(new AsyncCompletionHandler<Response>() {
                         @Override
-                        public WS.Response apply(WS.Response response) throws Throwable {
+                        public Response onCompleted(Response response) throws Exception {
                             // extract ID from location
                             String location = response.getHeader("Location");
                             if (location == null) {
-                                throw new RuntimeException("null location, cannot assign id to history item " + this + ", status is " + response.getStatus() + " " + response.getStatusText());
+                                throw new RuntimeException("null location, cannot assign id to history item " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
                             }
                             item.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
-
                             return response;
                         }
                     });
         }
     }
 
-    public F.Promise<WS.Response> remove(final CHistoryItem item) {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
-                .setAuth(capsuleToken, "")
-                .delete();
+    public Future<Response> remove(final CHistoryItem item) throws IOException {
+        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
+                .setRealm(realm)
+                .execute();
     }
 
-    public F.Promise<WS.Response> add(CTag tag) {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .post(xstream.toXML(tag));
+    public Future<Response> add(CTag tag) throws IOException {
+        return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
+                .addHeader("Content-Type", "application/xml")
+                .setRealm(realm)
+                .setBody(xstream.toXML(tag))
+                .execute();
     }
 
-    public F.Promise<WS.Response> remove(CTag tag) {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
-                .setAuth(capsuleToken, "")
-                .delete();
+    public Future<Response> remove(CTag tag) throws IOException {
+        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
+                .setRealm(realm)
+                .execute();
     }
 
-    public F.Promise<CTasks> listTasks() {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CTasks>() {
+    public Future<CTasks> listTasks() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()),
+                new TransformHttpResponse<CTasks>(xstream));
+    }
+
+    public Future<CTasks> listTasks(TaskStatus status) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
+                .addQueryParameter("status", status.name())
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()),
+                new TransformHttpResponse<CTasks>(xstream));
+    }
+
+    public Future<Response> add(final CTask task) throws IOException {
+        return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/task")
+                .addHeader("Content-Type", "application/xml")
+                .setRealm(realm)
+                .setBody(xstream.toXML(task))
+                .execute(new AsyncCompletionHandler<Response>() {
                     @Override
-                    public CTasks apply(WS.Response response) throws Throwable {
-                        return (CTasks) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
-    }
-
-    public F.Promise<CTasks> listTasks(TaskStatus status) {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setQueryParameter("status", status.name())
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CTasks>() {
-                    @Override
-                    public CTasks apply(WS.Response response) throws Throwable {
-                        return (CTasks) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
-    }
-
-    public F.Promise<WS.Response> add(final CTask task) {
-        return WS.url(capsuleUrl + "/api" + readContextPath() + "/" + id + "/task")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .post(xstream.toXML(task)).map(new F.Function<WS.Response, WS.Response>() {
-                    @Override
-                    public WS.Response apply(WS.Response response) throws Throwable {
+                    public Response onCompleted(Response response) throws Exception {
                         // extract ID from location
                         String location = response.getHeader("Location");
                         if (location == null) {
-                            throw new RuntimeException("null location, cannot assign id to task " + this + ", status is " + response.getStatus() + " " + response.getStatusText());
+                            throw new RuntimeException("null location, cannot assign id to task " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
                         }
                         task.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
-
                         return response;
                     }
                 });

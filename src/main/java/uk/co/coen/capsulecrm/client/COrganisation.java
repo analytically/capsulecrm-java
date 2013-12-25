@@ -1,9 +1,10 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
-import com.thoughtworks.xstream.io.xml.DomReader;
-import play.libs.F;
-import play.libs.WS;
+
+import java.util.concurrent.Future;
+
+import static com.google.common.util.concurrent.Futures.transform;
 
 public class COrganisation extends CParty {
     public String name;
@@ -33,15 +34,11 @@ public class COrganisation extends CParty {
                 .toString();
     }
 
-    public F.Promise<CParties> listPeople() throws Exception {
-        return WS.url(capsuleUrl + "/api/party/" + id + "/people")
-                .setHeader("Content-Type", "text/xml; charset=utf-8")
-                .setAuth(capsuleToken, "")
-                .get().map(new F.Function<WS.Response, CParties>() {
-                    @Override
-                    public CParties apply(WS.Response response) throws Throwable {
-                        return (CParties) xstream.unmarshal(new DomReader(response.asXml()));
-                    }
-                });
+    public Future<CParties> listPeople() throws Exception {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + id + "/people")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute()),
+                new TransformHttpResponse<CParties>(xstream));
     }
 }
