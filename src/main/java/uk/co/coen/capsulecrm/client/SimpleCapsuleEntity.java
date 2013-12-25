@@ -17,7 +17,9 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     static final String capsuleToken = conf.getString("capsulecrm.token");
 
     static final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder()
-            .setAllowPoolingConnection(true)
+            .setAllowPoolingConnection(false)
+            .setMaximumConnectionsPerHost(100)
+            .setMaximumConnectionsTotal(100)
             .build();
 
     static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(config);
@@ -103,7 +105,6 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
 
     public Future<Response> save() throws IOException {
         if (id != null) {
-            System.out.println(xstream.toXML(this));
             return asyncHttpClient.preparePut(capsuleUrl + "/api" + writeContextPath() + "/" + id)
                     .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
