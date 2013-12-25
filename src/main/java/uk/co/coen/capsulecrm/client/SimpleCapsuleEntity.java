@@ -27,7 +27,6 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     static {
         realm = new Realm.RealmBuilder()
                 .setPrincipal(capsuleToken)
-                .setPassword("x")
                 .setUsePreemptiveAuth(true)
                 .setScheme(Realm.AuthScheme.BASIC)
                 .build();
