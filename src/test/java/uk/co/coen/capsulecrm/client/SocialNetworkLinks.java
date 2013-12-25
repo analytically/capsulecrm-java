@@ -86,7 +86,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                     boolean save = false;
                     for (String phoneNumber : phoneNumbers) {
                         if (!skypeNumbers.contains(phoneNumber)) {
-                            CWebsite website = new CWebsite(null, phoneNumber, WebService.SKYPE);
+                            CWebsite website = new CWebsite(null, WebService.SKYPE, phoneNumber);
                             party.addContact(website);
 
                             save = true;
@@ -187,8 +187,8 @@ public class SocialNetworkLinks extends CapsuleTest {
         Futures.addCallback(listenInPoolThread(CParty.listModifiedSince(new DateTime().minusWeeks(10))), new FutureCallback<CParties>() {
             @Override
             public void onSuccess(CParties parties) {
-
                 System.out.println("Found " + parties.size + " parties, finding and adding Twitter links...");
+
                 for (CParty party : parties) {
                     boolean hasTwitterLink = false;
 
@@ -211,11 +211,11 @@ public class SocialNetworkLinks extends CapsuleTest {
                             if (contact instanceof CWebsite) {
                                 CWebsite website = (CWebsite) contact;
 
-                                if (WebService.URL.equals(website.webService) && !website.url.contains("google")) {
-                                    System.out.println("Visiting website of " + party.getName() + " at " + website.url);
+                                if (WebService.URL.equals(website.webService) && !website.webAddress.contains("google")) {
+                                    System.out.println("Visiting website of " + party.getName() + " at " + website.webAddress);
 
                                     try {
-                                        Document doc = Jsoup.connect(website.url)
+                                        Document doc = Jsoup.connect(website.webAddress.startsWith("http://") ? website.webAddress : "http://" + website.webAddress)
                                                 .timeout(15000)
                                                 .ignoreHttpErrors(true)
                                                 .get();
@@ -233,7 +233,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                                                 while (matcher.find()) {
                                                     String twitterUser = CharMatcher.WHITESPACE.trimFrom(href.substring(matcher.start(3), matcher.end(3)));
 
-                                                    if (!"".equals(twitterUser)) {
+                                                    if (!"".equals(twitterUser) && !twitterUsers.contains(twitterUser)) {
                                                         twitterUsers.add(twitterUser);
                                                     }
                                                 }
@@ -251,7 +251,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                         for (String twitterUser : twitterUsers) {
                             System.out.println("Found twitter user @" + twitterUser + ", adding it to " + party.getName() + " and saving...");
 
-                            CWebsite twitterLink = new CWebsite(null, twitterUser, WebService.TWITTER);
+                            CWebsite twitterLink = new CWebsite(null, WebService.TWITTER, twitterUser);
                             party.addContact(twitterLink);
 
                             try {

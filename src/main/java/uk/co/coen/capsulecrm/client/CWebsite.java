@@ -3,8 +3,8 @@ package uk.co.coen.capsulecrm.client;
 import com.google.common.base.Objects;
 
 public class CWebsite extends CContact {
-    public String webAddress;
     public WebService webService = WebService.URL;
+    public String webAddress;
     public String url;
 
     public CWebsite() {
@@ -12,20 +12,21 @@ public class CWebsite extends CContact {
 
     public CWebsite(String type, String webAddress) {
         super(type);
+        this.webService = WebService.URL;
         this.webAddress = webAddress;
     }
 
     /**
      * Creates a website.
      *
-     * @param type the type
+     * @param type       the type
      * @param webAddress the address
      * @param webService the service, defaults to 'URL'
      */
-    public CWebsite(String type, String webAddress, WebService webService) {
+    public CWebsite(String type, WebService webService, String webAddress) {
         super(type);
-        this.webAddress = webAddress;
         this.webService = webService;
+        this.webAddress = webAddress;
     }
 
     @Override

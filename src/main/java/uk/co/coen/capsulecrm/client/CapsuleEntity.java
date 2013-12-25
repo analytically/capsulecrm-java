@@ -27,12 +27,14 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
             return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
                     .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
+                    .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(customField))
                     .execute();
         } else {
             return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
                     .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
+                    .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(customField))
                     .execute(new AsyncCompletionHandler<Response>() {
                         @Override
@@ -68,12 +70,14 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
             return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
                     .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
+                    .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(item))
                     .execute();
         } else {
             return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
                     .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
+                    .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(item))
                     .execute(new AsyncCompletionHandler<Response>() {
                         @Override
@@ -100,6 +104,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
         return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
                 .addHeader("Content-Type", "application/xml")
                 .setRealm(realm)
+                .setBodyEncoding("UTF-8")
                 .setBody(xstream.toXML(tag))
                 .execute();
     }
@@ -131,6 +136,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
         return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/task")
                 .addHeader("Content-Type", "application/xml")
                 .setRealm(realm)
+                .setBodyEncoding("UTF-8")
                 .setBody(xstream.toXML(task))
                 .execute(new AsyncCompletionHandler<Response>() {
                     @Override

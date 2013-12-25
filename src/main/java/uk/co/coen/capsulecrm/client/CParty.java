@@ -2,6 +2,7 @@ package uk.co.coen.capsulecrm.client;
 
 import com.google.common.collect.Lists;
 import com.ning.http.client.Response;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.joda.time.DateTime;
 import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
 import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
