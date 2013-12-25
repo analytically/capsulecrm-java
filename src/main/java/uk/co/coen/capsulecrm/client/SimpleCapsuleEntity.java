@@ -1,9 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.Realm;
-import com.ning.http.client.Response;
+import com.ning.http.client.*;
 import com.thoughtworks.xstream.XStream;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -19,7 +16,11 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     static final String capsuleUrl = conf.getString("capsulecrm.url");
     static final String capsuleToken = conf.getString("capsulecrm.token");
 
-    static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+    static final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder()
+            .setAllowPoolingConnection(false)
+            .build();
+
+    static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(config);
     static final Realm realm;
 
     static final XStream xstream;
@@ -103,7 +104,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     public Future<Response> save() throws IOException {
         if (id != null) {
             return asyncHttpClient.preparePut(capsuleUrl + "/api" + writeContextPath() + "/" + id)
-                    .addHeader("Accept", "application/xml")
+                    .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
                     .setBody(xstream.toXML(this))
                     .execute();

@@ -25,7 +25,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     public Future<Response> add(final CCustomField customField) throws IOException {
         if (customField.id != null) {
             return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
-                    .addHeader("Accept", "application/xml")
+                    .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
                     .setBody(xstream.toXML(customField))
                     .execute();
@@ -66,7 +66,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     public Future<Response> add(final CHistoryItem item) throws IOException {
         if (item.id != null) {
             return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
-                    .addHeader("Accept", "application/xml")
+                    .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
                     .setBody(xstream.toXML(item))
                     .execute();

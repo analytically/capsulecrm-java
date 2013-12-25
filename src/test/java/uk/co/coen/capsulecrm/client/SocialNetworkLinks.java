@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.JdkFutureAdapters;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.ning.http.client.Response;
 import org.joda.time.DateTime;
@@ -21,7 +20,6 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +33,6 @@ import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolTh
  * </ul>
  */
 public class SocialNetworkLinks extends CapsuleTest {
-    // TODO logging isn't working in Play 2.0 unit tests, find a solution
-
     public void addSkypeLinks() throws Exception {
         final CountDownLatch lock = new CountDownLatch(1);
 
@@ -101,7 +97,6 @@ public class SocialNetworkLinks extends CapsuleTest {
                         try {
                             Futures.allAsList(deletePromises).get();
 
-
                             System.out.println("Saving " + party);
 
                             Response response = party.save().get();
@@ -123,146 +118,165 @@ public class SocialNetworkLinks extends CapsuleTest {
 
             @Override
             public void onFailure(Throwable t) {
+                t.printStackTrace();
             }
         });
 
         lock.await();
     }
 
-//    public void removeAddressType() throws Exception {
-//        final CountDownLatch lock = new CountDownLatch(1);
-//
-//        System.out.println("removeAddressType - listing all parties...");
-//        CParty.listAll().onRedeem(new F.Callback<CParties>() {
-//            @Override
-//            public void invoke(CParties parties) throws Throwable {
-//                System.out.println("Found " + parties.size + " parties, removing type from address...");
-//
-//                for (COrganisation organisation : parties.organisations) {
-//                    boolean save = false;
-//
-//                    for (CContact contact : organisation.contacts) {
-//                        if (contact instanceof CAddress) {
-//                            CAddress address = (CAddress) contact;
-//
-//                            if (!Strings.isNullOrEmpty(address.type)) {
-//                                address.type = "";
-//                                save = true;
-//                            }
-//                        }
-//                    }
-//
-//                    if (save) {
-//                        System.out.println("Saving " + organisation);
-//
-//                        WS.Response response = organisation.save().get();
-//                        if (response.getStatus() < 200 || response.getStatus() > 206) {
-//                            System.out.println("Failure saving party " + organisation + ", response "
-//                                    + response.getStatus() + " " + response.getStatusText()
-//                                    + " " + response.getBody());
-//                        } else {
-//                            System.out.println("Success saving party " + organisation + ", response " + response.getStatus() + " " + response.getStatusText());
-//                        }
-//                    }
-//                }
-//
-//                lock.countDown();
-//            }
-//        });
-//
-//        lock.await();
-//    }
-//
-//    @Test
-//    public void addTwitterLinks() throws InterruptedException {
-//        final CountDownLatch lock = new CountDownLatch(1);
-//
-//        System.out.println("addTwitterLinks - listing all parties...");
-//
-//        CParty.listModifiedSince(new DateTime().minusWeeks(1)).onRedeem(new F.Callback<CParties>() {
-//            @Override
-//            public void invoke(CParties parties) throws Throwable {
-//
-//                System.out.println("Found " + parties.size + " parties, finding and adding Twitter links...");
-//                for (CParty party : parties) {
-//                    boolean hasTwitterLink = false;
-//
-//                    for (CContact contact : party.contacts) {
-//                        if (contact instanceof CWebsite) {
-//                            CWebsite website = (CWebsite) contact;
-//
-//                            if (WebService.TWITTER.equals(website.webService)) {
-//                                System.out.println("Skipping " + party + " since it already has a twitter link.");
-//
-//                                hasTwitterLink = true;
-//                            }
-//                        }
-//                    }
-//
-//                    if (!hasTwitterLink) {
-//                        Set<String> twitterUsers = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
-//
-//                        for (CContact contact : party.contacts) {
-//                            if (contact instanceof CWebsite) {
-//                                CWebsite website = (CWebsite) contact;
-//
-//                                if (WebService.URL.equals(website.webService) && !website.url.contains("google")) {
-//                                    System.out.println("Visiting website of " + party.getName() + " at " + website.url);
-//
-//                                    try {
-//                                        Document doc = Jsoup.connect(website.url)
-//                                                .timeout(15000)
-//                                                .ignoreHttpErrors(true)
-//                                                .get();
-//
-//                                        Elements links = doc.select("a[href]");
-//                                        for (Element link : links) {
-//                                            String href = link.attr("href");
-//
-//                                            if (!href.contains("/search")
-//                                                    && !href.contains("/share")
-//                                                    && !href.contains("/home")
-//                                                    && !href.contains("/intent")) {
-//
-//                                                Matcher matcher = Pattern.compile("(www\\.)?twitter\\.com/(#!/)?@?([^/]*)").matcher(href);
-//                                                while (matcher.find()) {
-//                                                    String twitterUser = CharMatcher.WHITESPACE.trimFrom(href.substring(matcher.start(3), matcher.end(3)));
-//
-//                                                    if (!"".equals(twitterUser)) {
-//                                                        twitterUsers.add(twitterUser);
-//                                                    }
-//                                                }
-//                                            }
-//                                        }
-//                                    } catch (IllegalCharsetNameException e) { // see https://github.com/jhy/jsoup/commit/2714d6be6cbe465b522a724c2796ddf74df06482#-P0
-//                                        System.out.println("Illegal charset name for " + website + " of " + party);
-//                                    } catch (IOException e) {
-//                                        System.out.println("Unable to GET " + website + " of " + party);
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        for (String twitterUser : twitterUsers) {
-//                            System.out.println("Found twitter user @" + twitterUser + ", adding it to " + party.getName() + " and saving...");
-//
-//                            CWebsite twitterLink = new CWebsite(null, twitterUser, WebService.TWITTER);
-//                            party.addContact(twitterLink);
-//
-//                            WS.Response response = party.save().get();
-//                            if (response.getStatus() < 200 || response.getStatus() > 201) {
-//                                System.out.println("Failure saving party " + party + ", response " + response.getStatus() + " " + response.getStatusText());
-//                            } else {
-//                                System.out.println("Success saving party " + party + ", response " + response.getStatus() + " " + response.getStatusText());
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                lock.countDown();
-//            }
-//        });
-//
-//        lock.await();
-//    }
+    public void removeAddressType() throws Exception {
+        final CountDownLatch lock = new CountDownLatch(1);
+
+        System.out.println("removeAddressType - listing all parties...");
+        Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CParties>() {
+            @Override
+            public void onSuccess(CParties parties) {
+                System.out.println("Found " + parties.size + " parties, removing type from address...");
+
+                for (COrganisation organisation : parties.organisations) {
+                    boolean save = false;
+
+                    for (CContact contact : organisation.contacts) {
+                        if (contact instanceof CAddress) {
+                            CAddress address = (CAddress) contact;
+
+                            if (!Strings.isNullOrEmpty(address.type)) {
+                                address.type = "";
+                                save = true;
+                            }
+                        }
+                    }
+
+                    if (save) {
+                        try {
+                            System.out.println("Saving " + organisation);
+
+                            Response response = organisation.save().get();
+                            if (response.getStatusCode() < 200 || response.getStatusCode() > 206) {
+                                System.out.println("Failure saving party " + organisation + ", response "
+                                        + response.getStatusCode() + " " + response.getStatusText()
+                                        + " " + response.getResponseBody());
+                            } else {
+                                System.out.println("Success saving party " + organisation + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                            }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+                lock.countDown();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+        lock.await();
+    }
+
+    @Test
+    public void addTwitterLinks() throws Exception {
+        final CountDownLatch lock = new CountDownLatch(1);
+
+        System.out.println("addTwitterLinks - listing all parties...");
+
+        Futures.addCallback(listenInPoolThread(CParty.listModifiedSince(new DateTime().minusWeeks(10))), new FutureCallback<CParties>() {
+            @Override
+            public void onSuccess(CParties parties) {
+
+                System.out.println("Found " + parties.size + " parties, finding and adding Twitter links...");
+                for (CParty party : parties) {
+                    boolean hasTwitterLink = false;
+
+                    for (CContact contact : party.contacts) {
+                        if (contact instanceof CWebsite) {
+                            CWebsite website = (CWebsite) contact;
+
+                            if (WebService.TWITTER.equals(website.webService)) {
+                                System.out.println("Skipping " + party + " since it already has a twitter link.");
+
+                                hasTwitterLink = true;
+                            }
+                        }
+                    }
+
+                    if (!hasTwitterLink) {
+                        Set<String> twitterUsers = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
+
+                        for (CContact contact : party.contacts) {
+                            if (contact instanceof CWebsite) {
+                                CWebsite website = (CWebsite) contact;
+
+                                if (WebService.URL.equals(website.webService) && !website.url.contains("google")) {
+                                    System.out.println("Visiting website of " + party.getName() + " at " + website.url);
+
+                                    try {
+                                        Document doc = Jsoup.connect(website.url)
+                                                .timeout(15000)
+                                                .ignoreHttpErrors(true)
+                                                .get();
+
+                                        Elements links = doc.select("a[href]");
+                                        for (Element link : links) {
+                                            String href = link.attr("href");
+
+                                            if (!href.contains("/search")
+                                                    && !href.contains("/share")
+                                                    && !href.contains("/home")
+                                                    && !href.contains("/intent")) {
+
+                                                Matcher matcher = Pattern.compile("(www\\.)?twitter\\.com/(#!/)?@?([^/]*)").matcher(href);
+                                                while (matcher.find()) {
+                                                    String twitterUser = CharMatcher.WHITESPACE.trimFrom(href.substring(matcher.start(3), matcher.end(3)));
+
+                                                    if (!"".equals(twitterUser)) {
+                                                        twitterUsers.add(twitterUser);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } catch (IllegalCharsetNameException e) { // see https://github.com/jhy/jsoup/commit/2714d6be6cbe465b522a724c2796ddf74df06482#-P0
+                                        System.out.println("Illegal charset name for " + website + " of " + party);
+                                    } catch (IOException e) {
+                                        System.out.println("Unable to GET " + website + " of " + party);
+                                    }
+                                }
+                            }
+                        }
+
+                        for (String twitterUser : twitterUsers) {
+                            System.out.println("Found twitter user @" + twitterUser + ", adding it to " + party.getName() + " and saving...");
+
+                            CWebsite twitterLink = new CWebsite(null, twitterUser, WebService.TWITTER);
+                            party.addContact(twitterLink);
+
+                            try {
+                                Response response = party.save().get();
+                                if (response.getStatusCode() < 200 || response.getStatusCode() > 201) {
+                                    System.out.println("Failure saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                                } else {
+                                    System.out.println("Success saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                                }
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                }
+
+                lock.countDown();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+        lock.await();
+    }
 }
