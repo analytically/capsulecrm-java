@@ -1,6 +1,8 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
+import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
+import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -36,6 +38,6 @@ public class CUser extends SimpleCapsuleEntity {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/users")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<CUsers>(xstream));
+                .execute()), new UnmarshalResponseBody<CUsers>(xstream));
     }
 }

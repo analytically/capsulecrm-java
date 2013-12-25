@@ -1,4 +1,4 @@
-package uk.co.coen.capsulecrm.client;
+package uk.co.coen.capsulecrm.client.utils;
 
 import com.google.common.util.concurrent.ListenableFuture;
 

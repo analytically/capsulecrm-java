@@ -1,8 +1,11 @@
-capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java) [![Build Status](https://drone.io/github.com/analytically/capsulecrm-java/status.png)](https://drone.io/github.com/analytically/capsulecrm-java/latest)
+capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java)
 ===============
 
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
-Depends on [async-http-client](https://github.com/AsyncHttpClient/async-http-client), [XStream](http://xstream.codehaus.org/) and [Joda-Time](http://joda-time.sourceforge.net/).
+
+Depends on [async-http-client](https://github.com/AsyncHttpClient/async-http-client),
+[Google Guava](https://code.google.com/p/guava-libraries/), [XStream](http://xstream.codehaus.org/) and
+[Joda-Time](http://joda-time.sourceforge.net/).
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) for updates.
 
@@ -40,13 +43,6 @@ capsulecrm.url="https://<yourdomain>.capsulecrm.com"
 capsulecrm.token="<your token here>"
 ```
 
-When fetching large amounts of parties, make sure you set the timeout high enough:
-
-```ruby
-# Connection timeout in ms (default 120000)
-ws.timeout=400000
-```
-
 ### Google Custom Search Engine for your Capsule CRM contact's websites
 
 If you need a [Google Custom Search](http://www.google.co.uk/cse/) searching all websites of your contacts, see the `gcse`
@@ -62,13 +58,18 @@ See [Hosting the Annotation Files Yourself](https://developers.google.com/custom
 
 ### Usage Examples
 
-Start by importing the client package and the necessary Play Framework classes:
+Start by importing the client package and the necessary classes:
 
 ```java
+import java.util.concurrent.Future;
 import uk.co.coen.capsulecrm.client.*
+
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolThread;
 ```
 
-Fetch all parties, change something and save - [asynchronous](http://www.playframework.com/documentation/2.1.1/JavaAsync):
+Fetch all parties, change something and save - [asynchronous](http://sonatype.github.io/async-http-client/request.html):
 
 ```java
 Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CParties>() {
@@ -85,9 +86,9 @@ Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CPa
             }
 
             // save changes - blocking
-            WS.Response response = party.save().get();
-            if (response.getStatus() < 200 || response.getStatus() > 206) {
-                log.info("Failure saving party " + party + ", response " + response.getStatus() + " " + response.getStatusText());
+            Response response = party.save().get();
+            if (response.getStatusCode() < 200 || response.getStatusCode() > 206) {
+                log.info("Failure saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
             }
         }
 

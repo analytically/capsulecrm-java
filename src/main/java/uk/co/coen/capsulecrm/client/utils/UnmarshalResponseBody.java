@@ -1,4 +1,4 @@
-package uk.co.coen.capsulecrm.client;
+package uk.co.coen.capsulecrm.client.utils;
 
 import com.google.common.base.Function;
 import com.ning.http.client.Response;
@@ -6,10 +6,10 @@ import com.thoughtworks.xstream.XStream;
 
 import java.io.IOException;
 
-public class TransformHttpResponse<T> implements Function<Response, T> {
+public class UnmarshalResponseBody<T> implements Function<Response, T> {
     private final XStream xstream;
 
-    public TransformHttpResponse(XStream xstream) {
+    public UnmarshalResponseBody(XStream xstream) {
         this.xstream = xstream;
     }
 

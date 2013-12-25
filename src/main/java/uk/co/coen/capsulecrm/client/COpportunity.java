@@ -2,10 +2,11 @@ package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
 import org.joda.time.DateTime;
+import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
+import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import static com.google.common.util.concurrent.Futures.transform;
 
@@ -38,53 +39,37 @@ public class COpportunity extends CapsuleEntity {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity/milestones")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<CMilestones>(xstream));
+                .execute()), new UnmarshalResponseBody<CMilestones>(xstream));
     }
 
     public static Future<COpportunities> listAll() throws IOException {
-        return listAll(12, TimeUnit.SECONDS);
-    }
-
-    public static Future<COpportunities> listAll(long time, TimeUnit unit) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<COpportunities>(xstream));
+                .execute()), new UnmarshalResponseBody<COpportunities>(xstream));
     }
 
     public static Future<COpportunities> listByTag(String tag) throws IOException {
-        return listByTag(tag, 12, TimeUnit.SECONDS);
-    }
-
-    public static Future<COpportunities> listByTag(String tag, long time, TimeUnit unit) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
                 .addQueryParameter("tag", tag)
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<COpportunities>(xstream));
+                .execute()), new UnmarshalResponseBody<COpportunities>(xstream));
     }
 
     public static Future<COpportunities> listModifiedSince(DateTime modifiedSince) throws IOException {
-        return listModifiedSince(modifiedSince, 12, TimeUnit.SECONDS);
-    }
-
-    public static Future<COpportunities> listModifiedSince(DateTime modifiedSince, long time, TimeUnit unit) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
                 .addQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<COpportunities>(xstream));
+                .execute()), new UnmarshalResponseBody<COpportunities>(xstream));
     }
 
     public static Future<COpportunities> listByParty(CParty party) throws IOException {
-        return listByParty(party, 12, TimeUnit.SECONDS);
-    }
-
-    public static Future<COpportunities> listByParty(CParty party, long time, TimeUnit unit) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + party.id + "/opportunity")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<COpportunities>(xstream));
+                .execute()), new UnmarshalResponseBody<COpportunities>(xstream));
     }
 
     @Override

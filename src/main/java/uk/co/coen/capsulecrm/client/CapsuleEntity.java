@@ -3,6 +3,8 @@ package uk.co.coen.capsulecrm.client;
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.Response;
 import org.joda.time.DateTime;
+import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
+import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -17,7 +19,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<CCustomFields>(xstream));
+                .execute()), new UnmarshalResponseBody<CCustomFields>(xstream));
     }
 
     public Future<Response> add(final CCustomField customField) throws IOException {
@@ -58,7 +60,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
                 .execute()),
-                new TransformHttpResponse<CHistory>(xstream));
+                new UnmarshalResponseBody<CHistory>(xstream));
     }
 
     public Future<Response> add(final CHistoryItem item) throws IOException {
@@ -113,7 +115,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
                 .execute()),
-                new TransformHttpResponse<CTasks>(xstream));
+                new UnmarshalResponseBody<CTasks>(xstream));
     }
 
     public Future<CTasks> listTasks(TaskStatus status) throws IOException {
@@ -122,7 +124,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
                 .execute()),
-                new TransformHttpResponse<CTasks>(xstream));
+                new UnmarshalResponseBody<CTasks>(xstream));
     }
 
     public Future<Response> add(final CTask task) throws IOException {

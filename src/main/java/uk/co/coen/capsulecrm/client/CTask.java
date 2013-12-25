@@ -5,6 +5,8 @@ import com.google.common.base.Objects;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 import org.joda.time.DateTime;
+import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
+import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -90,7 +92,7 @@ public class CTask extends SimpleCapsuleEntity {
         return transform(new ListenableFutureAdapter<>(request
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new TransformHttpResponse<CTasks>(xstream));
+                .execute()), new UnmarshalResponseBody<CTasks>(xstream));
     }
 
     public Future<Response> complete() throws IOException {
