@@ -5,7 +5,7 @@ Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
 
 Depends on [async-http-client](https://github.com/AsyncHttpClient/async-http-client),
 [Google Guava](https://code.google.com/p/guava-libraries/), [XStream](http://xstream.codehaus.org/) and
-[Joda-Time](http://joda-time.sourceforge.net/).
+[Joda-Time](http://www.joda.org/joda-time/).
 
 Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) for updates.
 
