@@ -17,6 +17,7 @@ object Build extends sbt.Build {
     description := "Unofficial Capsule CRM API Java Client",
     startYear := Some(2011),
     resolvers += Resolver.typesafeRepo("releases"),
+    parallelExecution in Global := false,
     parallelExecution in Test := false,
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q"),
     testOptions += Setup(cl =>
