@@ -13,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -32,6 +33,7 @@ import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolTh
  * <li>Twitter: creates Twitter social network links by visiting your contacts' websites and looking for a screen name</li>
  * </ul>
  */
+@Ignore
 public class SocialNetworkLinks extends CapsuleTest {
     public void addSkypeLinks() throws Exception {
         final CountDownLatch lock = new CountDownLatch(1);

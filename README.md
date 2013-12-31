@@ -1,9 +1,9 @@
-capsulecrm-java [![Build Status](https://travis-ci.org/coenrecruitment/capsulecrm-java.png)](https://travis-ci.org/coenrecruitment/capsulecrm-java)
+capsulecrm-java [![Build Status](https://travis-ci.org/analytically/capsulecrm-java.png)](https://travis-ci.org/analytically/capsulecrm-java)
 ===============
 
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
 
-Depends on [async-http-client](https://github.com/AsyncHttpClient/async-http-client),
+Depends on [Async Http Client](https://github.com/AsyncHttpClient/async-http-client),
 [Google Guava](https://code.google.com/p/guava-libraries/), [XStream](http://xstream.codehaus.org/) and
 [Joda-Time](http://www.joda.org/joda-time/). Development sponsored by [Coen Recruitment](http://www.coen.co.uk).
 Follow [@analytically](http://twitter.com/analytically) for updates.
