@@ -2,11 +2,24 @@ package uk.co.coen.capsulecrm.client;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class CapsuleTest {
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Rule
+    public TestRule watchman = new TestWatcher() {
+        @Override
+        protected void starting(Description description) {
+            logger.info("Running test {}...", description.getMethodName());
+        }
+    };
+
     protected CPerson person;
 
     @Before
@@ -31,7 +44,7 @@ public abstract class CapsuleTest {
 
     @After
     public final void deleteTestPerson() throws Exception {
-        if (person.id != null) {
+        if (person != null && person.id != null) {
             logger.info("Deleting test person...");
 
             CPerson.byId(person.id).get().delete().get();

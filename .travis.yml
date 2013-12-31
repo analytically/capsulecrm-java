@@ -1,9 +1,11 @@
 language: java
 script:
-- sbt -Dcapsulecrm.url=https://coen.capsulecrm.com -Dcapsulecrm.token=$CAPSULECRM_TOKEN coveralls
+- sbt -Dcapsulecrm.url=https://coen.capsulecrm.com -Dcapsulecrm.token=$CAPSULECRM_TOKEN
+  coveralls
 jdk:
 - oraclejdk7
 - openjdk7
 env:
   global:
-    secure: ESNG7eMVbJ0MzMSfGyoLa0YVym2rldgelnYQQwSaC0WhkPHXzTVsINhszeKf/O6w1YGNxBXqAomzWMJ68giHXw2YQfqFkeqFXmywSceyzo4oUTyrKYJmgKjQZnNadeMRPvUdGi7A3aqpIweyxbpKwvtMs8RC3YPUTzBF87QhS60=
+  - secure: ESNG7eMVbJ0MzMSfGyoLa0YVym2rldgelnYQQwSaC0WhkPHXzTVsINhszeKf/O6w1YGNxBXqAomzWMJ68giHXw2YQfqFkeqFXmywSceyzo4oUTyrKYJmgKjQZnNadeMRPvUdGi7A3aqpIweyxbpKwvtMs8RC3YPUTzBF87QhS60=
+  - secure: RCVPodMB0EvUisZqO6YgPAEROdfXYiastRwIs2wpGGfpzi2+9QAVUQgMtrHGIqIYE7Yq3QoCeLHdI6SCkJP9imYEHzuzIVli16mfJoIkn6Aeah9+AKcDEPoxvvvCQWo2mpkjXMoxdaDXiE+fVeIOVQmrQbQZMuRn9edaR4oq7wA=
