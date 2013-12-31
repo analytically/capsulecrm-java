@@ -7,8 +7,6 @@ import static org.fest.assertions.Assertions.assertThat;
 public class OpportunityTest extends CapsuleTest {
     @Test
     public void testSaveDelete() throws Exception {
-        CPerson person = createTestPerson();
-
         CMilestones milestones = COpportunity.listMilestones().get();
 
         COpportunity opportunity = new COpportunity();

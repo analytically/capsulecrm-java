@@ -9,7 +9,6 @@ import static org.fest.assertions.Assertions.assertThat;
 public class PartyTest extends CapsuleTest {
     @Test
     public void testSaveDelete() throws Exception {
-        CPerson person = createTestPerson();
         assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(1);
 
         CPerson fetchedPerson = CPerson.listByEmailAddress(person.firstEmail().emailAddress).get().persons.iterator().next();
@@ -43,7 +42,7 @@ public class PartyTest extends CapsuleTest {
         assertThat(fetchedPerson.firstWebsite().type).isNull();
         assertThat(fetchedPerson.firstWebsite().webService).isEqualTo(person.firstWebsite().webService);
         assertThat(fetchedPerson.firstWebsite().webAddress).isEqualTo(person.firstWebsite().webAddress);
-        assertThat(fetchedPerson.firstWebsite().url).isEqualTo(person.firstWebsite().webAddress);
+        assertThat(fetchedPerson.firstWebsite().url).isEqualTo("http://" + person.firstWebsite().webAddress);
 
         deleteTestPerson();
         assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
@@ -51,7 +50,6 @@ public class PartyTest extends CapsuleTest {
 
     @Test
     public void testListByTag() throws Exception {
-        CPerson person = createTestPerson();
         person.add(new CTag("testpersontag123")).get();
         assertThat(CPerson.listByTag("testpersontag123").get()).hasSize(1);
 
@@ -64,7 +62,6 @@ public class PartyTest extends CapsuleTest {
 
     @Test
     public void testNotes() throws Exception {
-        CPerson person = createTestPerson();
         DateTime entryDateTime = new DateTime().minusDays(2);
         person.add(new CHistoryItem("test note", entryDateTime)).get();
 
@@ -80,7 +77,6 @@ public class PartyTest extends CapsuleTest {
 
     @Test
     public void testTasks() throws Exception {
-        CPerson person = createTestPerson();
         DateTime dueDateTime = new DateTime().plus(Days.days(2));
         person.add(new CTask("test task", dueDateTime, true)).get();
 

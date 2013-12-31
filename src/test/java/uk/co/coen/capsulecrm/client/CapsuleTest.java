@@ -1,27 +1,41 @@
 package uk.co.coen.capsulecrm.client;
 
+import org.junit.After;
+import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class CapsuleTest {
-    protected int testPersonId;
+    protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected CPerson person;
 
-    protected CPerson createTestPerson() throws Exception {
+    @Before
+    public final void createTestPerson() throws Exception {
+        logger.info("Creating test person...");
+
         // create a test person
-        CPerson testPerson = new CPerson();
-        testPerson.title = Title.Dr;
-        testPerson.firstName = "firstName";
-        testPerson.lastName = "lastName";
-        testPerson.jobTitle = "jobTitle";
-        testPerson.about = "about";
-        testPerson.addContact(new CEmail(null, "testperson123@testing.com"));
-        testPerson.addContact(new CPhone(null, "123456789"));
-        testPerson.addContact(new CWebsite(null, "www.test123.com"));
-        testPerson.addContact(new CAddress(null, "street", "city", "zip", "state", "United Kingdom"));
-        testPerson.save().get();
+        person = new CPerson();
+        person.title = Title.Dr;
+        person.firstName = "firstName";
+        person.lastName = "lastName";
+        person.jobTitle = "jobTitle";
+        person.about = "about";
+        person.addContact(new CEmail(null, "testperson123@testing.com"));
+        person.addContact(new CPhone(null, "123456789"));
+        person.addContact(new CWebsite(null, "www.test123.com"));
+        person.addContact(new CAddress(null, "street", "city", "zip", "state", "United Kingdom"));
+        person.save().get();
 
-        testPersonId = testPerson.id;
-        return testPerson;
+        logger.info("Test person created, id is " + person.id);
     }
 
-    protected void deleteTestPerson() throws Exception {
-        CPerson.byId(testPersonId).get().delete().get();
+    @After
+    public final void deleteTestPerson() throws Exception {
+        if (person.id != null) {
+            logger.info("Deleting test person...");
+
+            CPerson.byId(person.id).get().delete().get();
+            person.id = null;
+        }
     }
 }

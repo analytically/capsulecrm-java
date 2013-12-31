@@ -7,8 +7,6 @@ import static org.fest.assertions.Assertions.assertThat;
 public class HistoryTest extends CapsuleTest {
     @Test
     public void testEmptyHistory() throws Exception {
-        CPerson person = createTestPerson();
-
         CHistory history = person.listHistory().get();
         assertThat(history.size).isEqualTo(0);
 
@@ -18,7 +16,6 @@ public class HistoryTest extends CapsuleTest {
 
     @Test
     public void testSingleItem() throws Exception {
-        CPerson person = createTestPerson();
         person.add(new CHistoryItem("test history item"));
 
         CHistory history = person.listHistory().get();
