@@ -30,6 +30,7 @@ object Build extends sbt.Build {
     // testing
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
+    libraryDependencies += "org.apache.commons" % "commons-email" % "1.3.2" % "test",
     libraryDependencies += "org.easytesting" % "fest-assert" % "1.4",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
 

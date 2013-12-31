@@ -1,6 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.ning.http.client.*;
+import com.ning.http.client.extra.ThrottleRequestFilter;
 import com.thoughtworks.xstream.XStream;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -12,33 +13,30 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 public abstract class SimpleCapsuleEntity extends CIdentifiable {
-    static Config conf = ConfigFactory.load();
+    static final Config conf = ConfigFactory.load();
     static final String capsuleUrl = conf.getString("capsulecrm.url");
     static final String capsuleToken = conf.getString("capsulecrm.token");
 
     static final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder()
-            .setAllowPoolingConnection(false)
-            .setMaximumConnectionsPerHost(100)
-            .setMaximumConnectionsTotal(100)
+            .addRequestFilter(new ThrottleRequestFilter(10))
+            .setMaximumConnectionsPerHost(40)
+            .setRequestTimeoutInMs(60000)
             .build();
 
     static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(config);
-    static final Realm realm;
+    static final Realm realm = new Realm.RealmBuilder()
+            .setPrincipal(capsuleToken)
+            .setUsePreemptiveAuth(true)
+            .setScheme(Realm.AuthScheme.BASIC)
+            .build();
 
-    static final XStream xstream;
+    static final XStream xstream = new XStream();
 
     static {
-        realm = new Realm.RealmBuilder()
-                .setPrincipal(capsuleToken)
-                .setUsePreemptiveAuth(true)
-                .setScheme(Realm.AuthScheme.BASIC)
-                .build();
-
-        xstream = new XStream();
         xstream.registerConverter(new JodaDateTimeXStreamConverter());
         xstream.addDefaultImplementation(ArrayList.class, List.class);
 
-        //xstream.addImplicitCollection(CHistoryItem.class, "attachments", CAttachment.class);
+        xstream.addImplicitCollection(CHistoryItem.class, "attachments", CAttachment.class);
         xstream.alias("attachment", CAttachment.class);
 
         xstream.alias("organisation", COrganisation.class);
