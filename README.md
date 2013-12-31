@@ -1,4 +1,4 @@
-capsulecrm-java [![Build Status](https://travis-ci.org/analytically/capsulecrm-java.png)](https://travis-ci.org/analytically/capsulecrm-java) [![Coverage Status](https://coveralls.io/repos/analytically/capsulecrm-java/badge.png)](https://coveralls.io/r/analytically/capsulecrm-java)
+capsulecrm-java [![Build Status](https://travis-ci.org/analytically/capsulecrm-java.png)](https://travis-ci.org/analytically/capsulecrm-java)
 ===============
 
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
@@ -10,7 +10,7 @@ Follow [@analytically](http://twitter.com/analytically) for updates.
 
 ### Requirements
 
-Java 6 or later. A Capsule CRM account and token.
+Java 7 or later. A Capsule CRM account and token.
 
 ### Using with Maven
 
