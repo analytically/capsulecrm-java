@@ -15,7 +15,6 @@ object Build extends sbt.Build {
     description := "Unofficial Capsule CRM API Java Client",
     startYear := Some(2011),
     resolvers += Resolver.typesafeRepo("releases"),
-    scalaVersion := "2.10.3",
     parallelExecution in Test := false,
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v"),
 
@@ -31,7 +30,7 @@ object Build extends sbt.Build {
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
     libraryDependencies += "org.apache.commons" % "commons-email" % "1.3.2" % "test",
-    libraryDependencies += "org.easytesting" % "fest-assert" % "1.4",
+    libraryDependencies += "org.easytesting" % "fest-assert" % "1.4" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
 
     crossPaths := false,
@@ -49,11 +48,11 @@ object Build extends sbt.Build {
       <url>http://coenrecruitment.github.io/capsulecrm-java/</url>
       <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/coenrecruitment/capsulecrm-java/issues</url>
+        <url>https://github.com/analytically/capsulecrm-java/issues</url>
       </issueManagement>
       <ciManagement>
         <system>Travis CI</system>
-        <url>https://travis-ci.org/coenrecruitment/capsulecrm-java</url>
+        <url>https://travis-ci.org/analytically/capsulecrm-java</url>
       </ciManagement>
       <licenses>
         <license>
@@ -63,9 +62,9 @@ object Build extends sbt.Build {
         </license>
       </licenses>
       <scm>
-        <url>https://github.com/coenrecruitment/capsulecrm-java</url>
-        <connection>scm:git:git@github.com:coenrecruitment/capsulecrm-java.git</connection>
-        <developerConnection>scm:git:git@github.com:coenrecruitment/capsulecrm-java.git</developerConnection>
+        <url>https://github.com/analytically/capsulecrm-java</url>
+        <connection>scm:git:git@github.com:analytically/capsulecrm-java.git</connection>
+        <developerConnection>scm:git:git@github.com:analytically/capsulecrm-java.git</developerConnection>
       </scm>
       <developers>
         <developer>

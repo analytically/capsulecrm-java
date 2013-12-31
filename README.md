@@ -5,9 +5,8 @@ Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
 
 Depends on [async-http-client](https://github.com/AsyncHttpClient/async-http-client),
 [Google Guava](https://code.google.com/p/guava-libraries/), [XStream](http://xstream.codehaus.org/) and
-[Joda-Time](http://www.joda.org/joda-time/).
-
-Development sponsored by [Coen Recruitment](http://www.coen.co.uk). Follow [@analytically](http://twitter.com/analytically) for updates.
+[Joda-Time](http://www.joda.org/joda-time/). Development sponsored by [Coen Recruitment](http://www.coen.co.uk).
+Follow [@analytically](http://twitter.com/analytically) for updates.
 
 ### Requirements
 
@@ -114,10 +113,10 @@ Add a task to a party:
 party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 ```
 
-Click [here](https://github.com/coenrecruitment/capsulecrm-java/tree/master/src/test/java/uk/co/coen/capsulecrm/client) for more examples.
+Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/test/java/uk/co/coen/capsulecrm/client) for more examples.
 
 ### License
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
-Copyright 2013-2014 Coen Recruitment Ltd - www.coen.co.uk.
+Copyright 2011-2014 [Mathias Bogaert](mailto:mathias.bogaert@gmail.com).
