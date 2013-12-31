@@ -13,8 +13,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.IllegalCharsetNameException;
@@ -33,17 +33,29 @@ import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolTh
  * <li>Twitter: creates Twitter social network links by visiting your contacts' websites and looking for a screen name</li>
  * </ul>
  */
-@Ignore
-public class SocialNetworkLinks extends CapsuleTest {
+public class SocialNetworkLinks {
+    final static Logger logger = LoggerFactory.getLogger(SocialNetworkLinks.class);
+
+    public static void main(String[] args) {
+        try {
+            SocialNetworkLinks links = new SocialNetworkLinks();
+
+            links.addSkypeLinks();
+            links.addTwitterLinks();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addSkypeLinks() throws Exception {
         final CountDownLatch lock = new CountDownLatch(1);
 
-        System.out.println("addSkypeLinks - listing all parties...");
+        logger.info("addSkypeLinks - listing all parties...");
 
-        Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CParties>() {
+        Futures.addCallback(listenInPoolThread(CParty.listModifiedSince(new DateTime().minusWeeks(10))), new FutureCallback<CParties>() {
             @Override
             public void onSuccess(CParties parties) {
-                System.out.println("Found " + parties.size + " parties, adding Skype links from phone numbers...");
+                logger.info("Found " + parties.size + " parties, adding Skype links from phone numbers...");
 
                 List<ListenableFuture<Response>> deletePromises = Lists.newArrayList();
 
@@ -60,7 +72,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                                     String phoneNumber = CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber);
 
                                     if (phoneNumbers.contains(phoneNumber)) {
-                                        System.out.println("CParty " + party + " has duplicate phone number (" + ((CPhone) contact).phoneNumber + "). Deleting.");
+                                        logger.info("CParty " + party + " has duplicate phone number (" + ((CPhone) contact).phoneNumber + "). Deleting.");
                                         deletePromises.add(listenInPoolThread(party.deleteContact(contact))); // remove dup
                                     } else {
                                         phoneNumbers.add(CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber));
@@ -73,7 +85,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                                     String skypeNumber = ((CWebsite) contact).webAddress;
 
                                     if (skypeNumbers.contains(skypeNumber)) {
-                                        System.out.println("CParty " + party + " has duplicate Skype number (" + ((CWebsite) contact).webAddress + "). Deleting.");
+                                        logger.info("CParty " + party + " has duplicate Skype number (" + ((CWebsite) contact).webAddress + "). Deleting.");
                                         deletePromises.add(listenInPoolThread(party.deleteContact(contact))); // remove dup
                                     } else {
                                         skypeNumbers.add(skypeNumber);
@@ -103,11 +115,11 @@ public class SocialNetworkLinks extends CapsuleTest {
 
                             Response response = party.save().get();
                             if (response.getStatusCode() < 200 || response.getStatusCode() > 206) {
-                                System.out.println("Failure saving party " + party + ", response "
+                                logger.warn("Failure saving party " + party + ", response "
                                         + response.getStatusCode() + " " + response.getStatusText()
                                         + " " + response.getResponseBody());
                             } else {
-                                System.out.println("Success saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                                logger.info("Success saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -130,7 +142,7 @@ public class SocialNetworkLinks extends CapsuleTest {
     public void removeAddressType() throws Exception {
         final CountDownLatch lock = new CountDownLatch(1);
 
-        System.out.println("removeAddressType - listing all parties...");
+        logger.info("removeAddressType - listing all parties...");
         Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CParties>() {
             @Override
             public void onSuccess(CParties parties) {
@@ -156,11 +168,11 @@ public class SocialNetworkLinks extends CapsuleTest {
 
                             Response response = organisation.save().get();
                             if (response.getStatusCode() < 200 || response.getStatusCode() > 206) {
-                                System.out.println("Failure saving party " + organisation + ", response "
+                                logger.warn("Failure saving party " + organisation + ", response "
                                         + response.getStatusCode() + " " + response.getStatusText()
                                         + " " + response.getResponseBody());
                             } else {
-                                System.out.println("Success saving party " + organisation + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                                logger.info("Success saving party " + organisation + ", response " + response.getStatusCode() + " " + response.getStatusText());
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -180,16 +192,15 @@ public class SocialNetworkLinks extends CapsuleTest {
         lock.await();
     }
 
-    @Test
     public void addTwitterLinks() throws Exception {
         final CountDownLatch lock = new CountDownLatch(1);
 
-        System.out.println("addTwitterLinks - listing all parties...");
+        logger.info("addTwitterLinks - listing all parties...");
 
         Futures.addCallback(listenInPoolThread(CParty.listModifiedSince(new DateTime().minusWeeks(10))), new FutureCallback<CParties>() {
             @Override
             public void onSuccess(CParties parties) {
-                System.out.println("Found " + parties.size + " parties, finding and adding Twitter links...");
+                logger.info("Found " + parties.size + " parties, finding and adding Twitter links...");
 
                 for (CParty party : parties) {
                     boolean hasTwitterLink = false;
@@ -199,7 +210,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                             CWebsite website = (CWebsite) contact;
 
                             if (WebService.TWITTER.equals(website.webService)) {
-                                System.out.println("Skipping " + party + " since it already has a twitter link.");
+                                logger.info("Skipping " + party + " since it already has a twitter link.");
 
                                 hasTwitterLink = true;
                             }
@@ -214,7 +225,7 @@ public class SocialNetworkLinks extends CapsuleTest {
                                 CWebsite website = (CWebsite) contact;
 
                                 if (WebService.URL.equals(website.webService) && !website.webAddress.contains("google")) {
-                                    System.out.println("Visiting website of " + party.getName() + " at " + website.webAddress);
+                                    logger.info("Visiting website of " + party.getName() + " at " + website.webAddress);
 
                                     try {
                                         Document doc = Jsoup.connect(website.webAddress.startsWith("http://") ? website.webAddress : "http://" + website.webAddress)
@@ -242,16 +253,16 @@ public class SocialNetworkLinks extends CapsuleTest {
                                             }
                                         }
                                     } catch (IllegalCharsetNameException e) { // see https://github.com/jhy/jsoup/commit/2714d6be6cbe465b522a724c2796ddf74df06482#-P0
-                                        System.out.println("Illegal charset name for " + website + " of " + party);
+                                        logger.warn("Illegal charset name for " + website + " of " + party);
                                     } catch (IOException e) {
-                                        System.out.println("Unable to GET " + website + " of " + party);
+                                        logger.error("Unable to GET " + website + " of " + party);
                                     }
                                 }
                             }
                         }
 
                         for (String twitterUser : twitterUsers) {
-                            System.out.println("Found twitter user @" + twitterUser + ", adding it to " + party.getName() + " and saving...");
+                            logger.info("Found twitter user @" + twitterUser + ", adding it to " + party.getName() + " and saving...");
 
                             CWebsite twitterLink = new CWebsite(null, WebService.TWITTER, twitterUser);
                             party.addContact(twitterLink);
@@ -259,9 +270,9 @@ public class SocialNetworkLinks extends CapsuleTest {
                             try {
                                 Response response = party.save().get();
                                 if (response.getStatusCode() < 200 || response.getStatusCode() > 201) {
-                                    System.out.println("Failure saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                                    logger.warn("Failure saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
                                 } else {
-                                    System.out.println("Success saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                                    logger.info("Success saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
                                 }
                             } catch (Exception e) {
                                 throw new RuntimeException(e);

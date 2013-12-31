@@ -14,6 +14,8 @@ public class HistoryTest extends CapsuleTest {
 
         history = person.listHistory().get();
         assertThat(history.size).isEqualTo(1);
+        assertThat(history.iterator().next().note).isEqualTo("test history item");
+        assertThat(history.iterator().next().partyId).isEqualTo(person.id);
 
         deleteTestPerson();
         assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);

@@ -7,7 +7,6 @@ object Build extends sbt.Build {
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
-    .settings(CoverallsPlugin.singleProject: _*)
     .settings(
     shellPrompt := ShellPrompt.buildShellPrompt,
     version := buildVersion,
