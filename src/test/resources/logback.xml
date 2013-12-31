@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%date{HH:mm:sss} %-5level %logger{0} %msg%n</pattern>
+            <pattern>%date{MM/dd HH:mm:ss} %-5level [%.15thread] %logger{1} - %msg%n</pattern>
         </encoder>
 
         <target>System.err</target>

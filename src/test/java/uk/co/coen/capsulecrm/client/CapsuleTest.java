@@ -16,7 +16,7 @@ public abstract class CapsuleTest {
     public TestRule watchman = new TestWatcher() {
         @Override
         protected void starting(Description description) {
-            logger.info("Running test {}...", description.getMethodName());
+            logger.info("Running test {} ...", description.getMethodName());
         }
     };
 
@@ -24,7 +24,7 @@ public abstract class CapsuleTest {
 
     @Before
     public final void createTestPerson() throws Exception {
-        logger.info("Creating test person...");
+        logger.info("Creating test person 'Dr firstName lastName' ...");
 
         // create a test person
         person = new CPerson();
@@ -45,7 +45,7 @@ public abstract class CapsuleTest {
     @After
     public final void deleteTestPerson() throws Exception {
         if (person != null && person.id != null) {
-            logger.info("Deleting test person...");
+            logger.info("Deleting test person with ID " + person.id + " ...");
 
             CPerson.byId(person.id).get().delete().get();
             person.id = null;

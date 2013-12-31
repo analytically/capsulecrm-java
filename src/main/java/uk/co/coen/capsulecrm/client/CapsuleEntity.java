@@ -61,8 +61,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()),
-                new UnmarshalResponseBody<CHistory>(xstream));
+                .execute()), new UnmarshalResponseBody<CHistory>(xstream));
     }
 
     public Future<Response> add(final CHistoryItem item) throws IOException {
@@ -119,8 +118,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()),
-                new UnmarshalResponseBody<CTasks>(xstream));
+                .execute()), new UnmarshalResponseBody<CTasks>(xstream));
     }
 
     public Future<CTasks> listTasks(TaskStatus status) throws IOException {
@@ -128,8 +126,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .addQueryParameter("status", status.name())
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()),
-                new UnmarshalResponseBody<CTasks>(xstream));
+                .execute()), new UnmarshalResponseBody<CTasks>(xstream));
     }
 
     public Future<Response> add(final CTask task) throws IOException {
