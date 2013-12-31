@@ -24,20 +24,26 @@ public class PartyTest extends CapsuleTest {
 
         assertThat(fetchedPerson.createdOn).isNotNull();
         assertThat(fetchedPerson.pictureURL).isNotNull();
+        assertThat(fetchedPerson.lastContactedOn).isNull();
 
         assertThat(fetchedPerson.contacts).hasSize(4);
+        assertThat(fetchedPerson.firstAddress().type).isNull();
         assertThat(fetchedPerson.firstAddress().street).isEqualTo(person.firstAddress().street);
         assertThat(fetchedPerson.firstAddress().city).isEqualTo(person.firstAddress().city);
         assertThat(fetchedPerson.firstAddress().zip).isEqualTo(person.firstAddress().zip);
         assertThat(fetchedPerson.firstAddress().state).isEqualTo(person.firstAddress().state);
         assertThat(fetchedPerson.firstAddress().country).isEqualTo(person.firstAddress().country);
 
+        assertThat(fetchedPerson.firstEmail().type).isNull();
         assertThat(fetchedPerson.firstEmail().emailAddress).isEqualTo(person.firstEmail().emailAddress);
 
+        assertThat(fetchedPerson.firstPhone().type).isNull();
         assertThat(fetchedPerson.firstPhone().phoneNumber).isEqualTo(person.firstPhone().phoneNumber);
 
-        assertThat(fetchedPerson.firstWebsite().webAddress).isEqualTo(person.firstWebsite().webAddress);
+        assertThat(fetchedPerson.firstWebsite().type).isNull();
         assertThat(fetchedPerson.firstWebsite().webService).isEqualTo(person.firstWebsite().webService);
+        assertThat(fetchedPerson.firstWebsite().webAddress).isEqualTo(person.firstWebsite().webAddress);
+        assertThat(fetchedPerson.firstWebsite().url).isEqualTo(person.firstWebsite().webAddress);
 
         deleteTestPerson();
         assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);

@@ -10,6 +10,7 @@ public abstract class CapsuleTest {
         testPerson.firstName = "firstName";
         testPerson.lastName = "lastName";
         testPerson.jobTitle = "jobTitle";
+        testPerson.about = "about";
         testPerson.addContact(new CEmail(null, "testperson123@testing.com"));
         testPerson.addContact(new CPhone(null, "123456789"));
         testPerson.addContact(new CWebsite(null, "www.test123.com"));
