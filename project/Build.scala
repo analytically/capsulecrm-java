@@ -101,7 +101,7 @@ object ShellPrompt {
       val currProject = Project.extract(state).currentProject.id
       if (System.getProperty("sbt.nologformat", "false") != "true") {
         def currBranch = (
-          ("git status -sb" lines_! devnull headOption)
+          ("git symbolic-ref --short HEAD" lines_! devnull headOption)
             getOrElse "-" stripPrefix "## "
           )
 
