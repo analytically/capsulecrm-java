@@ -19,7 +19,7 @@ public class OpportunityTest extends CapsuleTest {
         opportunity.save().get();
         assertThat(COpportunity.listByParty(person).get()).hasSize(1);
 
-        opportunity.delete();
+        opportunity.delete().get();
         assertThat(COpportunity.listByParty(person).get()).hasSize(0);
 
         deleteTestPerson();
