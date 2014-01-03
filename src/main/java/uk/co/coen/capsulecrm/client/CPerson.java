@@ -23,6 +23,7 @@ public class CPerson extends CParty {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
+                .add("id", id)
                 .add("title", title)
                 .add("firstName", firstName)
                 .add("lastName", lastName)

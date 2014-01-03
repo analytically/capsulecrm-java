@@ -33,6 +33,7 @@ public class COrganisation extends CParty {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
+                .add("id", id)
                 .add("name", name)
                 .toString();
     }
