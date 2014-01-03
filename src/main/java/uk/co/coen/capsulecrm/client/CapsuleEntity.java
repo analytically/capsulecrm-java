@@ -110,9 +110,11 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .setRealm(realm)
                 .setBodyEncoding("UTF-8")
                 .setBody(xstream.toXML(task))
-                .execute(new AsyncCompletionHandler<Response>() {
+                .execute(new ThrowOnHttpFailure() {
                     @Override
                     public Response onCompleted(Response response) throws Exception {
+                        response = super.onCompleted(response);
+
                         // extract ID from location
                         String location = response.getHeader("Location");
                         if (location == null) {

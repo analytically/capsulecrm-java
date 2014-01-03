@@ -117,9 +117,11 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
                     .setRealm(realm)
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(this))
-                    .execute(new AsyncCompletionHandler<Response>() {
+                    .execute(new ThrowOnHttpFailure() {
                         @Override
                         public Response onCompleted(Response response) throws Exception {
+                            response = super.onCompleted(response);
+
                             String location = response.getHeader("Location");
                             if (location == null) {
                                 throw new RuntimeException("null location, cannot assign id to " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
