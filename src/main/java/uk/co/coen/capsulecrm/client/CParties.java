@@ -3,7 +3,6 @@ package uk.co.coen.capsulecrm.client;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,8 +21,8 @@ public class CParties implements Iterable<CParty> {
     @Override
     public Iterator<CParty> iterator() {
         return Iterators.concat(
-                organisations != null ? organisations.iterator() : new ArrayList<COrganisation>().iterator(),
-                persons != null ? persons.iterator() : new ArrayList<CPerson>().iterator());
+                organisations != null ? organisations.iterator() : Iterators.<COrganisation>emptyIterator(),
+                persons != null ? persons.iterator() : Iterators.<CPerson>emptyIterator());
     }
 
     @Override

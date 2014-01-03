@@ -1,6 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
-import java.util.ArrayList;
+import com.google.common.collect.Iterators;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,6 +14,6 @@ public class COpportunities implements Iterable<COpportunity> {
 
     @Override
     public Iterator<COpportunity> iterator() {
-        return opportunities != null ? opportunities.iterator() : new ArrayList<COpportunity>().iterator();
+        return opportunities != null ? opportunities.iterator() : Iterators.<COpportunity>emptyIterator();
     }
 }

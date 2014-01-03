@@ -7,17 +7,18 @@ import static org.fest.assertions.Assertions.assertThat;
 public class HistoryTest extends CapsuleTest {
     @Test
     public void testHistory() throws Exception {
+        assertThat(person.listHistory().get().size).isEqualTo(0);
+
+        CHistoryItem historyItem = new CHistoryItem("test history item");
+
+        person.add(historyItem).get();
+
         CHistory history = person.listHistory().get();
-        assertThat(history.size).isEqualTo(0);
-
-        person.add(new CHistoryItem("test history item")).get();
-
-        history = person.listHistory().get();
         assertThat(history.size).isEqualTo(1);
         assertThat(history.iterator().next().note).isEqualTo("test history item");
         assertThat(history.iterator().next().partyId).isEqualTo(person.id);
 
-        deleteTestPerson();
-        assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
+        person.remove(historyItem).get();
+        assertThat(person.listHistory().get().size).isEqualTo(0);
     }
 }

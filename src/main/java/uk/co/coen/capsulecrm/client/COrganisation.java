@@ -2,6 +2,7 @@ package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
 import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
+import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
 import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
 import java.util.concurrent.Future;
@@ -40,7 +41,6 @@ public class COrganisation extends CParty {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + id + "/people")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()),
-                new UnmarshalResponseBody<CParties>(xstream));
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 }

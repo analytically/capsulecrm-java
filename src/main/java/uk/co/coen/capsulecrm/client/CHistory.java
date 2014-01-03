@@ -1,6 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
 import java.util.List;
@@ -9,10 +10,9 @@ public class CHistory implements Iterable<CHistoryItem> {
     public int size;
     public List<CHistoryItem> historyItems;
 
-    @SuppressWarnings("unchecked")
     @Override
     public Iterator<CHistoryItem> iterator() {
-        return historyItems != null ? historyItems.iterator() : null;
+        return historyItems != null ? historyItems.iterator() : Iterators.<CHistoryItem>emptyIterator();
     }
 
     @Override

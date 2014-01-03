@@ -213,6 +213,7 @@ public class SocialNetworkLinks {
                                 logger.info("Skipping " + party + " since it already has a twitter link.");
 
                                 hasTwitterLink = true;
+                                break;
                             }
                         }
                     }

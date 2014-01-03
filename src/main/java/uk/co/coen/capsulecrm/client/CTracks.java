@@ -1,8 +1,8 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterators;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class CTracks implements Iterable<CTrack> {
 
     @Override
     public Iterator<CTrack> iterator() {
-        return tracks != null ? tracks.iterator() : new ArrayList<CTrack>().iterator();
+        return tracks != null ? tracks.iterator() : Iterators.<CTrack>emptyIterator();
     }
 
     @Override

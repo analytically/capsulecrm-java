@@ -13,7 +13,7 @@ public abstract class CapsuleTest {
     final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Rule
-    public TestRule watchman = new TestWatcher() {
+    public TestRule watcher = new TestWatcher() {
         @Override
         protected void starting(Description description) {
             logger.info("Running test {} ...", description.getMethodName());
@@ -47,7 +47,7 @@ public abstract class CapsuleTest {
         if (person != null && person.id != null) {
             logger.info("Deleting test person with ID " + person.id + " ...");
 
-            CPerson.byId(person.id).get().delete().get();
+            person.delete().get();
             person.id = null;
         }
     }

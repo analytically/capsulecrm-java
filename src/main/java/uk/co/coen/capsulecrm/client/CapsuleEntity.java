@@ -3,6 +3,7 @@ package uk.co.coen.capsulecrm.client;
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.Response;
 import org.joda.time.DateTime;
+import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
 import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
 import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
@@ -16,52 +17,39 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     public DateTime updatedOn;
 
     public Future<CCustomFields> listCustomFields() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfields")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new UnmarshalResponseBody<CCustomFields>(xstream));
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CCustomFields>(xstream));
     }
 
     public Future<Response> add(final CCustomField customField) throws IOException {
-        if (customField.id != null) {
-            return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
-                    .addHeader("Content-Type", "application/xml")
-                    .setRealm(realm)
-                    .setBodyEncoding("UTF-8")
-                    .setBody(xstream.toXML(customField))
-                    .execute();
-        } else {
-            return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield")
-                    .addHeader("Content-Type", "application/xml")
-                    .setRealm(realm)
-                    .setBodyEncoding("UTF-8")
-                    .setBody(xstream.toXML(customField))
-                    .execute(new AsyncCompletionHandler<Response>() {
-                        @Override
-                        public Response onCompleted(Response response) throws Exception {
-                            // extract ID from location
-                            String location = response.getHeader("Location");
-                            if (location == null) {
-                                throw new RuntimeException("null location, cannot assign id to custom field " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
-                            }
-                            customField.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
-                            return response;
-                        }
-                    });
-        }
+        return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfields")
+                .addHeader("Content-Type", "application/xml")
+                .setRealm(realm)
+                .setBodyEncoding("UTF-8")
+                .setBody(xstream.toXML(new CCustomFields(customField)))
+                .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> remove(CCustomField customField) throws IOException {
-        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfield/" + customField.id)
+        customField.text = null;
+        customField.date = null;
+        customField.bool = null;
+
+        return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfields")
+                .addHeader("Content-Type", "application/xml")
                 .setRealm(realm)
-                .execute();
+                .setBodyEncoding("UTF-8")
+                .setBody(xstream.toXML(new CCustomFields(customField)))
+                .execute(new ThrowOnHttpFailure());
     }
 
     public Future<CHistory> listHistory() throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new UnmarshalResponseBody<CHistory>(xstream));
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CHistory>(xstream));
     }
 
     public Future<Response> add(final CHistoryItem item) throws IOException {
@@ -71,16 +59,18 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                     .setRealm(realm)
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(item))
-                    .execute();
+                    .execute(new ThrowOnHttpFailure());
         } else {
             return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
                     .addHeader("Content-Type", "application/xml")
                     .setRealm(realm)
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(item))
-                    .execute(new AsyncCompletionHandler<Response>() {
+                    .execute(new ThrowOnHttpFailure() {
                         @Override
                         public Response onCompleted(Response response) throws Exception {
+                            response = super.onCompleted(response);
+
                             // extract ID from location
                             String location = response.getHeader("Location");
                             if (location == null) {
@@ -96,7 +86,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     public Future<Response> remove(final CHistoryItem item) throws IOException {
         return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
                 .setRealm(realm)
-                .execute();
+                .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> add(CTag tag) throws IOException {
@@ -105,28 +95,13 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .setRealm(realm)
                 .setBodyEncoding("UTF-8")
                 .setBody(xstream.toXML(tag))
-                .execute();
+                .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> remove(CTag tag) throws IOException {
         return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
                 .setRealm(realm)
-                .execute();
-    }
-
-    public Future<CTasks> listTasks() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
-                .addHeader("Accept", "application/xml")
-                .setRealm(realm)
-                .execute()), new UnmarshalResponseBody<CTasks>(xstream));
-    }
-
-    public Future<CTasks> listTasks(TaskStatus status) throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tasks")
-                .addQueryParameter("status", status.name())
-                .addHeader("Accept", "application/xml")
-                .setRealm(realm)
-                .execute()), new UnmarshalResponseBody<CTasks>(xstream));
+                .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> add(final CTask task) throws IOException {

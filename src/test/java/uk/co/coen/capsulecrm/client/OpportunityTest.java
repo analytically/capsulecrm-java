@@ -21,8 +21,5 @@ public class OpportunityTest extends CapsuleTest {
 
         opportunity.delete().get();
         assertThat(COpportunity.listByParty(person).get()).hasSize(0);
-
-        deleteTestPerson();
-        assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
     }
 }

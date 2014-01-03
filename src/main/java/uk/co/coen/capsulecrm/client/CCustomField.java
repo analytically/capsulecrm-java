@@ -8,7 +8,7 @@ public class CCustomField extends CIdentifiable {
     public String label;
     public String text;
     public DateTime date;
-    public String bool;
+    public Boolean bool;
 
     public CCustomField(String tag, String label, String text) {
         this.tag = tag;

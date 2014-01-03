@@ -20,7 +20,7 @@ Add this dependency to your project's POM file:
 <dependency>
   <groupId>uk.co.coen</groupId>
   <artifactId>capsulecrm-java</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 
@@ -29,7 +29,7 @@ Add this dependency to your project's POM file:
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
 ```scala
-libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.1.0"
+libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.1.1"
 ```
 
 ### Configuration
@@ -98,7 +98,7 @@ Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CPa
 Add a tag to a party:
 
 ```java
-party.add(new CTag("iamatag")).get();
+party.add(new CTag("iamatag"));
 ```
 
 Add a note to a party:

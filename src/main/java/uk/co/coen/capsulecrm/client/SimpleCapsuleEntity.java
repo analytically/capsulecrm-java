@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.XStream;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import uk.co.coen.capsulecrm.client.utils.JodaDateTimeXStreamConverter;
+import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.addImplicitCollection(CParties.class, "persons", CPerson.class);
 
         xstream.alias("customField", CCustomField.class);
+        xstream.aliasField("boolean", CCustomField.class, "bool");
         xstream.alias("customFields", CCustomFields.class);
         xstream.aliasAttribute(CCustomFields.class, "size", "size");
         xstream.addImplicitCollection(CCustomFields.class, "customFields", CCustomField.class);
@@ -108,7 +110,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
                     .setRealm(realm)
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(this))
-                    .execute();
+                    .execute(new ThrowOnHttpFailure());
         } else {
             return asyncHttpClient.preparePost(capsuleUrl + "/api" + writeContextPath())
                     .addHeader("Content-Type", "application/xml")
@@ -132,6 +134,6 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     public Future<Response> delete() throws IOException {
         return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id)
                 .setRealm(realm)
-                .execute();
+                .execute(new ThrowOnHttpFailure());
     }
 }

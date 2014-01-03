@@ -2,6 +2,9 @@ package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class CWebsite extends CContact {
     public WebService webService = WebService.URL;
     public String webAddress;
@@ -36,5 +39,9 @@ public class CWebsite extends CContact {
                 .add("webService", webService)
                 .add("url", url)
                 .toString();
+    }
+
+    public URL toURL() throws MalformedURLException {
+        return new URL(webAddress);
     }
 }

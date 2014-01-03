@@ -1,6 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +12,7 @@ public class CTags implements Iterable<CTag> {
 
     @Override
     public Iterator<CTag> iterator() {
-        return tags.iterator();
+        return tags != null ? tags.iterator() : Iterators.<CTag>emptyIterator();
     }
 
     @Override

@@ -2,10 +2,12 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
+import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 import org.joda.time.DateTime;
 import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
+import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
 import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
 import java.io.IOException;
@@ -35,6 +37,10 @@ public class CTask extends SimpleCapsuleEntity {
     public CTask() {
     }
 
+    public CTask(String description, DateTime dueDateTime) {
+        this(description, null, dueDateTime, true);
+    }
+
     public CTask(String description, DateTime dueDateTime, boolean saveTime) {
         this(description, null, dueDateTime, saveTime);
     }
@@ -56,6 +62,14 @@ public class CTask extends SimpleCapsuleEntity {
 
     public static Future<CTasks> list() throws IOException {
         return list(null, null, null, 0, 0);
+    }
+
+    public static Future<CTasks> listByCategory(String category) throws IOException {
+        return list(category, null, null, 0, 0);
+    }
+
+    public static Future<CTasks> listByUser(String user) throws IOException {
+        return list(null, user, null, 0, 0);
     }
 
     public static Future<CTasks> list(int start, int limit) throws IOException {
@@ -92,7 +106,7 @@ public class CTask extends SimpleCapsuleEntity {
         return transform(new ListenableFutureAdapter<>(request
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
-                .execute()), new UnmarshalResponseBody<CTasks>(xstream));
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTasks>(xstream));
     }
 
     public Future<Response> complete() throws IOException {
@@ -100,7 +114,16 @@ public class CTask extends SimpleCapsuleEntity {
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
                 .setBody("")
-                .execute();
+                .execute(new AsyncCompletionHandler<Response>() {
+                    @Override
+                    public Response onCompleted(Response response) throws Exception {
+                        if (response.getStatusCode() == 200) {
+                            status = TaskStatus.COMPLETED;
+                        }
+
+                        return response;
+                    }
+                });
     }
 
     public Future<Response> reopen() throws IOException {
@@ -108,7 +131,16 @@ public class CTask extends SimpleCapsuleEntity {
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
                 .setBody("")
-                .execute();
+                .execute(new AsyncCompletionHandler<Response>() {
+                    @Override
+                    public Response onCompleted(Response response) throws Exception {
+                        if (response.getStatusCode() == 200) {
+                            status = TaskStatus.OPEN;
+                        }
+
+                        return response;
+                    }
+                });
     }
 
     @Override

@@ -1,8 +1,8 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterators;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class CTasks implements Iterable<CTask> {
 
     @Override
     public Iterator<CTask> iterator() {
-        return tasks != null ? tasks.iterator() : new ArrayList<CTask>().iterator();
+        return tasks != null ? tasks.iterator() : Iterators.<CTask>emptyIterator();
     }
 
     @Override
