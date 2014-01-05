@@ -34,100 +34,109 @@ import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolTh
  * </ul>
  */
 public class SocialNetworkLinks {
-    final static Logger logger = LoggerFactory.getLogger(SocialNetworkLinks.class);
+    final Logger logger = LoggerFactory.getLogger(SocialNetworkLinks.class);
 
     public static void main(String[] args) {
         try {
             SocialNetworkLinks links = new SocialNetworkLinks();
 
             links.addSkypeLinks();
-            links.addTwitterLinks();
+            //links.addTwitterLinks();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public void addSkypeLinks() throws Exception {
-        final CountDownLatch lock = new CountDownLatch(1);
-
         logger.info("addSkypeLinks - listing all parties...");
 
         Futures.addCallback(listenInPoolThread(CParty.listModifiedSince(new DateTime().minusWeeks(10))), new FutureCallback<CParties>() {
             @Override
             public void onSuccess(CParties parties) {
-                logger.info("Found " + parties.size + " parties, adding Skype links from phone numbers...");
+                try {
 
-                List<ListenableFuture<Response>> deletePromises = Lists.newArrayList();
+                    logger.info("Found " + parties.size + " parties, adding Skype links from phone numbers...");
 
-                for (CParty party : parties) {
-                    Set<String> phoneNumbers = Sets.newHashSet();
-                    Set<String> skypeNumbers = Sets.newHashSet();
-
-                    for (CContact contact : party.contacts) {
-                        try {
-                            if (contact instanceof CPhone) {
-                                CPhone phone = (CPhone) contact;
-
-                                if (!"fax".equalsIgnoreCase(phone.type)) {
-                                    String phoneNumber = CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber);
-
-                                    if (phoneNumbers.contains(phoneNumber)) {
-                                        logger.info("CParty " + party + " has duplicate phone number (" + ((CPhone) contact).phoneNumber + "). Deleting.");
-                                        deletePromises.add(listenInPoolThread(party.deleteContact(contact))); // remove dup
-                                    } else {
-                                        phoneNumbers.add(CharMatcher.WHITESPACE.removeFrom(((CPhone) contact).phoneNumber));
-                                    }
-                                }
-                            }
-
-                            if (contact instanceof CWebsite) {
-                                if (WebService.SKYPE.equals(((CWebsite) contact).webService)) {
-                                    String skypeNumber = ((CWebsite) contact).webAddress;
-
-                                    if (skypeNumbers.contains(skypeNumber)) {
-                                        logger.info("CParty " + party + " has duplicate Skype number (" + ((CWebsite) contact).webAddress + "). Deleting.");
-                                        deletePromises.add(listenInPoolThread(party.deleteContact(contact))); // remove dup
-                                    } else {
-                                        skypeNumbers.add(skypeNumber);
-                                    }
-                                }
-                            }
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+                    List<ListenableFuture<Response>> deletePromises = Lists.newArrayList();
 
                     boolean save = false;
-                    for (String phoneNumber : phoneNumbers) {
-                        if (!skypeNumbers.contains(phoneNumber)) {
-                            CWebsite website = new CWebsite(null, WebService.SKYPE, phoneNumber);
-                            party.addContact(website);
 
-                            save = true;
-                        }
-                    }
+                    for (CParty party : parties) {
+                        for (CContact contact : party.contacts) {
+                            if (contact instanceof CWebsite) {
+                                CWebsite website = (CWebsite) contact;
 
-                    if (save) {
-                        try {
-                            Futures.allAsList(deletePromises).get();
-
-                            System.out.println("Saving " + party);
-
-                            Response response = party.save().get();
-                            if (response.getStatusCode() < 200 || response.getStatusCode() > 206) {
-                                logger.warn("Failure saving party " + party + ", response "
-                                        + response.getStatusCode() + " " + response.getStatusText()
-                                        + " " + response.getResponseBody());
-                            } else {
-                                logger.info("Success saving party " + party + ", response " + response.getStatusCode() + " " + response.getStatusText());
+                                if (website.webService.equals(WebService.SKYPE)) {
+                                    if (!CharMatcher.JAVA_DIGIT.retainFrom(website.webAddress).equals(website.webAddress)) {
+                                        logger.info("Found illegal characters in skype number for party " + party + " (" + website.webAddress + "). Fixing.");
+                                        website.webAddress = CharMatcher.JAVA_DIGIT.retainFrom(website.webAddress);
+                                        save = true;
+                                    }
+                                }
                             }
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                        }
+
+                        Set<String> phoneNumbers = Sets.newHashSet();
+                        Set<String> skypeNumbers = Sets.newHashSet();
+
+                        List<CContact> contactsToRemove = Lists.newArrayList();
+
+                        for (CContact contact : party.contacts) {
+                            try {
+                                if (contact instanceof CPhone) {
+                                    CPhone phone = (CPhone) contact;
+
+                                    if (!"fax".equalsIgnoreCase(phone.type)) {
+                                        String phoneNumber = CharMatcher.JAVA_DIGIT.retainFrom(((CPhone) contact).phoneNumber);
+
+                                        if (phoneNumbers.contains(phoneNumber)) {
+                                            logger.info("CParty " + party + " has duplicate phone number (" + ((CPhone) contact).phoneNumber + "). Deleting.");
+                                            party.deleteContact(contact); // remove dup
+                                            contactsToRemove.add(contact);
+                                        } else {
+                                            phoneNumbers.add(CharMatcher.JAVA_DIGIT.retainFrom(((CPhone) contact).phoneNumber));
+                                        }
+                                    }
+                                }
+
+                                if (contact instanceof CWebsite) {
+                                    if (WebService.SKYPE.equals(((CWebsite) contact).webService)) {
+                                        String skypeNumber = ((CWebsite) contact).webAddress;
+
+                                        if (skypeNumbers.contains(skypeNumber)) {
+                                            logger.info("CParty " + party + " has duplicate Skype number (" + ((CWebsite) contact).webAddress + "). Deleting.");
+                                            party.deleteContact(contact); // remove dup
+                                            contactsToRemove.add(contact);
+                                        } else {
+                                            skypeNumbers.add(skypeNumber);
+                                        }
+                                    }
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        party.contacts.removeAll(contactsToRemove);
+
+                        for (String phoneNumber : phoneNumbers) {
+                            if (!skypeNumbers.contains(phoneNumber)) {
+                                CWebsite website = new CWebsite(null, WebService.SKYPE, phoneNumber);
+                                party.addContact(website);
+                                save = true;
+                            }
+                        }
+
+                        if (save) {
+                            logger.info("Saving " + party);
+                            party.save();
+
                         }
                     }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
-
-                lock.countDown();
             }
 
             @Override
@@ -135,13 +144,9 @@ public class SocialNetworkLinks {
                 t.printStackTrace();
             }
         });
-
-        lock.await();
     }
 
     public void removeAddressType() throws Exception {
-        final CountDownLatch lock = new CountDownLatch(1);
-
         logger.info("removeAddressType - listing all parties...");
         Futures.addCallback(listenInPoolThread(CParty.listAll()), new FutureCallback<CParties>() {
             @Override
@@ -179,8 +184,6 @@ public class SocialNetworkLinks {
                         }
                     }
                 }
-
-                lock.countDown();
             }
 
             @Override
@@ -188,13 +191,9 @@ public class SocialNetworkLinks {
                 t.printStackTrace();
             }
         });
-
-        lock.await();
     }
 
     public void addTwitterLinks() throws Exception {
-        final CountDownLatch lock = new CountDownLatch(1);
-
         logger.info("addTwitterLinks - listing all parties...");
 
         Futures.addCallback(listenInPoolThread(CParty.listModifiedSince(new DateTime().minusWeeks(10))), new FutureCallback<CParties>() {
@@ -281,8 +280,6 @@ public class SocialNetworkLinks {
                         }
                     }
                 }
-
-                lock.countDown();
             }
 
             @Override
@@ -290,7 +287,5 @@ public class SocialNetworkLinks {
                 t.printStackTrace();
             }
         });
-
-        lock.await();
     }
 }
