@@ -3,7 +3,7 @@ import Keys._
 import sbt.Tests.Setup
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.1.1"
+  lazy val buildVersion = "1.1.2"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
@@ -30,7 +30,7 @@ object Build extends sbt.Build {
     libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5",
     libraryDependencies += "com.typesafe" % "config" % "1.0.2",
 
-    libraryDependencies += "com.ning" % "async-http-client" % "1.7.22",
+    libraryDependencies += "com.ning" % "async-http-client" % "1.7.23",
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.6",
 
     // testing
@@ -51,7 +51,7 @@ object Build extends sbt.Build {
           Some("releases" at nexus + "service/local/staging/deploy/maven2")
     },
     pomExtra := (
-      <url>http://coenrecruitment.github.io/capsulecrm-java/</url>
+      <url>https://github.com/analytically/capsulecrm-java</url>
       <issueManagement>
         <system>GitHub Issues</system>
         <url>https://github.com/analytically/capsulecrm-java/issues</url>
