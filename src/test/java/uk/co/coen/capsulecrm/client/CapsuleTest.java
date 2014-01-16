@@ -26,7 +26,7 @@ public abstract class CapsuleTest {
     protected CPerson person;
 
     @Before
-    final void createTestPerson() throws Exception {
+    public final void createTestPerson() throws Exception {
         logger.info("Creating test person 'Dr firstName lastName' ...");
 
         // create a test person
@@ -46,7 +46,7 @@ public abstract class CapsuleTest {
     }
 
     @After
-    final void deleteTestPerson() throws Exception {
+    public final void deleteTestPerson() throws Exception {
         if (person != null && person.id != null) {
             logger.info("Deleting test person with ID " + person.id + " ...");
 
