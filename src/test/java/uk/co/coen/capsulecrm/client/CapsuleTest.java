@@ -9,7 +9,10 @@ import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Random;
+
 public abstract class CapsuleTest {
+    final Random random = new Random();
     final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Rule
@@ -23,7 +26,7 @@ public abstract class CapsuleTest {
     protected CPerson person;
 
     @Before
-    public final void createTestPerson() throws Exception {
+    final void createTestPerson() throws Exception {
         logger.info("Creating test person 'Dr firstName lastName' ...");
 
         // create a test person
@@ -33,7 +36,7 @@ public abstract class CapsuleTest {
         person.lastName = "lastName";
         person.jobTitle = "jobTitle";
         person.about = "about";
-        person.addContact(new CEmail(null, "testperson123@testing.com"));
+        person.addContact(new CEmail(null, "testperson" + random.nextInt(10) + "@testing.com"));
         person.addContact(new CPhone(null, "123456789"));
         person.addContact(new CWebsite(null, "www.test123.com"));
         person.addContact(new CAddress(null, "street", "city", "zip", "state", "United Kingdom"));
@@ -43,7 +46,7 @@ public abstract class CapsuleTest {
     }
 
     @After
-    public final void deleteTestPerson() throws Exception {
+    final void deleteTestPerson() throws Exception {
         if (person != null && person.id != null) {
             logger.info("Deleting test person with ID " + person.id + " ...");
 
