@@ -41,7 +41,7 @@ public class GoogleCustomSearch extends Controller {
         }
     }
 
-    public static Result persons() {
+    public static Result persons() throws Exception {
         XStream xstream = new XStream();
 
         xstream.alias("Annotations", Annotations.class);
@@ -73,7 +73,7 @@ public class GoogleCustomSearch extends Controller {
         return ok(xstream.toXML(new Annotations(annotations)));
     }
 
-    public static Result organisations() {
+    public static Result organisations() throws Exception {
         XStream xstream = new XStream();
 
         xstream.alias("Annotations", Annotations.class);
