@@ -30,7 +30,7 @@ object Build extends sbt.Build {
     libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5",
     libraryDependencies += "com.typesafe" % "config" % "1.2.0",
 
-    libraryDependencies += "com.ning" % "async-http-client" % "1.7.23",
+    libraryDependencies += "com.ning" % "async-http-client" % "1.7.24",
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.6",
 
     // testing
