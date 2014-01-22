@@ -25,7 +25,7 @@ object Build extends sbt.Build {
         invoke(null, "ROOT")
     ),
 
-    libraryDependencies += "com.google.guava" % "guava" % "15.0",
+    libraryDependencies += "com.google.guava" % "guava" % "16.0",
     libraryDependencies += "joda-time" % "joda-time" % "2.3",
     libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5",
     libraryDependencies += "com.typesafe" % "config" % "1.2.0",
@@ -50,7 +50,7 @@ object Build extends sbt.Build {
         else
           Some("releases" at nexus + "service/local/staging/deploy/maven2")
     },
-    pomExtra := (
+    pomExtra :=
       <url>https://github.com/analytically/capsulecrm-java</url>
       <issueManagement>
         <system>GitHub Issues</system>
@@ -81,7 +81,6 @@ object Build extends sbt.Build {
           <organizationUrl>http://www.coen.co.uk</organizationUrl>
         </developer>
       </developers>
-      )
   )
 }
 
