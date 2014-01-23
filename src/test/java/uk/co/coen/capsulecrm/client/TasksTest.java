@@ -26,6 +26,4 @@ public class TasksTest extends CapsuleTest {
         task.delete().get();
         assertThat(person.listTasks().get().size).isEqualTo(0);
     }
-
-
 }
