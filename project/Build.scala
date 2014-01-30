@@ -3,7 +3,7 @@ import Keys._
 import sbt.Tests.Setup
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.1.2"
+  lazy val buildVersion = "1.1.3"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
@@ -34,7 +34,7 @@ object Build extends sbt.Build {
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.6",
 
     // testing
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13" % "test",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.0" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
     libraryDependencies += "org.easytesting" % "fest-assert" % "1.4" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
