@@ -76,7 +76,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                             if (location == null) {
                                 throw new RuntimeException("null location, cannot assign id to history item " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
                             }
-                            item.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
+                            item.id = Long.parseLong(location.substring(location.lastIndexOf("/") + 1));
                             return response;
                         }
                     });
@@ -120,7 +120,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                         if (location == null) {
                             throw new RuntimeException("null location, cannot assign id to task " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
                         }
-                        task.id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
+                        task.id = Long.parseLong(location.substring(location.lastIndexOf("/") + 1));
                         return response;
                     }
                 });

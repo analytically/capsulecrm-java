@@ -126,7 +126,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
                             if (location == null) {
                                 throw new RuntimeException("null location, cannot assign id to " + this + ", status is " + response.getStatusCode() + " " + response.getStatusText());
                             }
-                            id = Integer.parseInt(location.substring(location.lastIndexOf("/") + 1));
+                            id = Long.parseLong(location.substring(location.lastIndexOf("/") + 1));
                             return response;
                         }
                     });

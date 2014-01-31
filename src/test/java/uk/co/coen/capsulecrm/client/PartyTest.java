@@ -12,6 +12,7 @@ public class PartyTest extends CapsuleTest {
         assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(1);
 
         CPerson fetchedPerson = CPerson.listByEmailAddress(person.firstEmail().emailAddress).get().persons.iterator().next();
+        assertThat(fetchedPerson.id).isNotNull();
         assertThat(fetchedPerson.title).isEqualTo(person.title);
         assertThat(fetchedPerson.firstName).isEqualTo(person.firstName);
         assertThat(fetchedPerson.lastName).isEqualTo(person.lastName);
@@ -27,18 +28,22 @@ public class PartyTest extends CapsuleTest {
 
         assertThat(fetchedPerson.contacts).hasSize(4);
         assertThat(fetchedPerson.firstAddress().type).isNull();
+        assertThat(fetchedPerson.firstAddress().id).isNotNull();
         assertThat(fetchedPerson.firstAddress().street).isEqualTo(person.firstAddress().street);
         assertThat(fetchedPerson.firstAddress().city).isEqualTo(person.firstAddress().city);
         assertThat(fetchedPerson.firstAddress().zip).isEqualTo(person.firstAddress().zip);
         assertThat(fetchedPerson.firstAddress().state).isEqualTo(person.firstAddress().state);
         assertThat(fetchedPerson.firstAddress().country).isEqualTo(person.firstAddress().country);
 
+        assertThat(fetchedPerson.firstEmail().id).isNotNull();
         assertThat(fetchedPerson.firstEmail().type).isNull();
         assertThat(fetchedPerson.firstEmail().emailAddress).isEqualTo(person.firstEmail().emailAddress);
 
+        assertThat(fetchedPerson.firstPhone().id).isNotNull();
         assertThat(fetchedPerson.firstPhone().type).isNull();
         assertThat(fetchedPerson.firstPhone().phoneNumber).isEqualTo(person.firstPhone().phoneNumber);
 
+        assertThat(fetchedPerson.firstWebsite().id).isNotNull();
         assertThat(fetchedPerson.firstWebsite().type).isNull();
         assertThat(fetchedPerson.firstWebsite().webService).isEqualTo(person.firstWebsite().webService);
         assertThat(fetchedPerson.firstWebsite().webAddress).isEqualTo(person.firstWebsite().webAddress);

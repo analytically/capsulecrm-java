@@ -3,7 +3,7 @@ import Keys._
 import sbt.Tests.Setup
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.1.3"
+  lazy val buildVersion = "1.2.0"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)

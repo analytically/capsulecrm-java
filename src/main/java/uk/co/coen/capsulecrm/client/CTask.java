@@ -25,13 +25,13 @@ public class CTask extends SimpleCapsuleEntity {
     public DateTime completedOn;
     public String owner;
 
-    public Integer partyId;
+    public Long partyId;
     public String partyName;
 
-    public Integer caseId;
+    public Long caseId;
     public String caseName;
 
-    public Integer opportunityId;
+    public Long opportunityId;
     public String opportunityName;
 
     public CTask() {

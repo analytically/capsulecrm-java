@@ -15,14 +15,14 @@ public class CHistoryItem extends CIdentifiable {
 
     public List<CAttachment> attachments;
 
-    public Integer partyId;
+    public Long partyId;
     public String partyName;
     public String partyPictureURL;
 
-    public Integer caseId;
+    public Long caseId;
     public String caseName;
 
-    public Integer opportunityId;
+    public Long opportunityId;
     public String opportunityName;
 
     public CHistoryItem(String note) {

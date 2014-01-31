@@ -152,7 +152,7 @@ public abstract class CParty extends CapsuleEntity {
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
-    public static Future<CParty> byId(Integer id) throws IOException {
+    public static Future<CParty> byId(Long id) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + id)
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)

@@ -7,10 +7,10 @@ public class CCase extends CapsuleEntity {
     public String status;
     public String name;
     public String description;
-    public Integer partyId;
+    public Long partyId;
     public DateTime closeDate;
     public String owner;
-    public Integer trackId;
+    public Long trackId;
 
     @Override
     protected String readContextPath() {

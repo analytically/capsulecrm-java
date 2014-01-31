@@ -7,7 +7,7 @@ public class CPerson extends CParty {
     public String firstName;
     public String lastName;
     public String jobTitle;
-    public Integer organisationId;
+    public Long organisationId;
     public String organisationName;
 
     @Override

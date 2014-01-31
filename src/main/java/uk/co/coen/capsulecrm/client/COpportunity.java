@@ -14,17 +14,17 @@ import static com.google.common.util.concurrent.Futures.transform;
 public class COpportunity extends CapsuleEntity {
     public String name;
     public String description;
-    public Integer partyId;
+    public Long partyId;
     public String currency;
     public String value;
     public String durationBasis;
     public Integer duration;
     public DateTime expectedCloseDate;
-    public Integer milestoneId;
+    public Long milestoneId;
     public String milestone;
     public String probability;
     public String owner;
-    public Integer trackId;
+    public Long trackId;
 
     @Override
     protected String readContextPath() {
@@ -61,6 +61,14 @@ public class COpportunity extends CapsuleEntity {
     public static Future<COpportunities> listModifiedSince(DateTime modifiedSince) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
                 .addQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<COpportunities>(xstream));
+    }
+
+    public static Future<COpportunities> listByMilestone(String milestoneName) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/opportunity")
+                .addQueryParameter("milestone", milestoneName)
                 .addHeader("Accept", "application/xml")
                 .setRealm(realm)
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<COpportunities>(xstream));
