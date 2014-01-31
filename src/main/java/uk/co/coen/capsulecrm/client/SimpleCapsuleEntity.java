@@ -16,7 +16,6 @@ import java.util.concurrent.Future;
 public abstract class SimpleCapsuleEntity extends CIdentifiable {
     static final Config conf = ConfigFactory.load();
     static final String capsuleUrl = conf.getString("capsulecrm.url");
-    static final String capsuleToken = conf.getString("capsulecrm.token");
 
     static final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder()
             .addRequestFilter(new ThrottleRequestFilter(10))
@@ -26,7 +25,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
 
     static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(config);
     static final Realm realm = new Realm.RealmBuilder()
-            .setPrincipal(capsuleToken)
+            .setPrincipal(conf.getString("capsulecrm.token"))
             .setUsePreemptiveAuth(true)
             .setScheme(Realm.AuthScheme.BASIC)
             .build();
