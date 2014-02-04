@@ -98,15 +98,24 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
 
     public Future<Response> add(CTag tag) throws IOException {
         return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
-                .addHeader("Content-Type", "application/xml")
                 .setRealm(realm)
-                .setBodyEncoding("UTF-8")
-                .setBody(xstream.toXML(tag))
+                .execute(new ThrowOnHttpFailure());
+    }
+
+    public Future<Response> addTag(String tagName) throws IOException {
+        return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tagName)
+                .setRealm(realm)
                 .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> remove(CTag tag) throws IOException {
         return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
+                .setRealm(realm)
+                .execute(new ThrowOnHttpFailure());
+    }
+
+    public Future<Response> removeTag(String tagName) throws IOException {
+        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tagName)
                 .setRealm(realm)
                 .execute(new ThrowOnHttpFailure());
     }

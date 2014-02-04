@@ -13,6 +13,12 @@ public class TagsTest extends CapsuleTest {
         person.add(tag).get();
         assertThat(person.listTags().get().size).isEqualTo(1);
 
+        person.addTag("test2").get();
+        assertThat(person.listTags().get().size).isEqualTo(2);
+
+        person.removeTag("test2").get();
+        assertThat(person.listTags().get().size).isEqualTo(1);
+
         person.remove(tag).get();
         assertThat(person.listTags().get().size).isEqualTo(0);
     }
