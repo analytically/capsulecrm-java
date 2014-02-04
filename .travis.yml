@@ -5,4 +5,4 @@ jdk:
 - oraclejdk7
 env:
   global:
-  - secure: ESNG7eMVbJ0MzMSfGyoLa0YVym2rldgelnYQQwSaC0WhkPHXzTVsINhszeKf/O6w1YGNxBXqAomzWMJ68giHXw2YQfqFkeqFXmywSceyzo4oUTyrKYJmgKjQZnNadeMRPvUdGi7A3aqpIweyxbpKwvtMs8RC3YPUTzBF87QhS60=
+  - secure: iNM72onBCBp20a2kekrTXsOvEEb0IziWuh/T4QXjcbJZKT1IalfzdsOESfqHfwiD5K4Bap3PCzdYFmd28oi4RyVI6l+fjuvz6gyipVfhlt9KM/7UoYzwTD0JA5DQQrLVDAp+sQQRC/zXcrsMyw+nug6egLWAJVa7O0rAYhSUlow=
