@@ -16,8 +16,7 @@ object Build extends sbt.Build {
     description := "Unofficial Capsule CRM API Java Client",
     startYear := Some(2011),
     resolvers += Resolver.typesafeRepo("releases"),
-    parallelExecution in Global := false,
-    parallelExecution in Test := false,
+    concurrentRestrictions in Global += Tags.limit(Tags.Test, 1),
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-q"),
     testOptions += Setup(cl =>
       cl.loadClass("org.slf4j.LoggerFactory").
@@ -28,7 +27,7 @@ object Build extends sbt.Build {
     libraryDependencies += "com.typesafe" % "config" % "1.2.0",
     libraryDependencies += "com.google.guava" % "guava" % "16.0",
     libraryDependencies += "joda-time" % "joda-time" % "2.3",
-    libraryDependencies += "com.ning" % "async-http-client" % "1.7.24",
+    libraryDependencies += "com.ning" % "async-http-client" % "1.8.1",
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.6",
 
     // testing
