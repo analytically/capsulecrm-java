@@ -89,6 +89,13 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .execute(new ThrowOnHttpFailure());
     }
 
+    public Future<CTags> listTags() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag")
+                .addHeader("Accept", "application/xml")
+                .setRealm(realm)
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTags>(xstream));
+    }
+
     public Future<Response> add(CTag tag) throws IOException {
         return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
                 .addHeader("Content-Type", "application/xml")
