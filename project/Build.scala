@@ -31,8 +31,8 @@ object Build extends sbt.Build {
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.7",
 
     // testing
-    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5" % "test",
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.0" % "test",
+    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.6" % "test",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.1" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
     libraryDependencies += "org.easytesting" % "fest-assert" % "1.4" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
