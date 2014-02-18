@@ -7,7 +7,7 @@ public class ThrowOnHttpFailure extends AsyncCompletionHandler<Response> {
     @Override
     public Response onCompleted(Response response) throws Exception {
         if (response.getStatusCode() < 200 || response.getStatusCode() > 299)
-            throw new IllegalStateException("Response is not OK: " + response.getStatusCode() + " " + response.getStatusText() + " " + response.getResponseBody());
+            throw new IllegalStateException("Response is not OK: " + response.getStatusCode() + " " + response.getStatusText() + " " + response.getResponseBody("UTF-8"));
 
         return response;
     }

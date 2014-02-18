@@ -20,7 +20,7 @@ public class UnmarshalResponseBody<T> implements Function<Response, T> {
             throw new IllegalStateException("Response is not OK: " + response.getStatusCode() + " " + response.getStatusText());
 
         try {
-            return (T) xstream.fromXML(response.getResponseBody());
+            return (T) xstream.fromXML(response.getResponseBody("UTF-8"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
