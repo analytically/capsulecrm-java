@@ -1,8 +1,11 @@
 language: java
 script:
-- sbt -Dcapsulecrm.url=https://coen.capsulecrm.com -Dcapsulecrm.token=$CAPSULECRM_TOKEN test
+  - sbt -Dcapsulecrm.url=https://coen.capsulecrm.com -Dcapsulecrm.token=$CAPSULECRM_TOKEN test
 jdk:
-- oraclejdk7
+  - oraclejdk7
 env:
   global:
   - secure: iNM72onBCBp20a2kekrTXsOvEEb0IziWuh/T4QXjcbJZKT1IalfzdsOESfqHfwiD5K4Bap3PCzdYFmd28oi4RyVI6l+fjuvz6gyipVfhlt9KM/7UoYzwTD0JA5DQQrLVDAp+sQQRC/zXcrsMyw+nug6egLWAJVa7O0rAYhSUlow=
+cache:
+  directories:
+  - $HOME/.ivy2
