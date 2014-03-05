@@ -17,10 +17,11 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     static final Config conf = ConfigFactory.load();
     static final String capsuleUrl = conf.getString("capsulecrm.url");
 
-    static final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder()
+    static AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder()
             .addRequestFilter(new ThrottleRequestFilter(10))
             .setMaximumConnectionsPerHost(40)
             .setRequestTimeoutInMs(60000)
+            .setCompressionEnabled(true)
             .build();
 
     static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(config);
