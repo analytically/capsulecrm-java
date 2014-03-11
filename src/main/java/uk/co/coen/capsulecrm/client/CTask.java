@@ -13,7 +13,6 @@ import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 import java.io.IOException;
 import java.util.concurrent.Future;
 
-import static com.google.common.util.concurrent.Futures.get;
 import static com.google.common.util.concurrent.Futures.transform;
 
 public class CTask extends SimpleCapsuleEntity {

@@ -6,7 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class CWebsite extends CContact {
-    public WebService webService;
+    public WebService webService = WebService.URL;
     public String webAddress;
     public String url;
 
