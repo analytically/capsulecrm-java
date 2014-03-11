@@ -8,6 +8,10 @@ public class CEmail extends CContact {
     public CEmail() {
     }
 
+    public CEmail(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     public CEmail(String type, String emailAddress) {
         super(type);
         this.emailAddress = emailAddress;
