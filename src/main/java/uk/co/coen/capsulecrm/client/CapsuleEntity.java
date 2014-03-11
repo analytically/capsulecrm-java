@@ -17,16 +17,16 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     public DateTime updatedOn;
 
     public Future<CCustomFields> listCustomFields() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfields")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/customfields")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CCustomFields>(xstream));
     }
 
     public Future<Response> add(final CCustomField customField) throws IOException {
-        return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfields")
+        return asyncHttpClient.preparePut(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/customfields")
                 .addHeader("Content-Type", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .setBodyEncoding("UTF-8")
                 .setBody(xstream.toXML(new CCustomFields(customField)))
                 .execute(new ThrowOnHttpFailure());
@@ -37,33 +37,33 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
         customField.date = null;
         customField.bool = null;
 
-        return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/customfields")
+        return asyncHttpClient.preparePut(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/customfields")
                 .addHeader("Content-Type", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .setBodyEncoding("UTF-8")
                 .setBody(xstream.toXML(new CCustomFields(customField)))
                 .execute(new ThrowOnHttpFailure());
     }
 
     public Future<CHistory> listHistory() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/history")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CHistory>(xstream));
     }
 
     public Future<Response> add(final CHistoryItem item) throws IOException {
         if (item.id != null) {
-            return asyncHttpClient.preparePut(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
+            return asyncHttpClient.preparePut(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
                     .addHeader("Content-Type", "application/xml")
-                    .setRealm(realm)
+                    .setRealm(getRealm())
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(item))
                     .execute(new ThrowOnHttpFailure());
         } else {
-            return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history")
+            return asyncHttpClient.preparePost(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/history")
                     .addHeader("Content-Type", "application/xml")
-                    .setRealm(realm)
+                    .setRealm(getRealm())
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(item))
                     .execute(new ThrowOnHttpFailure() {
@@ -84,46 +84,46 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
     }
 
     public Future<Response> remove(final CHistoryItem item) throws IOException {
-        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
-                .setRealm(realm)
+        return asyncHttpClient.prepareDelete(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/history/" + item.id)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure());
     }
 
     public Future<CTags> listTags() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/tag")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTags>(xstream));
     }
 
     public Future<Response> add(CTag tag) throws IOException {
-        return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
-                .setRealm(realm)
+        return asyncHttpClient.preparePost(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> addTag(String tagName) throws IOException {
-        return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tagName)
-                .setRealm(realm)
+        return asyncHttpClient.preparePost(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/tag/" + tagName)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> remove(CTag tag) throws IOException {
-        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
-                .setRealm(realm)
+        return asyncHttpClient.prepareDelete(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/tag/" + tag.name)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> removeTag(String tagName) throws IOException {
-        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id + "/tag/" + tagName)
-                .setRealm(realm)
+        return asyncHttpClient.prepareDelete(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/tag/" + tagName)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure());
     }
 
     public Future<Response> add(final CTask task) throws IOException {
-        return asyncHttpClient.preparePost(capsuleUrl + "/api" + readContextPath() + "/" + id + "/task")
+        return asyncHttpClient.preparePost(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/task")
                 .addHeader("Content-Type", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .setBodyEncoding("UTF-8")
                 .setBody(xstream.toXML(task))
                 .execute(new ThrowOnHttpFailure() {

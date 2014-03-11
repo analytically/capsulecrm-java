@@ -20,9 +20,9 @@ public class CTrack extends SimpleCapsuleEntity {
     }
 
     public static Future<CTracks> list() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/tracks")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/tracks")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTracks>(xstream));
     }
 

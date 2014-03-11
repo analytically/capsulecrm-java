@@ -1,6 +1,9 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Objects;
+import org.joda.time.DateTime;
+
+import java.util.List;
 
 public class CPerson extends CParty {
     public Title title;

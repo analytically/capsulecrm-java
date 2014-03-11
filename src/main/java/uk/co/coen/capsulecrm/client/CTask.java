@@ -13,6 +13,7 @@ import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 import java.io.IOException;
 import java.util.concurrent.Future;
 
+import static com.google.common.util.concurrent.Futures.get;
 import static com.google.common.util.concurrent.Futures.transform;
 
 public class CTask extends SimpleCapsuleEntity {
@@ -85,7 +86,7 @@ public class CTask extends SimpleCapsuleEntity {
     }
 
     public static Future<CTasks> list(String category, String user, TaskStatus status, int start, int limit) throws IOException {
-        AsyncHttpClient.BoundRequestBuilder request = asyncHttpClient.prepareGet(capsuleUrl + "/api/tasks");
+        AsyncHttpClient.BoundRequestBuilder request = asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/tasks");
 
         if (category != null) {
             request.addQueryParameter("category", category);
@@ -105,14 +106,14 @@ public class CTask extends SimpleCapsuleEntity {
 
         return transform(new ListenableFutureAdapter<>(request
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTasks>(xstream));
     }
 
     public Future<Response> complete() throws IOException {
-        return asyncHttpClient.preparePost(capsuleUrl + "/api/task/" + id + "/complete")
+        return asyncHttpClient.preparePost(getCapsuleUrl() + "/api/task/" + id + "/complete")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .setBody("")
                 .execute(new AsyncCompletionHandler<Response>() {
                     @Override
@@ -127,9 +128,9 @@ public class CTask extends SimpleCapsuleEntity {
     }
 
     public Future<Response> reopen() throws IOException {
-        return asyncHttpClient.preparePost(capsuleUrl + "/api/task/" + id + "/reopen")
+        return asyncHttpClient.preparePost(getCapsuleUrl() + "/api/task/" + id + "/reopen")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .setBody("")
                 .execute(new AsyncCompletionHandler<Response>() {
                     @Override

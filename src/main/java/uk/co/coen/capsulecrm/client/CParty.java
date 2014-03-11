@@ -86,7 +86,7 @@ public abstract class CParty extends CapsuleEntity {
     }
 
     public Future<CTasks> listTasks(TaskStatus status) throws IOException {
-        AsyncHttpClient.BoundRequestBuilder request = asyncHttpClient.prepareGet(capsuleUrl + "/api/tasks");
+        AsyncHttpClient.BoundRequestBuilder request = asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/tasks");
 
         if (status != null) {
             request.addQueryParameter("status", status.name());
@@ -94,7 +94,7 @@ public abstract class CParty extends CapsuleEntity {
 
         return transform(new ListenableFutureAdapter<>(request
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTasks>(xstream) {
             @Override
             public CTasks apply(Response response) {
@@ -114,54 +114,54 @@ public abstract class CParty extends CapsuleEntity {
     }
 
     public static Future<CParties> search(String query) throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addQueryParameter("q", query)
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
     public static Future<CParties> listAll() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
     public static Future<CParties> listModifiedSince(DateTime modifiedSince) throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
     public static Future<CParties> listByEmailAddress(String emailAddress) throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addQueryParameter("email", emailAddress)
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
     public static Future<CParties> listByTag(String tag) throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addQueryParameter("tag", tag)
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
     public static Future<CParty> byId(Long id) throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + id)
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party/" + id)
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParty>(xstream));
     }
 
     public Future<Response> deleteContact(CContact contact) throws IOException {
-        return asyncHttpClient.prepareDelete(capsuleUrl + "/api/party/" + id + "/contact/" + contact.id)
-                .setRealm(realm)
+        return asyncHttpClient.prepareDelete(getCapsuleUrl() + "/api/party/" + id + "/contact/" + contact.id)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure());
     }
 }

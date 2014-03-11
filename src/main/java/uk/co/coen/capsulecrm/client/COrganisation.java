@@ -39,9 +39,9 @@ public class COrganisation extends CParty {
     }
 
     public Future<CParties> listPeople() throws Exception {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/party/" + id + "/people")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party/" + id + "/people")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 }

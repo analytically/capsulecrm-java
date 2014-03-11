@@ -36,9 +36,9 @@ public class CUser extends SimpleCapsuleEntity {
     }
 
     public static Future<CUsers> list() throws IOException {
-        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(capsuleUrl + "/api/users")
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/users")
                 .addHeader("Accept", "application/xml")
-                .setRealm(realm)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CUsers>(xstream));
     }
 }

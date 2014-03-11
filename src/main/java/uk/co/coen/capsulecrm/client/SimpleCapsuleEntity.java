@@ -15,24 +15,17 @@ import java.util.concurrent.Future;
 
 public abstract class SimpleCapsuleEntity extends CIdentifiable {
     static final Config conf = ConfigFactory.load();
-    static final String capsuleUrl = conf.getString("capsulecrm.url");
 
-    static AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder()
-            .addRequestFilter(new ThrottleRequestFilter(10))
-            .setMaximumConnectionsPerHost(40)
+    static final AsyncHttpClientConfig asyncHttpClientConfig = new AsyncHttpClientConfig.Builder()
+            .addRequestFilter(new ThrottleRequestFilter(16))
+            .setMaximumConnectionsPerHost(50)
             .setRequestTimeoutInMs(60000)
             .setCompressionEnabled(true)
             .build();
 
-    static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(config);
-    static final Realm realm = new Realm.RealmBuilder()
-            .setPrincipal(conf.getString("capsulecrm.token"))
-            .setUsePreemptiveAuth(true)
-            .setScheme(Realm.AuthScheme.BASIC)
-            .build();
+    static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(asyncHttpClientConfig);
 
     static final XStream xstream = new XStream();
-
     static {
         xstream.registerConverter(new JodaDateTimeXStreamConverter());
         xstream.addDefaultImplementation(ArrayList.class, List.class);
@@ -91,6 +84,18 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.alias("milestone", CMilestone.class);
     }
 
+    static String getCapsuleUrl() {
+        return conf.getString("capsulecrm.url");
+    }
+
+    static Realm getRealm() {
+        return new Realm.RealmBuilder()
+                .setPrincipal(conf.getString("capsulecrm.token"))
+                .setUsePreemptiveAuth(true)
+                .setScheme(Realm.AuthScheme.BASIC)
+                .build();
+    }
+
     /**
      * @return The context path where to submit GET and DELETE requests.
      */
@@ -105,16 +110,16 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
 
     public Future<Response> save() throws IOException {
         if (id != null) {
-            return asyncHttpClient.preparePut(capsuleUrl + "/api" + writeContextPath() + "/" + id)
+            return asyncHttpClient.preparePut(getCapsuleUrl() + "/api" + writeContextPath() + "/" + id)
                     .addHeader("Content-Type", "application/xml")
-                    .setRealm(realm)
+                    .setRealm(getRealm())
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(this))
                     .execute(new ThrowOnHttpFailure());
         } else {
-            return asyncHttpClient.preparePost(capsuleUrl + "/api" + writeContextPath())
+            return asyncHttpClient.preparePost(getCapsuleUrl() + "/api" + writeContextPath())
                     .addHeader("Content-Type", "application/xml")
-                    .setRealm(realm)
+                    .setRealm(getRealm())
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(this))
                     .execute(new ThrowOnHttpFailure() {
@@ -134,8 +139,8 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
     }
 
     public Future<Response> delete() throws IOException {
-        return asyncHttpClient.prepareDelete(capsuleUrl + "/api" + readContextPath() + "/" + id)
-                .setRealm(realm)
+        return asyncHttpClient.prepareDelete(getCapsuleUrl() + "/api" + readContextPath() + "/" + id)
+                .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure());
     }
 }
