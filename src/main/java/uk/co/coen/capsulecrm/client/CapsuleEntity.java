@@ -23,6 +23,13 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CCustomFields>(xstream));
     }
 
+    public Future<CCustomFieldDefinitions> listCustomFieldDefinitions() throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api" + readContextPath() + "/customfield/definitions")
+                .addHeader("Accept", "application/xml")
+                .setRealm(getRealm())
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CCustomFieldDefinitions>(xstream));
+    }
+
     public Future<Response> add(final CCustomField customField) throws IOException {
         return asyncHttpClient.preparePut(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/customfields")
                 .addHeader("Content-Type", "application/xml")

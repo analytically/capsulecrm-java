@@ -75,6 +75,10 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.aliasAttribute(CCustomFields.class, "size", "size");
         xstream.addImplicitCollection(CCustomFields.class, "customFields", CCustomField.class);
 
+        xstream.alias("customFieldDefinition", CCustomFieldDefinition.class);
+        xstream.alias("customFieldDefinitions", CCustomFieldDefinitions.class);
+        xstream.addImplicitCollection(CCustomFieldDefinitions.class, "customFieldDefinitions", CCustomFieldDefinition.class);
+
         xstream.alias("opportunities", COpportunities.class);
         xstream.addImplicitCollection(COpportunities.class, "opportunities", COpportunity.class);
         xstream.alias("opportunity", COpportunity.class);
