@@ -3,7 +3,7 @@ import Keys._
 import sbt.Tests.Setup
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.2.5"
+  lazy val buildVersion = "1.2.6"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
@@ -27,7 +27,7 @@ object Build extends sbt.Build {
     libraryDependencies += "com.typesafe" % "config" % "1.2.1",
     libraryDependencies += "com.google.guava" % "guava" % "17.0",
     libraryDependencies += "joda-time" % "joda-time" % "2.3",
-    libraryDependencies += "com.ning" % "async-http-client" % "1.8.8",
+    libraryDependencies += "com.ning" % "async-http-client" % "1.8.13",
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.7",
 
     // testing
