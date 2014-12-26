@@ -1,7 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +12,7 @@ public class CTasks implements Iterable<CTask> {
 
     @Override
     public Iterator<CTask> iterator() {
-        return tasks != null ? tasks.iterator() : Iterators.<CTask>emptyIterator();
+        return tasks != null ? tasks.iterator() : ImmutableSet.<CTask>of().iterator();
     }
 
     @Override

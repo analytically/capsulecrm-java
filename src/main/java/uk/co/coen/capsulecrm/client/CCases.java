@@ -1,7 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +12,7 @@ public class CCases implements Iterable<CCase> {
 
     @Override
     public Iterator<CCase> iterator() {
-        return cases != null ? cases.iterator() : Iterators.<CCase>emptyIterator();
+        return cases != null ? cases.iterator() : ImmutableSet.<CCase>of().iterator();
     }
 
     @Override

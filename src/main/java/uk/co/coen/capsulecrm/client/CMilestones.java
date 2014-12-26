@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.collect.Iterators;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +14,6 @@ public class CMilestones implements Iterable<CMilestone> {
 
     @Override
     public Iterator<CMilestone> iterator() {
-        return milestones != null ? milestones.iterator() : Iterators.<CMilestone>emptyIterator();
+        return milestones != null ? milestones.iterator() : ImmutableSet.<CMilestone>of().iterator();
     }
 }

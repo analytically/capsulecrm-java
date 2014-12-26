@@ -1,6 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
@@ -21,8 +22,8 @@ public class CParties implements Iterable<CParty> {
     @Override
     public Iterator<CParty> iterator() {
         return Iterators.concat(
-                organisations != null ? organisations.iterator() : Iterators.<COrganisation>emptyIterator(),
-                persons != null ? persons.iterator() : Iterators.<CPerson>emptyIterator());
+                organisations != null ? organisations.iterator() : ImmutableSet.<COrganisation>of().iterator(),
+                persons != null ? persons.iterator() : ImmutableSet.<CPerson>of().iterator());
     }
 
     @Override

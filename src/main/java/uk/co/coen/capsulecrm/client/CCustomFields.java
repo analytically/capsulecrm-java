@@ -1,7 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class CCustomFields implements Iterable<CCustomField> {
 
     @Override
     public Iterator<CCustomField> iterator() {
-        return customFields != null ? customFields.iterator() : Iterators.<CCustomField>emptyIterator();
+        return customFields != null ? customFields.iterator() : ImmutableSet.<CCustomField>of().iterator();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +11,7 @@ public class CUsers implements Iterable<CUser> {
 
     @Override
     public Iterator<CUser> iterator() {
-        return users != null ? users.iterator() : Iterators.<CUser>emptyIterator();
+        return users != null ? users.iterator() : ImmutableSet.<CUser>of().iterator();
     }
 
     @Override
