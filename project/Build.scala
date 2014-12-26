@@ -25,13 +25,13 @@ object Build extends sbt.Build {
     ),
 
     libraryDependencies += "com.typesafe" % "config" % "1.2.1",
-    libraryDependencies += "com.google.guava" % "guava" % "17.0",
-    libraryDependencies += "joda-time" % "joda-time" % "2.3",
-    libraryDependencies += "com.ning" % "async-http-client" % "1.8.13",
+    libraryDependencies += "com.google.guava" % "guava" % "18.0",
+    libraryDependencies += "joda-time" % "joda-time" % "2.6",
+    libraryDependencies += "com.ning" % "async-http-client" % "1.8.14",
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.7",
 
     // testing
-    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.7" % "test",
+    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.9" % "test",
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
     libraryDependencies += "org.easytesting" % "fest-assert" % "1.4" % "test",
