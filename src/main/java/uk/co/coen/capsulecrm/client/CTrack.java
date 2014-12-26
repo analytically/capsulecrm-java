@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
 import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
 import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
@@ -28,7 +28,7 @@ public class CTrack extends SimpleCapsuleEntity {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("description", description)
                 .add("captureRule", captureRule)
                 .toString();

@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
@@ -16,7 +16,7 @@ public class CUsers implements Iterable<CUser> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("users", users)
                 .toString();
     }

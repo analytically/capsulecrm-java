@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class CAddress extends CContact {
     public String street;
@@ -23,7 +23,7 @@ public class CAddress extends CContact {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("street", street)
                 .add("city", city)
                 .add("zip", zip)

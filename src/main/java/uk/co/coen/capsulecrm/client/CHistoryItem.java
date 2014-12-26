@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class CHistoryItem extends CIdentifiable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("type", type)
                 .add("entryDate", entryDate)
                 .add("creator", creator)

@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import org.joda.time.DateTime;
 import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
 import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
@@ -52,7 +52,7 @@ public class COpportunity extends CapsuleEntity {
 
     public static Future<COpportunities> listByTag(String tag) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/opportunity")
-                .addQueryParameter("tag", tag)
+                .addQueryParam("tag", tag)
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<COpportunities>(xstream));
@@ -60,7 +60,7 @@ public class COpportunity extends CapsuleEntity {
 
     public static Future<COpportunities> listModifiedSince(DateTime modifiedSince) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/opportunity")
-                .addQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
+                .addQueryParam("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<COpportunities>(xstream));
@@ -68,7 +68,7 @@ public class COpportunity extends CapsuleEntity {
 
     public static Future<COpportunities> listByMilestone(String milestoneName) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/opportunity")
-                .addQueryParameter("milestone", milestoneName)
+                .addQueryParam("milestone", milestoneName)
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<COpportunities>(xstream));
@@ -83,7 +83,7 @@ public class COpportunity extends CapsuleEntity {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("name", name)
                 .add("description", description)
                 .add("partyId", partyId)

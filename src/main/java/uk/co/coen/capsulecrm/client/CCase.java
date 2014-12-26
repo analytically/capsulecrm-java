@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import org.joda.time.DateTime;
 
 public class CCase extends CapsuleEntity {
@@ -19,7 +19,7 @@ public class CCase extends CapsuleEntity {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("status", status)
                 .add("name", name)
                 .add("description", description)

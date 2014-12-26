@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class CAttachment extends CIdentifiable {
     public String filename;
@@ -15,7 +15,7 @@ public class CAttachment extends CIdentifiable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("filename", filename)
                 .add("contentType", contentType)
                 .toString();

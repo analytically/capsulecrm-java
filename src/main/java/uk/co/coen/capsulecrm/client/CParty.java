@@ -89,7 +89,7 @@ public abstract class CParty extends CapsuleEntity {
         AsyncHttpClient.BoundRequestBuilder request = asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/tasks");
 
         if (status != null) {
-            request.addQueryParameter("status", status.name());
+            request.addQueryParam("status", status.name());
         }
 
         return transform(new ListenableFutureAdapter<>(request
@@ -115,7 +115,7 @@ public abstract class CParty extends CapsuleEntity {
 
     public static Future<CParties> search(String query) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
-                .addQueryParameter("q", query)
+                .addQueryParam("q", query)
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
@@ -130,7 +130,7 @@ public abstract class CParty extends CapsuleEntity {
 
     public static Future<CParties> listModifiedSince(DateTime modifiedSince) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
-                .addQueryParameter("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
+                .addQueryParam("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
@@ -138,7 +138,7 @@ public abstract class CParty extends CapsuleEntity {
 
     public static Future<CParties> listByEmailAddress(String emailAddress) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
-                .addQueryParameter("email", emailAddress)
+                .addQueryParam("email", emailAddress)
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
@@ -146,7 +146,7 @@ public abstract class CParty extends CapsuleEntity {
 
     public static Future<CParties> listByTag(String tag) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
-                .addQueryParameter("tag", tag)
+                .addQueryParam("tag", tag)
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));

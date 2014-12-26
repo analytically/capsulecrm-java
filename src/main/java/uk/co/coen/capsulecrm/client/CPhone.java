@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class CPhone extends CContact {
     public String phoneNumber;
@@ -15,7 +15,7 @@ public class CPhone extends CContact {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("phoneNumber", phoneNumber)
                 .toString();
     }

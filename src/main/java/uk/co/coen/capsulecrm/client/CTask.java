@@ -1,7 +1,7 @@
 
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
@@ -88,19 +88,19 @@ public class CTask extends SimpleCapsuleEntity {
         AsyncHttpClient.BoundRequestBuilder request = asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/tasks");
 
         if (category != null) {
-            request.addQueryParameter("category", category);
+            request.addQueryParam("category", category);
         }
         if (user != null) {
-            request.addQueryParameter("user", user);
+            request.addQueryParam("user", user);
         }
         if (status != null) {
-            request.addQueryParameter("status", status.name());
+            request.addQueryParam("status", status.name());
         }
         if (start != 0) {
-            request.addQueryParameter("start", "" + start);
+            request.addQueryParam("start", "" + start);
         }
         if (limit != 0) {
-            request.addQueryParameter("limit", "" + limit);
+            request.addQueryParam("limit", "" + limit);
         }
 
         return transform(new ListenableFutureAdapter<>(request
@@ -145,7 +145,7 @@ public class CTask extends SimpleCapsuleEntity {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("description", description)
                 .add("detail", detail)
                 .add("category", category)

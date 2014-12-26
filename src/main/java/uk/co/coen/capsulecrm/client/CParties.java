@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
@@ -27,7 +27,7 @@ public class CParties implements Iterable<CParty> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("size", size)
                 .add("organisations", organisations)
                 .add("persons", persons)

@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Iterators;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class CCustomFields implements Iterable<CCustomField> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("size", size)
                 .add("customFields", customFields)
                 .toString();

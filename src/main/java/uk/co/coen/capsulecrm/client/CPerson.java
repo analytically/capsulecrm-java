@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class CPerson extends CParty {
     public Title title;
@@ -22,7 +22,7 @@ public class CPerson extends CParty {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("title", title)
                 .add("firstName", firstName)

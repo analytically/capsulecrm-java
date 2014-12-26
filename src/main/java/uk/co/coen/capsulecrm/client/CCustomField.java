@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import org.joda.time.DateTime;
 
 public class CCustomField extends CIdentifiable {
@@ -18,7 +18,7 @@ public class CCustomField extends CIdentifiable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("tag", tag)
                 .add("label", label)
                 .add("text", text)

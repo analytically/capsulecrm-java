@@ -1,6 +1,6 @@
 package uk.co.coen.capsulecrm.client;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class CEmail extends CContact {
     public String emailAddress;
@@ -19,7 +19,7 @@ public class CEmail extends CContact {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("emailAddress", emailAddress)
                 .toString();
     }
