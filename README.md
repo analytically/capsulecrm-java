@@ -20,7 +20,7 @@ Add this dependency to your project's POM file:
 <dependency>
   <groupId>uk.co.coen</groupId>
   <artifactId>capsulecrm-java</artifactId>
-  <version>1.2.4</version>
+  <version>1.2.6</version>
 </dependency>
 ```
 
@@ -29,7 +29,7 @@ Add this dependency to your project's POM file:
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
 ```scala
-libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.2.4"
+libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.2.6"
 ```
 
 ### Configuration
@@ -119,4 +119,4 @@ Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/tes
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
-Copyright 2011-2014 [Mathias Bogaert](mailto:mathias.bogaert@gmail.com).
+Copyright 2011-2015 [Mathias Bogaert](mailto:mathias.bogaert@gmail.com).
