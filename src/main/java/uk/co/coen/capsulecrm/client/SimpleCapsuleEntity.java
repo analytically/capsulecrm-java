@@ -18,7 +18,6 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
 
     static final AsyncHttpClientConfig asyncHttpClientConfig = new AsyncHttpClientConfig.Builder()
             .addRequestFilter(new ThrottleRequestFilter(16))
-            .setMaxConnectionsPerHost(50)
             .setRequestTimeout(60000)
             .setCompressionEnforced(true)
             .build();

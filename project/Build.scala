@@ -3,7 +3,7 @@ import Keys._
 import sbt.Tests.Setup
 
 object Build extends sbt.Build {
-  lazy val buildVersion = "1.3.0"
+  lazy val buildVersion = "1.3.1"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
@@ -73,7 +73,7 @@ object Build extends sbt.Build {
         <developer>
           <id>analytically</id>
           <name>Mathias Bogaert</name>
-          <url>http://twitter.com/analytically</url>
+          <url>https://twitter.com/analytically</url>
           <organization>Coen Recruitment</organization>
           <organizationUrl>http://www.coen.co.uk</organizationUrl>
         </developer>
