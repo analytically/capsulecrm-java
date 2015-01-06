@@ -10,7 +10,7 @@ Follow [@analytically](http://twitter.com/analytically) for updates.
 
 ### Requirements
 
-Java 7 or later. A Capsule CRM account and token.
+Java 8 or later. A Capsule CRM account and token.
 
 ### Using with Maven
 

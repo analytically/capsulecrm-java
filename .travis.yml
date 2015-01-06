@@ -2,7 +2,7 @@ language: java
 script:
   - sbt -Dcapsulecrm.url=https://coen.capsulecrm.com -Dcapsulecrm.token=$CAPSULECRM_TOKEN test
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 env:
   global:
   - secure: "OPU4H7V2ps6/9JxtOWaKnZTCdjv28CSrry1/NExFMTaLbTHTCkmVa44CXR4Lq5HWhY+URUAtst3391kpl3fa1wvbE2FfzXij9AJpSWspiMozzzGO1W3+h6TsOlVGbVweGU8GJeDb6XBE7puVp5U3O1i8lbYVmAznfnRQ4uW7PLs="
