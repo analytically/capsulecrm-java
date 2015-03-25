@@ -1,6 +1,7 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.ning.http.client.AsyncHttpClient;
@@ -43,7 +44,7 @@ public abstract class CParty extends CapsuleEntity {
 
     public CEmail firstEmail() {
         for (CContact contact : contacts) {
-            if (contact instanceof CEmail) {
+            if (contact instanceof CEmail && !Strings.isNullOrEmpty(((CEmail) contact).emailAddress)) {
                 return (CEmail) contact;
             }
         }
@@ -52,7 +53,7 @@ public abstract class CParty extends CapsuleEntity {
 
     public CPhone firstPhone() {
         for (CContact contact : contacts) {
-            if (contact instanceof CPhone) {
+            if (contact instanceof CPhone && !Strings.isNullOrEmpty(((CPhone) contact).phoneNumber)) {
                 return (CPhone) contact;
             }
         }
@@ -68,7 +69,7 @@ public abstract class CParty extends CapsuleEntity {
             if (contact instanceof CWebsite) {
                 CWebsite website = (CWebsite) contact;
 
-                if (webService == null || webService == website.webService) {
+                if ((webService == null || webService == website.webService) && !Strings.isNullOrEmpty(((CWebsite) contact).webAddress)) {
                     return (CWebsite) contact;
                 }
             }
