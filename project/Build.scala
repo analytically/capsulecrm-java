@@ -23,15 +23,15 @@ object Build extends sbt.Build {
         invoke(null, "ROOT")
     ),
 
-    libraryDependencies += "com.typesafe" % "config" % "1.2.1",
+    libraryDependencies += "com.typesafe" % "config" % "1.3.0",
     libraryDependencies += "com.google.guava" % "guava" % "18.0",
-    libraryDependencies += "joda-time" % "joda-time" % "2.7",
-    libraryDependencies += "com.ning" % "async-http-client" % "1.9.3",
+    libraryDependencies += "joda-time" % "joda-time" % "2.8.1",
+    libraryDependencies += "com.ning" % "async-http-client" % "1.9.29",
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.8",
 
     // testing
-    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.9" % "test",
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2" % "test",
+    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.12" % "test",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
     libraryDependencies += "org.easytesting" % "fest-assert" % "1.4" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test",
