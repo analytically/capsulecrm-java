@@ -13,6 +13,7 @@ import static com.google.common.util.concurrent.Futures.transform;
 public class CTrack extends SimpleCapsuleEntity {
     public String description;
     public String captureRule;
+    public String direction;
 
     @Override
     protected String readContextPath() {
@@ -31,6 +32,7 @@ public class CTrack extends SimpleCapsuleEntity {
         return MoreObjects.toStringHelper(this)
                 .add("description", description)
                 .add("captureRule", captureRule)
+                .add("direction", direction)
                 .toString();
     }
 }
