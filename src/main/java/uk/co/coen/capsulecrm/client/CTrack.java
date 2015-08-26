@@ -27,6 +27,14 @@ public class CTrack extends SimpleCapsuleEntity {
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTracks>(xstream));
     }
 
+    public static Future<CTracks> list(String direction) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/tracks")
+                .addQueryParam("direction", direction)
+                .addHeader("Accept", "application/xml")
+                .setRealm(getRealm())
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CTracks>(xstream));
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)

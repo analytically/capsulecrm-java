@@ -10,6 +10,7 @@ import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -111,6 +112,10 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         return readContextPath();
     }
 
+    protected List<Param> extraQueryParams() {
+        return Collections.emptyList();
+    }
+
     public Future<Response> save() throws IOException {
         if (id != null) {
             return asyncHttpClient.preparePut(getCapsuleUrl() + "/api" + writeContextPath() + "/" + id)
@@ -122,6 +127,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         } else {
             return asyncHttpClient.preparePost(getCapsuleUrl() + "/api" + writeContextPath())
                     .addHeader("Content-Type", "application/xml")
+                    .addQueryParams(extraQueryParams())
                     .setRealm(getRealm())
                     .setBodyEncoding("UTF-8")
                     .setBody(xstream.toXML(this))

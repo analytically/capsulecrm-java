@@ -1,12 +1,15 @@
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.MoreObjects;
+import com.ning.http.client.Param;
 import org.joda.time.DateTime;
 import uk.co.coen.capsulecrm.client.utils.ListenableFutureAdapter;
 import uk.co.coen.capsulecrm.client.utils.ThrowOnHttpFailure;
 import uk.co.coen.capsulecrm.client.utils.UnmarshalResponseBody;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
 
 import static com.google.common.util.concurrent.Futures.transform;
@@ -25,6 +28,7 @@ public class COpportunity extends CapsuleEntity {
     public String probability;
     public String owner;
     public Long trackId;
+    public String endDate;
 
     @Override
     protected String readContextPath() {
@@ -34,6 +38,14 @@ public class COpportunity extends CapsuleEntity {
     @Override
     protected String writeContextPath() {
         return "/party/" + partyId + "/opportunity";
+    }
+
+    @Override
+    protected List<Param> extraQueryParams() {
+        List<Param> extraQueryParams = new ArrayList<>();
+        if (trackId != null) extraQueryParams.add(new Param("trackId", trackId.toString()));
+        if (endDate != null) extraQueryParams.add(new Param("endDate", endDate));
+        return extraQueryParams;
     }
 
     public static Future<CMilestones> listMilestones() throws IOException {
