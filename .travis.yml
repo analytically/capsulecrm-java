@@ -1,4 +1,5 @@
 language: java
+sudo: false
 script:
   - sbt -Dcapsulecrm.url=https://coen.capsulecrm.com -Dcapsulecrm.token=$CAPSULECRM_TOKEN test
 jdk:
