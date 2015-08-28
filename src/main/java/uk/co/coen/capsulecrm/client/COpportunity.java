@@ -109,6 +109,7 @@ public class COpportunity extends CapsuleEntity {
                 .add("probability", probability)
                 .add("owner", owner)
                 .add("trackId", trackId)
+                .add("endDate", endDate)
                 .toString();
     }
 }

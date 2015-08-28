@@ -40,6 +40,7 @@ public class CCase extends CapsuleEntity {
                 .add("closeDate", closeDate)
                 .add("owner", owner)
                 .add("trackId", trackId)
+                .add("endDate", endDate)
                 .toString();
     }
 }
