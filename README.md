@@ -117,7 +117,7 @@ Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/tes
 
 ### Javadoc
 
-[http://www.javadoc.io/doc/uk.co.coen/capsulecrm-java/1.3.2](http://www.javadoc.io/doc/uk.co.coen/capsulecrm-java/1.3.2)
+[http://www.javadoc.io/doc/uk.co.coen/capsulecrm-java](http://www.javadoc.io/doc/uk.co.coen/capsulecrm-java/)
 
 ### License
 
