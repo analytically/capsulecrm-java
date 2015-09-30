@@ -115,6 +115,10 @@ party.add(new CTask("do this in two days", DateTime.now().plus(2)));
 
 Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/test/java/uk/co/coen/capsulecrm/client) for more examples.
 
+### Javadoc
+
+[http://www.javadoc.io/doc/uk.co.coen/capsulecrm-java/1.3.2](http://www.javadoc.io/doc/uk.co.coen/capsulecrm-java/1.3.2)
+
 ### License
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
