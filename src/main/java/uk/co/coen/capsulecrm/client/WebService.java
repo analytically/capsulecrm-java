@@ -11,5 +11,7 @@ public enum WebService {
     GOOGLE_PLUS,
     FLICKR,
     GITHUB,
-    YOUTUBE
+    YOUTUBE,
+    INSTAGRAM,
+    PINTEREST
 }

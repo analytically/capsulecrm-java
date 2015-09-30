@@ -39,6 +39,7 @@ public abstract class CapsuleTest {
         person.addContact(new CEmail(null, "testperson" + random.nextInt(10) + "@testing.com"));
         person.addContact(new CPhone(null, "123456789"));
         person.addContact(new CWebsite(null, "www.test123.com"));
+        person.addContact(new CWebsite(null, WebService.INSTAGRAM, "www.test123.com"));
         person.addContact(new CAddress(null, "street", "city", "zip", "state", "United Kingdom"));
         person.save().get();
 
