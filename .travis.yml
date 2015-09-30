@@ -1,5 +1,7 @@
 language: java
 sudo: false
+before_script:
+  - curl -sSL --create-dirs -o $HOME/.sbt/launchers/0.13.8/sbt-launch.jar http://dl.bintray.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.8/sbt-launch.jar
 script:
   - sbt -Dcapsulecrm.url=https://coen.capsulecrm.com -Dcapsulecrm.token=$CAPSULECRM_TOKEN test
 jdk:
