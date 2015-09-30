@@ -10,14 +10,10 @@ public class CustomFieldsTest extends CapsuleTest {
         assertThat(person.listCustomFields().get().size).isEqualTo(0);
         assertThat(person.listCustomFieldDefinitions().get().customFieldDefinitions.size()).isEqualTo(5);
 
-        person.add(new CCustomField(null, "TextField", "testText")).get();
+        person.add(new CCustomField(null, "Reference", "testText")).get();
         assertThat(person.listCustomFields().get().size).isEqualTo(1);
 
-        person.add(new CCustomField(null, "NumberField", 123)).get();
-        assertThat(person.listCustomFields().get().size).isEqualTo(2);
-
-        person.remove(new CCustomField(null, "TextField", "testText")).get();
-        person.remove(new CCustomField(null, "NumberField", 456)).get();
+        person.remove(new CCustomField(null, "Reference")).get();
         assertThat(person.listCustomFields().get().size).isEqualTo(0);
     }
 }

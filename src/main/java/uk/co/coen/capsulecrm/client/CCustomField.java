@@ -11,6 +11,11 @@ public class CCustomField extends CIdentifiable {
     public Boolean bool;
     public Integer number;
 
+    public CCustomField(String tag, String label) {
+        this.tag = tag;
+        this.label = label;
+    }
+
     public CCustomField(String tag, String label, String text) {
         this.tag = tag;
         this.label = label;
