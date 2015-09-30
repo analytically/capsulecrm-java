@@ -26,7 +26,7 @@ public class PartyTest extends CapsuleTest {
         assertThat(fetchedPerson.pictureURL).isNotNull();
         assertThat(fetchedPerson.lastContactedOn).isNull();
 
-        assertThat(fetchedPerson.contacts).hasSize(4);
+        assertThat(fetchedPerson.contacts).hasSize(5);
         assertThat(fetchedPerson.firstAddress().type).isNull();
         assertThat(fetchedPerson.firstAddress().id).isNotNull();
         assertThat(fetchedPerson.firstAddress().street).isEqualTo(person.firstAddress().street);
@@ -77,7 +77,7 @@ public class PartyTest extends CapsuleTest {
         assertThat(historyItem.entryDate).isEqualTo(entryDateTime.withMillisOfSecond(0));
 
         deleteTestPerson();
-        assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
+        assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress, 0, 10).get()).hasSize(0);
     }
 
     @Test

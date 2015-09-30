@@ -122,6 +122,16 @@ public abstract class CParty extends CapsuleEntity {
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
+    public static Future<CParties> search(String query, int start, int limit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
+                .addQueryParam("q", query)
+                .addQueryParam("start", "" + start)
+                .addQueryParam("limit", "" + limit)
+                .addHeader("Accept", "application/xml")
+                .setRealm(getRealm())
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
+    }
+
     public static Future<CParties> listAll() throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addHeader("Accept", "application/xml")
@@ -137,6 +147,16 @@ public abstract class CParty extends CapsuleEntity {
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
+    public static Future<CParties> listModifiedSince(DateTime modifiedSince, int start, int limit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
+                .addQueryParam("lastmodified", modifiedSince.toString("yyyyMMdd'T'HHmmss"))
+                .addQueryParam("start", "" + start)
+                .addQueryParam("limit", "" + limit)
+                .addHeader("Accept", "application/xml")
+                .setRealm(getRealm())
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
+    }
+
     public static Future<CParties> listByEmailAddress(String emailAddress) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addQueryParam("email", emailAddress)
@@ -145,9 +165,29 @@ public abstract class CParty extends CapsuleEntity {
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
     }
 
+    public static Future<CParties> listByEmailAddress(String emailAddress, int start, int limit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
+                .addQueryParam("email", emailAddress)
+                .addQueryParam("start", "" + start)
+                .addQueryParam("limit", "" + limit)
+                .addHeader("Accept", "application/xml")
+                .setRealm(getRealm())
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
+    }
+
     public static Future<CParties> listByTag(String tag) throws IOException {
         return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
                 .addQueryParam("tag", tag)
+                .addHeader("Accept", "application/xml")
+                .setRealm(getRealm())
+                .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
+    }
+
+    public static Future<CParties> listByTag(String tag, int start, int limit) throws IOException {
+        return transform(new ListenableFutureAdapter<>(asyncHttpClient.prepareGet(getCapsuleUrl() + "/api/party")
+                .addQueryParam("tag", tag)
+                .addQueryParam("start", "" + start)
+                .addQueryParam("limit", "" + limit)
                 .addHeader("Accept", "application/xml")
                 .setRealm(getRealm())
                 .execute(new ThrowOnHttpFailure())), new UnmarshalResponseBody<CParties>(xstream));
