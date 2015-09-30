@@ -43,6 +43,7 @@ public abstract class CapsuleEntity extends SimpleCapsuleEntity {
         customField.text = null;
         customField.date = null;
         customField.bool = null;
+        customField.number = null;
 
         return asyncHttpClient.preparePut(getCapsuleUrl() + "/api" + readContextPath() + "/" + id + "/customfields")
                 .addHeader("Content-Type", "application/xml")

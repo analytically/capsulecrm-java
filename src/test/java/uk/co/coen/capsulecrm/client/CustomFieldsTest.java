@@ -16,7 +16,8 @@ public class CustomFieldsTest extends CapsuleTest {
         person.add(new CCustomField(null, "NumberField", 123)).get();
         assertThat(person.listCustomFields().get().size).isEqualTo(2);
 
-        person.remove(new CCustomField(null, "Reference", "testText")).get();
+        person.remove(new CCustomField(null, "TextField", "testText")).get();
+        person.remove(new CCustomField(null, "NumberField", 456)).get();
         assertThat(person.listCustomFields().get().size).isEqualTo(0);
     }
 }
