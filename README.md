@@ -55,7 +55,7 @@ all person annotations, or `http://yourhost/cse/organisations` for all organisat
 
 See [Hosting the Annotation Files Yourself](https://developers.google.com/custom-search/docs/annotations#host) for more details.
 
-### Usage Examples
+### Usage
 
 Start by importing the client package and the necessary classes:
 
