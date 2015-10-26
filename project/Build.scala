@@ -25,7 +25,7 @@ object Build extends sbt.Build {
 
     libraryDependencies += "com.typesafe" % "config" % "1.3.0",
     libraryDependencies += "com.google.guava" % "guava" % "18.0",
-    libraryDependencies += "joda-time" % "joda-time" % "2.8.2",
+    libraryDependencies += "joda-time" % "joda-time" % "2.9",
     libraryDependencies += "com.ning" % "async-http-client" % "1.9.31",
     libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.8",
 
