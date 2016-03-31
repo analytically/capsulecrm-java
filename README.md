@@ -123,4 +123,4 @@ Click [here](https://github.com/analytically/capsulecrm-java/tree/master/src/tes
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
-Copyright 2011-2015 [Mathias Bogaert](mailto:mathias.bogaert@gmail.com).
+Copyright 2011-2016 [Mathias Bogaert](mailto:mathias.bogaert@gmail.com).
