@@ -6,11 +6,10 @@ object Build extends sbt.Build {
   lazy val buildVersion = "1.3.4-SNAPSHOT"
 
   lazy val root = Project(id = "capsulecrm-java", base = file("."), settings = Project.defaultSettings)
-    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
     .settings(
     version := buildVersion,
     organization := "uk.co.coen",
-    organizationName := "Coen Recruitment",
+    organizationName := "Coen Education",
     organizationHomepage := Some(new URL("http://www.coen.co.uk")),
     description := "Unofficial Capsule CRM API Java Client",
     startYear := Some(2011),
@@ -24,14 +23,14 @@ object Build extends sbt.Build {
     ),
 
     libraryDependencies += "com.typesafe" % "config" % "1.3.0",
-    libraryDependencies += "com.google.guava" % "guava" % "18.0",
-    libraryDependencies += "joda-time" % "joda-time" % "2.9",
-    libraryDependencies += "com.ning" % "async-http-client" % "1.9.31",
-    libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.8",
+    libraryDependencies += "com.google.guava" % "guava" % "19.0",
+    libraryDependencies += "joda-time" % "joda-time" % "2.9.3",
+    libraryDependencies += "com.ning" % "async-http-client" % "1.9.37",
+    libraryDependencies += "com.thoughtworks.xstream" % "xstream" % "1.4.9",
 
     // testing
-    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.12" % "test",
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % "test",
+    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.20" % "test",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.7" % "test",
     libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3" % "test",
     libraryDependencies += "org.easytesting" % "fest-assert" % "1.4" % "test",
     libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test",
@@ -74,7 +73,7 @@ object Build extends sbt.Build {
           <id>analytically</id>
           <name>Mathias Bogaert</name>
           <url>https://twitter.com/analytically</url>
-          <organization>Coen Recruitment</organization>
+          <organization>Coen Education</organization>
           <organizationUrl>http://www.coen.co.uk</organizationUrl>
         </developer>
       </developers>
