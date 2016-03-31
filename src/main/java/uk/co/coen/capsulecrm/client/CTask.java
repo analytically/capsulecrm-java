@@ -1,4 +1,3 @@
-
 package uk.co.coen.capsulecrm.client;
 
 import com.google.common.base.MoreObjects;
@@ -33,6 +32,9 @@ public class CTask extends SimpleCapsuleEntity {
 
     public Long opportunityId;
     public String opportunityName;
+
+    public DateTime createdOn;
+    public DateTime updatedOn;
 
     public CTask() {
     }
@@ -160,6 +162,8 @@ public class CTask extends SimpleCapsuleEntity {
                 .add("caseName", caseName)
                 .add("opportunityId", opportunityId)
                 .add("opportunityName", opportunityName)
+                .add("createdOn", createdOn)
+                .add("updatedOn", updatedOn)
                 .toString();
     }
 }
