@@ -1,6 +1,8 @@
 capsulecrm-java [![Build Status](https://travis-ci.org/analytically/capsulecrm-java.svg?branch=master)](https://travis-ci.org/analytically/capsulecrm-java)
 ===============
 
+**NOTE: this client library implements version 1 of the Capsule API. Deprecation warning - version 1 of the Capsule API will not be available after October 27, 2017.**
+
 Unofficial [Capsule CRM API](http://developer.capsulecrm.com/) Java Client.
 
 Depends on [Async Http Client](https://github.com/AsyncHttpClient/async-http-client),
