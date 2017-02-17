@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 
 public class CCustomFieldDefinition extends CIdentifiable {
     public String tag;
+    public String tagId;
     public String label;
     public String type;
     public String options;
@@ -14,6 +15,7 @@ public class CCustomFieldDefinition extends CIdentifiable {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("tag", tag)
+                .add("tagId", tagId)
                 .add("label", label)
                 .add("type", type)
                 .add("options", options)
