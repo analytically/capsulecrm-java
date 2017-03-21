@@ -49,6 +49,9 @@ public class PartyTest extends CapsuleTest {
         assertThat(fetchedPerson.firstWebsite().webAddress).isEqualTo(person.firstWebsite().webAddress);
         assertThat(fetchedPerson.firstWebsite().url).isEqualTo("http://" + person.firstWebsite().webAddress);
 
+        assertThat(fetchedPerson.tags).hasSize(1);
+        assertThat(fetchedPerson.tags.iterator().next().name).isEqualTo("testTag");
+
         deleteTestPerson();
         assertThat(CPerson.listByEmailAddress(person.firstEmail().emailAddress).get()).hasSize(0);
     }

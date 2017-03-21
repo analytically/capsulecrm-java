@@ -44,6 +44,7 @@ public abstract class SimpleCapsuleEntity extends CIdentifiable {
         xstream.alias("tags", CTags.class);
         xstream.aliasAttribute(CTags.class, "size", "size");
         xstream.addImplicitCollection(CTags.class, "tags", CTag.class);
+        xstream.addImplicitCollection(CParty.class, "tags", CTag.class);
         xstream.alias("tag", CTag.class);
 
         xstream.alias("tasks", CTasks.class);

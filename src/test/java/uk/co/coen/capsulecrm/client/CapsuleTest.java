@@ -42,6 +42,7 @@ public abstract class CapsuleTest {
         person.addContact(new CWebsite(null, WebService.INSTAGRAM, "www.test123.com"));
         person.addContact(new CAddress(null, "street", "city", "zip", "state", "United Kingdom"));
         person.save().get();
+        person.addTag("testTag").get();
 
         logger.info("Test person created, id is " + person.id);
     }
