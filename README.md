@@ -22,7 +22,7 @@ Add this dependency to your project's POM file:
 <dependency>
   <groupId>uk.co.coen</groupId>
   <artifactId>capsulecrm-java</artifactId>
-  <version>1.3.3</version>
+  <version>1.3.4</version>
 </dependency>
 ```
 
@@ -31,7 +31,7 @@ Add this dependency to your project's POM file:
 Add this dependency to your project's `build.sbt` or `project/Build.scala` file:
 
 ```scala
-libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.3.3"
+libraryDependencies += "uk.co.coen" % "capsulecrm-java" % "1.3.4"
 ```
 
 ### Configuration
